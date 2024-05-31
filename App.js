@@ -1,7 +1,7 @@
-'use strict'
-Object.defineProperty(exports, '__esModule', { value: true })
-var expo_status_bar_1 = require('expo-status-bar')
-var react_native_1 = require('react-native')
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+var expo_status_bar_1 = require('expo-status-bar');
+var react_native_1 = require('react-native');
 function App() {
 	return (
 		<react_native_1.View style={styles.container}>
@@ -10,9 +10,9 @@ function App() {
 			</react_native_1.Text>
 			<expo_status_bar_1.StatusBar style='auto' />
 		</react_native_1.View>
-	)
+	);
 }
-exports.default = App
+exports.default = App;
 var styles = react_native_1.StyleSheet.create({
 	container: {
 		flex: 1,
@@ -20,4 +20,4 @@ var styles = react_native_1.StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-})
+});

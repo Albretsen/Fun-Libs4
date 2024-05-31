@@ -1,13 +1,24 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet } from 'react-native';
+import '@tamagui/core/reset.css';
+import { TamaguiProvider, View, Text } from '@tamagui/core';
+import appConfig from './tamagui.config';
+import { useLoadAssets } from './src/hooks/useLoadAssets';
 
 export default function App() {
+	const isLoadingComplete = useLoadAssets();
+
+	if (!isLoadingComplete) return null;
+
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.tsx to start working on your app!</Text>
-			<StatusBar style='auto' />
-		</View>
-	)
+		<TamaguiProvider config={appConfig}>
+			<View style={styles.container}>
+				<Text>Home</Text>
+				<StatusBar style='auto' />
+			</View>
+		</TamaguiProvider>
+	);
 }
 
 const styles = StyleSheet.create({
@@ -17,4 +28,4 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-})
+});
