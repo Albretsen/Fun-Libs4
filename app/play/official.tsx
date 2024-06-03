@@ -6,6 +6,7 @@ export default function Tab() {
     return (
         <View style={styles.container}>
             <Text>Tab Official</Text>
+            <Link href="auth/login">test</Link>
         </View>
     );
 }

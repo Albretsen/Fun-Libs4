@@ -1,3 +1,8 @@
-import { Tabs } from 'expo-router';
+import React from 'react';
+import { Slot } from 'expo-router';
 
-export default Tabs;
+export default function Layout() {
+    return (
+        <Slot />
+    );
+}
