@@ -1,13 +1,14 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import CommunityTab from '../../src/screens/community';
-import OfficialTab from '../../src/screens/official';
+import OfficialTab from '../play/official';
+import CommunityTab from '../play/community';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{
+            swipeEnabled: false,
+        }}>
             <Tab.Screen name="Official" component={OfficialTab} />
             <Tab.Screen name="Community" component={CommunityTab} />
         </Tab.Navigator>

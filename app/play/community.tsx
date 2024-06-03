@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
-import styles from '../styles/styles';
+import styles from '../../src/styles/styles';
 
-export default function CommunityTab() {
+export default function Tab() {
     return (
         <View style={styles.container}>
             <Text>Tab Community</Text>

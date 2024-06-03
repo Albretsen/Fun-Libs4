@@ -13,7 +13,7 @@ export default function Layout() {
     return (
         <TamaguiProvider config={appConfig}>
             <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: "none" }} />
             </Stack>
         </TamaguiProvider>
     );
