@@ -9,7 +9,7 @@ import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts'
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
 
-export default function Layout() {
+export default function App() {
     const assetsLoaded = useLoadAssets();
     const scriptsLoaded = useInitializeScripts();
 
