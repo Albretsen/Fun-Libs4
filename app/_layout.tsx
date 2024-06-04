@@ -2,10 +2,10 @@ import React from 'react';
 import '@tamagui/core/reset.css';
 import { TamaguiProvider } from '@tamagui/core';
 import config from '../tamagui.config';
-import { useLoadAssets } from '../src/hooks/useLoadAssets';
+import { useLoadAssets } from '../src/hooks/loading/useLoadAssets';
 import { Stack } from 'expo-router/stack';
 import { Theme } from 'tamagui';
-import { useInitializeScripts } from '../src/hooks/useInitializeScripts';
+import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts';
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
 
