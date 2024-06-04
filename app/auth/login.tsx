@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View, AppState } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import { supabase } from '../../supabase';
 import { Button } from 'tamagui';
 import { TextInput } from 'react-native';
@@ -60,16 +60,16 @@ export default function LoginScreen() {
                 />
             </View>
             <View style={[styles.verticallySpaced, styles.mt20]}>
-                <Button disabled={loading} onPress={() => signInWithEmail()}>Sign in</Button>
+                <Button size={'$3'} disabled={loading} onPress={() => signInWithEmail()}>Sign in</Button>
             </View>
             <View style={styles.verticallySpaced}>
-                <Button disabled={loading} onPress={() => signUpWithEmail()}>Sign up</Button>
+                <Button size={'$3'} disabled={loading} onPress={() => signUpWithEmail()}>Sign up</Button>
             </View>
             <View style={styles.verticallySpaced}>
-                <Button disabled={loading} onPress={() => handleSignOut()}>Sign out</Button>
+                <Button size={'$3'} disabled={loading} onPress={() => handleSignOut()}>Sign out</Button>
             </View>
             <View style={styles.verticallySpaced}>
-                <Button disabled={loading} onPress={() => devSignIn()}>DEV SIGN IN</Button>
+                <Button size={'$3'} disabled={loading} onPress={() => devSignIn()}>DEV SIGN IN</Button>
             </View>
         </View>
     )
@@ -89,3 +89,35 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 })
+
+{/* <View style={styles.container}>
+            <View style={[styles.verticallySpaced, styles.mt20]}>
+                <TextInput
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    placeholder="email@address.com"
+                    autoCapitalize={'none'}
+                />
+            </View>
+            <View style={styles.verticallySpaced}>
+                <TextInput
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                    secureTextEntry={true}
+                    placeholder="Password"
+                    autoCapitalize={'none'}
+                />
+            </View>
+            <View style={[styles.verticallySpaced, styles.mt20]}>
+                <Button disabled={loading} onPress={() => signInWithEmail()}>Sign in</Button>
+            </View>
+            <View style={styles.verticallySpaced}>
+                <Button disabled={loading} onPress={() => signUpWithEmail()}>Sign up</Button>
+            </View>
+            <View style={styles.verticallySpaced}>
+                <Button disabled={loading} onPress={() => handleSignOut()}>Sign out</Button>
+            </View>
+            <View style={styles.verticallySpaced}>
+                <Button disabled={loading} onPress={() => devSignIn()}>DEV SIGN IN</Button>
+            </View>
+        </View> */}

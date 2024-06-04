@@ -1,7 +1,7 @@
 import React from 'react';
 import '@tamagui/core/reset.css';
 import { TamaguiProvider } from '@tamagui/core';
-import appConfig from '../tamagui.config';
+import config from '../tamagui.config';
 import { useLoadAssets } from '../src/hooks/useLoadAssets';
 import { Stack } from 'expo-router/stack';
 import { Theme } from 'tamagui';
@@ -18,8 +18,8 @@ export default function Layout() {
     if (!assetsLoaded || !scriptsLoaded) return null;
 
     return (
-        <TamaguiProvider config={appConfig} defaultTheme="light">
-            <Theme>
+        <TamaguiProvider config={config}>
+            <Theme name="light">
                 {session && session.user ? <Stack
                     screenOptions={{
                         headerShown: false

@@ -1,61 +1,59 @@
-import { createAnimations } from '@tamagui/animations-react-native';
+import { color, radius, size, space, themes, zIndex } from '@tamagui/themes';
+import { createTamagui, createTokens } from 'tamagui';
 import { createInterFont } from '@tamagui/font-inter';
-import { createMedia } from '@tamagui/react-native-media-driver';
-import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
-import { createTamagui } from 'tamagui';
-
-const animations = createAnimations({
-	bouncy: {
-		type: 'spring',
-		damping: 10,
-		mass: 0.9,
-		stiffness: 100,
-	},
-	lazy: {
-		type: 'spring',
-		damping: 20,
-		stiffness: 60,
-	},
-	quick: {
-		type: 'spring',
-		damping: 20,
-		mass: 1.2,
-		stiffness: 250,
-	},
-});
 
 const headingFont = createInterFont();
 const bodyFont = createInterFont();
 
+const tokens = createTokens({
+	size,
+	space,
+	zIndex,
+	color,
+	radius,
+});
+
+const funLibsTheme = {
+	...themes,
+	light: {
+		...themes.light,
+		main1: themes.light.blue1,
+		main2: themes.light.blue2,
+		main3: themes.light.blue3,
+		main4: themes.light.blue4,
+		main5: themes.light.blue5,
+		main6: themes.light.blue6,
+		main7: themes.light.blue7,
+		main8: themes.light.blue8,
+		main9: themes.light.blue9,
+		main10: themes.light.blue10,
+		main11: themes.light.blue11,
+		main12: themes.light.blue12,
+	},
+	dark: {
+		...themes.dark,
+		main1: themes.dark.blue1,
+		main2: themes.dark.blue2,
+		main3: themes.dark.blue3,
+		main4: themes.dark.blue4,
+		main5: themes.dark.blue5,
+		main6: themes.dark.blue6,
+		main7: themes.dark.blue7,
+		main8: themes.dark.blue8,
+		main9: themes.dark.blue9,
+		main10: themes.dark.blue10,
+		main11: themes.dark.blue11,
+		main12: themes.dark.blue12,
+	},
+};
+
 const config = createTamagui({
-	animations,
-	defaultTheme: 'dark',
-	shouldAddPrefersColorThemes: false,
-	themeClassNameOnRoot: false,
-	shorthands,
 	fonts: {
 		heading: headingFont,
 		body: bodyFont,
 	},
-	themes,
+	themes: funLibsTheme,
 	tokens,
-	media: createMedia({
-		xs: { maxWidth: 660 },
-		sm: { maxWidth: 800 },
-		md: { maxWidth: 1020 },
-		lg: { maxWidth: 1280 },
-		xl: { maxWidth: 1420 },
-		xxl: { maxWidth: 1600 },
-		gtXs: { minWidth: 660 + 1 },
-		gtSm: { minWidth: 800 + 1 },
-		gtMd: { minWidth: 1020 + 1 },
-		gtLg: { minWidth: 1280 + 1 },
-		short: { maxHeight: 820 },
-		tall: { minHeight: 820 },
-		hoverNone: { hover: 'none' },
-		pointerCoarse: { pointer: 'coarse' },
-	}),
 });
 
 export type AppConfig = typeof config;
