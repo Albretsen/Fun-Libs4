@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../supabase';
+import { supabase } from '../../../supabase';
 import { AppState } from 'react-native';
 
 export const useInitializeScripts = () => {
