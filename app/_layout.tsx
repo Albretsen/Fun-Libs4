@@ -9,6 +9,13 @@ import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts'
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
 
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 export default function App() {
     const assetsLoaded = useLoadAssets();
     const scriptsLoaded = useInitializeScripts();
@@ -18,18 +25,16 @@ export default function App() {
     if (!assetsLoaded || !scriptsLoaded) return null;
 
     return (
-        <TamaguiProvider config={config}>
-            <Theme name="light">
-                {session && session.user ? <Stack
-                    screenOptions={{
-                        headerShown: false
-                    }}
-                /> : <LoginScreen />}
-            </Theme>
-        </TamaguiProvider>
+        <QueryClientProvider client={queryClient}>
+            <TamaguiProvider config={config}>
+                <Theme name="light">
+                    {session && session.user ? <Stack
+                        screenOptions={{
+                            headerShown: false
+                        }}
+                    /> : <LoginScreen />}
+                </Theme>
+            </TamaguiProvider>
+        </QueryClientProvider>
     );
 }
-
-//<Stack>
-//<Stack.Screen name="(tabs)" options={{ headerShown: false, animation: "none" }} />
-//</Stack>
