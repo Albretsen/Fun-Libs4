@@ -28,11 +28,14 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <TamaguiProvider config={config}>
                 <Theme name="light">
-                    {session && session.user ? <Stack
-                        screenOptions={{
-                            headerShown: false
-                        }}
-                    /> : <LoginScreen />}
+                    {session && session.user ?
+                        <Stack
+                            screenOptions={{
+                                headerShown: false
+                            }}
+                        />
+                        :
+                        <LoginScreen />}
                 </Theme>
             </TamaguiProvider>
         </QueryClientProvider>
