@@ -8,9 +8,8 @@ import { supabase } from '../../supabase';
 export default function Tab() {
     return (
         <View style={styles.container}>
-            <Text>Tab Official</Text>
-            <Link href="auth/login">test</Link>
             <List queryKey={"libs"} ListItem={ListItem} queryFn={async () => { return await supabase.from('libs').select('*') }} />
+            <Link href="auth/login">GO TO LOGIN PAGE</Link>
         </View>
     );
 }
