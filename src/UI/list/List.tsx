@@ -4,6 +4,8 @@ import {
     useQuery,
     useQueryClient
 } from '@tanstack/react-query';
+import ListItemSeparator from "./ListItemSeparator";
+import { RefreshControl } from "react-native";
 
 export default function List(props: any) {
     const { queryKey, queryFn, ListItem } = props;
@@ -39,6 +41,9 @@ export default function List(props: any) {
             onRefresh={refresh}
             onEndReached={onEndReached}
             refreshing={status === 'pending'}
+            contentContainerStyle={{ paddingVertical: 16 }}
+            ItemSeparatorComponent={ListItemSeparator}
+            refreshControl={<RefreshControl refreshing={status === 'pending'} colors={['lightblue']} />}
         />
     );
 }

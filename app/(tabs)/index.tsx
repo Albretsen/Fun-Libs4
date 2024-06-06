@@ -16,6 +16,7 @@ export default function TabLayout() {
                 backgroundColor: 'transparent',
                 shadowColor: 'transparent',
                 width: '70%',
+                marginHorizontal: 16
             },
             tabBarLabelStyle: {
                 backgroundColor: 'transparent',
