@@ -13,8 +13,6 @@ export default function TabLayout() {
             },
             tabBarStyle: {
                 height: 64,
-                borderTopWidth: 1,
-                borderTopColor: theme.main6.val,
             },
             tabBarIconStyle: {
                 marginBottom: -4
