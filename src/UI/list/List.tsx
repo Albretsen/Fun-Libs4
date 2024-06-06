@@ -12,15 +12,15 @@ export default function List(props: any) {
 
     const queryClient = useQueryClient()
 
-    const { status, data, error } = useQuery<any>({ queryKey: [queryKey], queryFn: queryFn })
+    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: [queryKey], queryFn: queryFn })
 
-    if (status === 'pending') {
+    if (isFetching) {
         return (
             <Spinner size="small" color="$color" />
         );
     }
 
-    if (status === 'error') {
+    if (isError) {
         return (
             <SizableText size={'$5'}>Error loading list {error.message}</SizableText>
         )
@@ -40,10 +40,10 @@ export default function List(props: any) {
             ListEmptyComponent={<SizableText size={'$5'}>No results</SizableText>}
             onRefresh={refresh}
             onEndReached={onEndReached}
-            refreshing={status === 'pending'}
+            refreshing={isFetching}
             contentContainerStyle={{ paddingVertical: 16 }}
             ItemSeparatorComponent={ListItemSeparator}
-            refreshControl={<RefreshControl refreshing={status === 'pending'} colors={['lightblue']} />}
+            refreshControl={<RefreshControl refreshing={isFetching} colors={['lightblue']} />}
         />
     );
 }
