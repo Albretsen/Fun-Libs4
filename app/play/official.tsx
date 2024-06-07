@@ -8,7 +8,7 @@ import { supabase } from '../../supabase';
 export default function Tab() {
     return (
         <StyledContainer>
-            <List queryKey={"libs"} ListItem={ListItem} queryFn={async () => { return await supabase.from('libs').select('*') }} />
+            <List queryKey={"libs"} ListItem={ListItem} queryFn={async () => { return await supabase.from('libs').select(`*, profiles(*)`) }} />
             <Link href="auth/login">GO TO LOGIN PAGE</Link>
         </StyledContainer>
     );
