@@ -11,7 +11,7 @@ export default function ListItem(props: any) {
                 </View>
                 <View>
                     <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
-                    <SizableText size={'$4'} fontWeight={400}>by username</SizableText>
+                    <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
                 </View>
             </View>
         </View>
