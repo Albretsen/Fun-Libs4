@@ -1,11 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { styled } from 'tamagui';
+import { View } from 'react-native';
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		marginLeft: 16,
-		marginRight: 16,
-	},
+export const StyledContainer = styled(View, {
+	backgroundColor: '$background',
+	flex: 1,
+	paddingLeft: 16,
+	paddingRight: 16,
 });
-
-export default styles;

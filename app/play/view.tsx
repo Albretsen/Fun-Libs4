@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native';
-import styles from '../../src/styles/styles';
+import { StyledContainer } from '../../src/styles/styles';
 
 export default function Tab() {
     return (
-        <View style={styles.container}>
+        <StyledContainer >
             <Text>Screen View</Text>
-        </View>
+        </StyledContainer>
     );
 }
