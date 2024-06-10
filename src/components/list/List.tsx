@@ -14,6 +14,12 @@ export default function List(props: any) {
 
     const { isFetching, isError, data, error } = useQuery<any>({ queryKey: [queryKey], queryFn: queryFn })
 
+    const refresh = () => {
+        queryClient.invalidateQueries({ queryKey: [queryKey] })
+    }
+
+    const onEndReached = () => { }
+
     if (isFetching) {
         return (
             <Spinner size="small" color="$color" />
@@ -25,12 +31,6 @@ export default function List(props: any) {
             <SizableText size={'$5'}>Error loading list {error.message}</SizableText>
         )
     }
-
-    const refresh = () => {
-        queryClient.invalidateQueries({ queryKey: [queryKey] })
-    }
-
-    const onEndReached = () => { }
 
     return (
         <FlashList
