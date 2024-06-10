@@ -3,7 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../../../supabase';
 import Card from '../../../src/components/Card/Card';
-import { Spinner, SizableText } from 'tamagui';
+import { Spinner, SizableText, View } from 'tamagui';
 
 export default function Tab() {
     const { id } = useLocalSearchParams();

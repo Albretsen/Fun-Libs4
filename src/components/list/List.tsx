@@ -41,7 +41,6 @@ export default function List(props: any) {
             onRefresh={refresh}
             onEndReached={onEndReached}
             refreshing={isFetching}
-            contentContainerStyle={{ paddingVertical: 16 }}
             ItemSeparatorComponent={ListItemSeparator}
             refreshControl={<RefreshControl onRefresh={refresh} refreshing={isFetching} colors={['lightblue']} />}
         />
