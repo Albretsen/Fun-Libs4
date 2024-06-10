@@ -35,7 +35,7 @@ export default function List(props: any) {
     return (
         <FlashList
             data={data.data}
-            renderItem={({ item }: any) => <ListItem item={item}>List item placeholder</ListItem>}
+            renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'}>List item placeholder</ListItem>}
             estimatedItemSize={80}
             ListEmptyComponent={<SizableText size={'$5'}>No results</SizableText>}
             onRefresh={refresh}
@@ -43,7 +43,7 @@ export default function List(props: any) {
             refreshing={isFetching}
             contentContainerStyle={{ paddingVertical: 16 }}
             ItemSeparatorComponent={ListItemSeparator}
-            refreshControl={<RefreshControl refreshing={isFetching} colors={['lightblue']} />}
+            refreshControl={<RefreshControl onRefresh={refresh} refreshing={isFetching} colors={['lightblue']} />}
         />
     );
 }
