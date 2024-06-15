@@ -1,38 +1,38 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { View, YStack, XStack, Input, Button, SizableText, Progress } from "tamagui";
-import useLib from "../../hooks/useLib";
+import useGameLogic from "../../hooks/useGameLogic";
 
 export default function GameControls(props: any) {
     const { item } = props;
 
-    const { getPrompt, getPromptDescription } = useLib();
+    const [input, setInput] = useState("");
 
-    const [pointer, setPointer] = useState(0);
+    const { prompt, description, percentageCompleted, userInputs, pointer, forward, backward } = useGameLogic(item);
 
-    const prompt = useMemo(() => getPrompt(item, pointer), [item, pointer, getPrompt]);
-    const description = useMemo(() => getPromptDescription(prompt), [prompt, getPromptDescription]);
-    const percentageCompleted = useMemo(() => pointer / (item.parsed_prompts.length - 1) * 100, [pointer]);
+    useEffect(() => {
+        setInput(userInputs[pointer] || "");
+    }, [pointer, userInputs]);
 
-    const forward = () => {
-        if (pointer >= item.parsed_prompts.length - 1) {
-            console.log("won")
-            return;
-        }
-        setPointer((prevState) => { return prevState + 1 });
+    const handleBackward = () => {
+        backward(input);
     }
 
-    const backward = () => {
-        if (pointer <= 0) return;
-        setPointer((prevState) => { return prevState - 1 })
+    const handleFoward = () => {
+        forward(input);
     }
 
     return (
         <View >
             <YStack gap={4}>
                 <XStack gap={8}>
-                    <Input flex={1} placeholder={prompt}></Input>
-                    <Button variant="outlined" onPress={backward}>Undo</Button>
-                    <Button backgroundColor={'$main4'} onPress={forward}>Go</Button>
+                    <Input
+                        flex={1}
+                        onChangeText={input => setInput(input)}
+                        value={input}
+                        placeholder={prompt}>
+                    </Input>
+                    <Button variant="outlined" onPress={handleBackward}>Undo</Button>
+                    <Button backgroundColor={'$main4'} onPress={handleFoward}>Go</Button>
                 </XStack>
                 <SizableText>{description}</SizableText>
                 <Progress size={'$2'} value={percentageCompleted} >
