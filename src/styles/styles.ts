@@ -6,4 +6,5 @@ export const StyledContainer = styled(View, {
 	flex: 1,
 	paddingLeft: 16,
 	paddingRight: 16,
+	paddingTop: 16,
 });

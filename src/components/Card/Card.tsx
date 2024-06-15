@@ -5,6 +5,7 @@ import Stats from "./Stats";
 import { Link } from "expo-router";
 import Separator from "./Separator";
 import GameControls from "./GameControls";
+import Actions from "./Actions";
 
 interface CardProps {
     item: any,
@@ -27,7 +28,7 @@ export default function Card(props: CardProps) {
                     <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
                 </View>
                 {config.separator ? <Separator /> : null}
-                {config.gameControls ? <GameControls /> : null}
+                {config.gameControls ? <GameControls item={item} /> : null}
                 {config.stats && config.playButton ?
                     <View>
                         <XStack justifyContent="space-between">
@@ -43,6 +44,7 @@ export default function Card(props: CardProps) {
                         </XStack>
                     </View> : null}
             </View>
+            {config.actions ? <Actions /> : null}
         </View>
     )
 }
@@ -53,11 +55,13 @@ const variants: any = {
         playButton: true,
         separator: false,
         gameControls: false,
+        actions: false,
     },
     play: {
         stats: false,
         playButton: false,
         separator: true,
         gameControls: true,
+        actions: true,
     }
 }
