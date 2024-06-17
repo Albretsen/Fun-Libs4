@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import useLib from './useLib';
 import Lib from '../utils/libs';
+import { router } from 'expo-router';
 
 export default function useGameLogic(item: Lib) {
 	const { getPrompt, getPromptDescription } = useLib();
@@ -24,7 +25,7 @@ export default function useGameLogic(item: Lib) {
 	const forward = useCallback(
 		(input: string) => {
 			if (pointer >= item.parsed_prompts.length - 1) {
-				console.log('won');
+				router.navigate('/play/read');
 				return;
 			}
 			const newInputs: string[] = [...userInputs];

@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import Lib from '../utils/libs';
 
 interface LibState {
 	lib: any | null;

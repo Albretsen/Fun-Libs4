@@ -1,0 +1,27 @@
+import { StyledContainer } from '../../../src/styles/styles';
+import { useQuery } from '@tanstack/react-query';
+import Card from '../../../src/components/Card/Card';
+import { SizableText } from 'tamagui';
+import { useLibStore } from '../../../src/hooks/useLibStore';
+
+export default function Tab() {
+    const libStore = useLibStore();
+
+    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return libStore.getLib() } })
+
+    if (isFetching) {
+        return <StyledContainer />;
+    }
+
+    if (isError) {
+        return (
+            <SizableText size={'$5'}>Error {error.message}</SizableText>
+        )
+    }
+
+    return (
+        <StyledContainer >
+            <Card item={data} variant='read' />
+        </StyledContainer>
+    );
+}
