@@ -14,6 +14,7 @@
     "@radix-ui/colors": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/material-top-tabs": "^6.6.13",
+    "@redux-devtools/extension": "^3.3.0",
     "@shopify/flash-list": "1.6.4",
     "@supabase/supabase-js": "^2.43.4",
     "@tamagui/config": "^1.99.1",
@@ -38,7 +39,8 @@
     "react-native-svg": "15.2.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-url-polyfill": "^2.0.0",
-    "tamagui": "^1.99.1"
+    "tamagui": "^1.99.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

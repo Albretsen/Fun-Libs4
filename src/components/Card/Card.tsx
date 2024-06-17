@@ -1,11 +1,11 @@
-import { View, Text, SizableText, XStack, Button, useTheme, Input, YStack, Progress } from "tamagui";
-import { TextInput } from "react-native";
+import { View, SizableText, XStack, Button } from "tamagui";
 import CoverImage from "./CoverImage";
 import Stats from "./Stats";
 import { Link } from "expo-router";
 import Separator from "./Separator";
 import GameControls from "./GameControls";
 import Actions from "./Actions";
+import { useLibStore } from "../../hooks/useLibStore";
 
 interface CardProps {
     item: any,
@@ -13,7 +13,7 @@ interface CardProps {
 }
 
 export default function Card(props: CardProps) {
-    const theme = useTheme();
+    const libStore = useLibStore();
 
     const { item, variant } = props;
 
@@ -34,9 +34,8 @@ export default function Card(props: CardProps) {
                         <XStack justifyContent="space-between">
                             <Stats item={item} />
                             <View>
-                                <Link href={{
-                                    pathname: "/play/view/[id]",
-                                    params: { id: item.id }
+                                <Link onPress={() => libStore.setLib(item)} href={{
+                                    pathname: "/play/view",
                                 }} asChild>
                                     <Button borderRadius={100} backgroundColor={'$main4'}> Play </Button>
                                 </Link>
