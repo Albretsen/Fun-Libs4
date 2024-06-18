@@ -1,10 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Play, BookText, Pen, User } from '@tamagui/lucide-icons';
-import { useTheme } from 'tamagui';
 
 export default function TabLayout() {
-    const theme = useTheme();
-
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: '$main12',

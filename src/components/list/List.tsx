@@ -36,6 +36,7 @@ export default function List(props: any) {
         <FlashList
             data={data.data}
             renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'}>List item placeholder</ListItem>}
+            keyExtractor={(item: any) => item.id}
             estimatedItemSize={80}
             ListEmptyComponent={<SizableText size={'$5'}>No results</SizableText>}
             onRefresh={refresh}
