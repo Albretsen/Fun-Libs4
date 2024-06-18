@@ -5,9 +5,9 @@ import { SizableText } from 'tamagui';
 import { useLibStore } from '../../../src/hooks/useLibStore';
 
 export default function Tab() {
-    const libStore = useLibStore();
+    const { getLib } = useLibStore();
 
-    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return libStore.getLib() } })
+    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } })
 
     if (isFetching) {
         return <StyledContainer />;

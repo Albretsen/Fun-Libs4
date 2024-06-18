@@ -14,7 +14,7 @@ interface CardProps {
 }
 
 export default function Card(props: CardProps) {
-    const libStore = useLibStore();
+    const { setLib } = useLibStore();
 
     const { item, variant } = props;
 
@@ -35,7 +35,7 @@ export default function Card(props: CardProps) {
                     <View>
                         <XStack justifyContent="space-between">
                             {config.stats ? <Stats item={item} /> : null}
-                            {config.playButton ? <Link onPress={() => libStore.setLib(item)} href={{
+                            {config.playButton ? <Link onPress={() => setLib(item)} href={{
                                 pathname: "/play/view",
                             }} asChild>
                                 <Button borderRadius={100} backgroundColor={'$main4'}> Play </Button>
