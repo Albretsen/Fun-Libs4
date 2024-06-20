@@ -26,13 +26,13 @@ export default function useGameLogic(item: Lib) {
 
 	const forward = useCallback(
 		(input: string) => {
-			if (pointer >= item.parsed_prompts.length - 1) {
-				win();
-				return;
-			}
 			const newInputs: string[] = [...userInputs];
 			newInputs[pointer] = input;
 			setUserInputs(newInputs);
+			if (pointer >= item.parsed_prompts.length - 1) {
+				win(newInputs);
+				return;
+			}
 			setPointer(pointer + 1);
 		},
 		[pointer, userInputs, item],
@@ -49,11 +49,10 @@ export default function useGameLogic(item: Lib) {
 		[pointer, userInputs],
 	);
 
-	const win = () => {
+	const win = (finalInputs: string[]) => {
 		let lib = getLib();
-		lib.user_input = userInputs;
+		lib.user_input = finalInputs;
 		setLib(lib);
-		console.log('test');
 		router.replace('/play/read'); //TODO: decide between "navigate" and "replace" method
 	};
 

@@ -9,8 +9,6 @@ export default function Tab() {
 
     const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } })
 
-    console.log(getLib())
-
     if (isFetching) {
         return <StyledContainer />;
     }
