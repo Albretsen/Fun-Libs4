@@ -8,7 +8,7 @@ export default function HighlightedText(props: any) {
             <ScrollView>
                 <Text marginVertical={4} >
                     {item.parsed_text.map((text: string, index: number) => {
-                        if (index % 2 === 0) return (<SizableText size={'$5'} fontWeight={400} lineHeight={32}>{text}</SizableText>);
+                        if (index % 2 === 0) return (<SizableText key={index} size={'$5'} fontWeight={400} lineHeight={32}>{text}</SizableText>);
                         if (index % 2 !== 0) {
                             let highlighted_word = text;
                             if (item.user_input) {
@@ -24,7 +24,7 @@ export default function HighlightedText(props: any) {
 
                                 }
                             }
-                            return (<SizableText size={'$5'} fontWeight={400} color={'$main8'} lineHeight={32}>{highlighted_word}</SizableText>);
+                            return (<SizableText key={index} size={'$5'} fontWeight={400} color={'$main8'} lineHeight={32}>{highlighted_word}</SizableText>);
                         }
                     })}
                 </Text>
