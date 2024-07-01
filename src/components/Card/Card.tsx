@@ -4,7 +4,7 @@ import Stats from "./Stats";
 import { Link } from "expo-router";
 import Separator from "./Separator";
 import GameControls from "./GameControls";
-import Actions from "./Actions";
+import Actions from "./Actions/Actions";
 import { useLibStore } from "../../hooks/useLibStore";
 import HighlightedText from "./HighlightedText";
 
@@ -43,7 +43,7 @@ export default function Card(props: CardProps) {
                         </XStack>
                     </View> : null}
             </View>
-            {config.actions ? <Actions /> : null}
+            {config.actions ? <Actions item={item} variant={variant} /> : null}
         </View>
     )
 }
