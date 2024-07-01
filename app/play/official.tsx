@@ -10,7 +10,7 @@ export default function Tab() {
     return (
         <StyledContainer>
             <List queryKey={"libs"} ListItem={Card} queryFn={async (page: number) => {
-                return await supabase.from('libs').select(`*, profiles(*)`).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1)
+                return await supabase.from('libs').select(`*, profiles(*)`).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
             }} />
         </StyledContainer>
     );

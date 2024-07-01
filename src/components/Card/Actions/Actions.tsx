@@ -1,6 +1,7 @@
-import { Button, View, XStack } from "tamagui";
+import { View, XStack } from "tamagui";
 import { Heart, Share, User, RotateCcw } from "@tamagui/lucide-icons";
 import ActionButton from "./ActionButton";
+import { router } from 'expo-router';
 
 interface ActionsProps {
     item: any,
@@ -12,12 +13,16 @@ export default function Actions(props: ActionsProps) {
 
     const config = variants[variant];
 
+    const restart = () => {
+        router.replace("/play/view");
+    }
+
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} height={66} backgroundColor={'$background'}>
             <XStack justifyContent="space-evenly" alignItems="center" flex={1}>
                 <ActionButton label={"28 likes"} icon={Heart} />
                 {config.restart ?
-                    <ActionButton label={"Try again"} icon={RotateCcw} /> : null
+                    <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null
                 }
                 <ActionButton label={"Share"} icon={Share} />
                 <ActionButton label={"Profile"} icon={User} />
