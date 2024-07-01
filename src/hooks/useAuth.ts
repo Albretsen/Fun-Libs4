@@ -22,6 +22,21 @@ export default function useAuth() {
 		};
 	}, []);
 
+	async function getSession() {
+		if (session) return session;
+
+		try {
+			const { data: session, error } = await supabase.auth.getSession();
+			if (error) throw error;
+			setSession(session.session);
+			return session.session;
+		} catch (error) {
+			if (error instanceof Error) {
+				console.error('Error fetching session', error.message);
+			}
+		}
+	}
+
 	const signIn = async (email: string, password: string) => {
 		const { error } = await supabase.auth.signInWithPassword({
 			email: email,
@@ -49,5 +64,5 @@ export default function useAuth() {
 		if (error) Alert.alert(error.message);
 	};
 
-	return { signIn, signUp, signOut, session };
+	return { signIn, signUp, signOut, session, getSession };
 }
