@@ -9,8 +9,26 @@ export default function useCreateLogic() {
 	});
 
 	const addPrompt = (prompt: string) => {
-		console.log('Adding ' + prompt);
+		prompt = '(' + prompt + ')';
+
+		setBody(prevBody => {
+			const start = cursorPosition.start;
+			const end = cursorPosition.end;
+			setCursorPosition({
+				start: start + prompt.length,
+				end: end + prompt.length,
+			});
+			return prevBody.slice(0, start) + prompt + prevBody.slice(end);
+		});
 	};
 
-	return { title, setTitle, body, setBody, addPrompt, setCursorPosition };
+	return {
+		title,
+		setTitle,
+		body,
+		setBody,
+		addPrompt,
+		setCursorPosition,
+		cursorPosition,
+	};
 }
