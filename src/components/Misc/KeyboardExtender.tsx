@@ -15,7 +15,7 @@ export default function KeyboardExtender() {
             <ScrollView horizontal={true} keyboardShouldPersistTaps='handled'>
                 <XStack flex={1}>
                     {prompts.map((value) => {
-                        return (<XStack flex={1}><Button icon={Plus} backgroundColor={'transparent'} borderRadius={0} onPress={() => addPrompt(value)}>{value}</Button><View width={1} height={'60%'} backgroundColor={'$main7'} alignSelf="center" /></XStack>)
+                        return (<XStack flex={1} key={value}><Button icon={Plus} backgroundColor={'transparent'} borderRadius={0} onPress={() => addPrompt(value)}>{value}</Button><View width={1} height={'60%'} backgroundColor={'$main7'} alignSelf="center" /></XStack>)
                     })}
                 </XStack>
             </ScrollView>

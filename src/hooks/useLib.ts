@@ -113,7 +113,7 @@ export default function useLib() {
 		return explanations[closestKey] || ' ';
 	};
 
-	const parseTextToLib = (text: string): Lib => {
+	const parseTextToLib = (text: string) => {
 		const parsed_text = [];
 		const parsed_prompts = [];
 		const regex = /\(([^)]+)\)/g;
@@ -130,7 +130,7 @@ export default function useLib() {
 
 		parsed_text.push(text.slice(lastIndex));
 
-		return new Lib({ parsed_text, parsed_prompts });
+		return { parsed_text, parsed_prompts };
 	};
 
 	return { parseTextToLib, getPromptDescription, getPrompt };

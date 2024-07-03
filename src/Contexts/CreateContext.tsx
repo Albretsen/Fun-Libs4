@@ -15,5 +15,9 @@ export const CreateProvider = ({ children }: any) => {
 
 export const useCreateContext = () => {
     const context = useContext(CreateContext);
+    if (!context) {
+        console.log("Context is not available");
+        return null;
+    }
     return context;
 }
