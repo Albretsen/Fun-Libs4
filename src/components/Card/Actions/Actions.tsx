@@ -1,11 +1,11 @@
 import { View, XStack } from "tamagui";
-import { Heart, Share, User, RotateCcw } from "@tamagui/lucide-icons";
+import { Heart, Share, User, RotateCcw, Save } from "@tamagui/lucide-icons";
 import ActionButton from "./ActionButton";
 import { router } from 'expo-router';
 
 interface ActionsProps {
-    item: any,
-    variant?: 'play' | 'read' | 'listItem',
+    item?: any,
+    variant?: 'play' | 'read' | 'listItem' | 'create',
 }
 
 export default function Actions(props: ActionsProps) {
@@ -20,12 +20,11 @@ export default function Actions(props: ActionsProps) {
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} height={66} backgroundColor={'$background'}>
             <XStack justifyContent="space-evenly" alignItems="center" flex={1}>
-                <ActionButton label={"28 likes"} icon={Heart} />
-                {config.restart ?
-                    <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null
-                }
-                <ActionButton label={"Share"} icon={Share} />
-                <ActionButton label={"Profile"} icon={User} />
+                {config.save ? <ActionButton label={"Save"} icon={Save} /> : null}
+                {config.like ? <ActionButton label={"28 likes"} icon={Heart} /> : null}
+                {config.restart ? <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null}
+                {config.share ? <ActionButton label={"Share"} icon={Share} /> : null}
+                {config.profile ? <ActionButton label={"Profile"} icon={User} /> : null}
             </XStack>
         </View>
     )
@@ -34,11 +33,27 @@ export default function Actions(props: ActionsProps) {
 const variants: any = {
     play: {
         restart: false,
+        like: true,
+        share: true,
+        profile: true,
     },
     read: {
         restart: true,
+        like: true,
+        share: true,
+        profile: true,
     },
     listItem: {
         restart: false,
+        like: false,
+        share: false,
+        profile: false,
+    },
+    create: {
+        restart: true,
+        like: false,
+        share: false,
+        profile: false,
+        save: true,
     }
 };

@@ -14,10 +14,12 @@ export default function useCreateLogic() {
 		setBody(prevBody => {
 			const start = cursorPosition.start;
 			const end = cursorPosition.end;
+
 			setCursorPosition({
 				start: start + prompt.length,
 				end: end + prompt.length,
 			});
+
 			return prevBody.slice(0, start) + prompt + prevBody.slice(end);
 		});
 	};
