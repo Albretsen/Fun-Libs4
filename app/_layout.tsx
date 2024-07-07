@@ -13,6 +13,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query';
+import { CreateProvider } from '../src/Contexts/CreateContext';
 
 const queryClient = new QueryClient();
 
@@ -28,14 +29,16 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             <TamaguiProvider config={config}>
                 <Theme name="light">
-                    {session && session.user ?
-                        <Stack
-                            screenOptions={{
-                                headerShown: false
-                            }}
-                        />
-                        :
-                        <LoginScreen />}
+                    <CreateProvider>
+                        {session && session.user ?
+                            <Stack
+                                screenOptions={{
+                                    headerShown: false
+                                }}
+                            />
+                            :
+                            <LoginScreen />}
+                    </CreateProvider>
                 </Theme>
             </TamaguiProvider>
         </QueryClientProvider>

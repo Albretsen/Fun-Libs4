@@ -1,9 +1,18 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useSegments } from 'expo-router';
 import { Play, BookText, Pen, User } from '@tamagui/lucide-icons';
 import { useTheme, View } from 'tamagui';
+import useKeyboardVisibility from '../../src/hooks/useKeyboardVisibility';
 
 export default function TabLayout() {
     const theme = useTheme();
+
+    const segment = useSegments();
+
+    const page = segment[segment.length - 1];
+
+    const pagesToHideTabBar = ['create'];
+
+    const isKeyboardVisible = useKeyboardVisibility();
 
     return (
         <Tabs screenOptions={{
@@ -13,6 +22,7 @@ export default function TabLayout() {
             },
             tabBarStyle: {
                 height: 64,
+                display: pagesToHideTabBar.includes(page) && isKeyboardVisible ? 'none' : 'flex'
             },
             tabBarIconStyle: {
                 marginBottom: -4

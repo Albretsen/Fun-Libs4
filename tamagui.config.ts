@@ -1,3 +1,4 @@
+import { rgba } from '@tamagui/core';
 import { createInterFont } from '@tamagui/font-inter';
 import { color, radius, size, space, themes, zIndex } from '@tamagui/themes';
 import { createTamagui, createTokens } from 'tamagui';
@@ -12,6 +13,8 @@ const tokens = createTokens({
 	color,
 	radius,
 });
+
+const rgbBlue12Light = hslToRgb(tokens.color.blue12Light.val);
 
 const funLibsTheme = {
 	light: {
@@ -40,6 +43,7 @@ const funLibsTheme = {
 		colorFocus: tokens.color.blue6Light,
 		shadowColor: tokens.color.blue5Light,
 		shadowColorHover: tokens.color.blue6Light,
+		placeholder: `rgba(${rgbBlue12Light.r}, ${rgbBlue12Light.g}, ${rgbBlue12Light.b}, 0.4)`,
 	},
 	dark: {
 		...themes.dark,
@@ -67,6 +71,7 @@ const funLibsTheme = {
 		colorFocus: tokens.color.blue6Dark,
 		shadowColor: tokens.color.blue5Dark,
 		shadowColorHover: tokens.color.blue6Dark,
+		placeholder: `rgba(${rgbBlue12Light.r}, ${rgbBlue12Light.g}, ${rgbBlue12Light.b}, 0.4)`,
 	},
 };
 
@@ -146,6 +151,48 @@ declare module 'tamagui' {
 
 declare module '@tamagui/core' {
 	interface TamaguiCustomConfig extends AppConfig {}
+}
+
+function hslToRgb(hsl: string) {
+	const [hue, sat, light] = hsl
+		.substring(4, hsl.length - 1)
+		.split(',')
+		.map(value => parseFloat(value.trim()) / 100); // Ensure proper scaling for saturation and lightness
+
+	const hueScaled = hue * 360; // Hue should be in the range of 0-360
+	let r, g, b;
+
+	if (sat === 0) {
+		r = g = b = light; // achromatic
+	} else {
+		const c = (1 - Math.abs(2 * light - 1)) * sat;
+		const x = c * (1 - Math.abs(((hueScaled / 60) % 2) - 1));
+		const m = light - c / 2;
+
+		let rgb: [number, number, number];
+
+		if (hueScaled >= 0 && hueScaled < 60) {
+			rgb = [c, x, 0];
+		} else if (hueScaled >= 60 && hueScaled < 120) {
+			rgb = [x, c, 0];
+		} else if (hueScaled >= 120 && hueScaled < 180) {
+			rgb = [0, c, x];
+		} else if (hueScaled >= 180 && hueScaled < 240) {
+			rgb = [0, x, c];
+		} else if (hueScaled >= 240 && hueScaled < 300) {
+			rgb = [x, 0, c];
+		} else if (hueScaled >= 300 && hueScaled < 360) {
+			rgb = [c, 0, x];
+		} else {
+			rgb = [0, 0, 0];
+		}
+
+		r = Math.round((rgb[0] + m) * 255);
+		g = Math.round((rgb[1] + m) * 255);
+		b = Math.round((rgb[2] + m) * 255);
+	}
+
+	return { r, g, b };
 }
 
 export default config;
