@@ -8,10 +8,11 @@ import useLib from "../../../hooks/useLib";
 interface ActionsProps {
     item?: any,
     variant?: 'play' | 'read' | 'listItem' | 'create',
+    onPressSave?: any,
 }
 
 export default function Actions(props: ActionsProps) {
-    const { item, variant = "read" } = props;
+    const { item, variant = "read", onPressSave } = props;
 
     const { parseTextToLib } = useLib();
 
@@ -24,13 +25,13 @@ export default function Actions(props: ActionsProps) {
     }
 
     const save = () => {
-        console.log(JSON.stringify(parseTextToLib(body)));
+        console.log("doing the save thing");
     }
 
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} height={66} backgroundColor={'$background'}>
             <XStack justifyContent="space-evenly" alignItems="center" flex={1}>
-                {config.save ? <ActionButton label={"Save"} icon={Save} onPress={save} /> : null}
+                {config.save ? <ActionButton label={"Save"} icon={Save} onPress={onPressSave ? onPressSave : save} /> : null}
                 {config.like ? <ActionButton label={"28 likes"} icon={Heart} /> : null}
                 {config.restart ? <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null}
                 {config.share ? <ActionButton label={"Share"} icon={Share} /> : null}

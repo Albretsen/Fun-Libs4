@@ -1,12 +1,22 @@
 import { useState } from 'react';
+import useLib from './useLib';
+import { supabase } from '../../supabase';
 
 export default function useCreateLogic() {
+	const { parseTextToLib } = useLib();
+
 	const [title, setTitle] = useState<string>('');
 	const [body, setBody] = useState<string>('');
 	const [cursorPosition, setCursorPosition] = useState<any>({
 		end: 0,
 		start: 0,
 	});
+
+	const saveLib = async (title: string, body: string) => {
+		let lib = parseTextToLib(body);
+		const { data, error } = await supabase.from('libs').insert({ ...lib, title });
+		if (error !== null) throw error;
+	};
 
 	const addPrompt = (prompt: string) => {
 		prompt = '(' + prompt + ')';
@@ -32,5 +42,6 @@ export default function useCreateLogic() {
 		addPrompt,
 		setCursorPosition,
 		cursorPosition,
+		saveLib,
 	};
 }

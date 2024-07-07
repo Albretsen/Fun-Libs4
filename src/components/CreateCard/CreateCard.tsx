@@ -4,12 +4,22 @@ import Separator from "../Card/Separator";
 import { useCreateContext } from "../../Contexts/CreateContext";
 import useKeyboardVisibility from "../../hooks/useKeyboardVisibility";
 import Actions from "../Card/Actions/Actions";
+import useCreateLogic from "../../hooks/useCreateLogic";
 
 export default function CreateCard() {
 
     const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
 
+    const { saveLib } = useCreateLogic();
+
     const isKeyboardVisible = useKeyboardVisibility();
+
+    const save = async () => {
+        try {
+            await saveLib(title, body);
+        } catch (error) {
+        }
+    }
 
     return (
         <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={1} marginBottom={16}>
@@ -22,7 +32,7 @@ export default function CreateCard() {
                 <Separator />
                 <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="Text here..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
             </View>
-            {isKeyboardVisible ? null : <Actions variant="create" />}
+            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} />}
         </View>
     )
 }
