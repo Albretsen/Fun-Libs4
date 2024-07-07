@@ -1,7 +1,7 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import OfficialTab from '../play/official';
 import CommunityTab from '../play/community';
-import { View, useTheme } from 'tamagui';
+import { View, useTheme, Text } from 'tamagui';
 import { Dimensions } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
@@ -16,14 +16,8 @@ export default function TabLayout() {
                 tabBarStyle: {
                     backgroundColor: 'transparent',
                     shadowColor: 'transparent',
-                    width: '70%',
+                    width: '55%',
                     marginHorizontal: 16
-                },
-                tabBarLabelStyle: {
-                    backgroundColor: 'transparent',
-                    fontFamily: 'InterBold',
-                    fontSize: 16,
-                    textTransform: 'none'
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: theme.color.val,
@@ -34,8 +28,20 @@ export default function TabLayout() {
             }} initialLayout={{
                 width: Dimensions.get('window').width
             }}>
-                <Tab.Screen name="Official" component={OfficialTab} />
-                <Tab.Screen name="Community" component={CommunityTab} />
+                <Tab.Screen name="Official" component={OfficialTab} options={{
+                    tabBarLabel: ({ color }) => (
+                        <Text style={{ color, fontFamily: 'InterBold', fontSize: 16, textTransform: 'none' }} numberOfLines={1}>
+                            Fun Libs
+                        </Text>
+                    ),
+                }} />
+                <Tab.Screen name="Community" component={CommunityTab} options={{
+                    tabBarLabel: ({ color }) => (
+                        <Text style={{ color, fontFamily: 'InterBold', fontSize: 16, textTransform: 'none' }} numberOfLines={1}>
+                            Community
+                        </Text>
+                    ),
+                }} />
             </Tab.Navigator>
         </View>
     );

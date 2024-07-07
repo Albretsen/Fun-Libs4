@@ -3,7 +3,7 @@ import { View, Image } from "tamagui"
 export default function CoverImage(props: any) {
     const { item } = props;
 
-    return (<>{
+    return <>{item ? (<>{
         item.cover ?
             <Image height={100} source={{
                 uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${item.id}.png`,
@@ -15,5 +15,5 @@ export default function CoverImage(props: any) {
             <View height={100} backgroundColor={'$main4'} borderRadius={10}>
 
             </View>
-    }</>)
+    }</>) : null}</>
 }
