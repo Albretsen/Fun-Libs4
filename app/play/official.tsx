@@ -8,8 +8,9 @@ import ScrollableButtons from '../../src/components/ScrollableButtons/Scrollable
 export default function Tab() {
     return (
         <StyledContainer>
+            <ScrollableButtons />
             <List queryKey={"libs"} ListItem={Card} queryFn={async () => { return await supabase.from('libs').select(`*, profiles(*)`) }} />
-            <Link href="auth/login">GO TO LOGIN PAGE</Link>
+            {/* <Link href="auth/login">GO TO LOGIN PAGE</Link> */}
         </StyledContainer>
     );
 }
