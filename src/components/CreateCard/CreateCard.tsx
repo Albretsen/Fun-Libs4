@@ -4,19 +4,26 @@ import Separator from "../Card/Separator";
 import { useCreateContext } from "../../Contexts/CreateContext";
 import useKeyboardVisibility from "../../hooks/useKeyboardVisibility";
 import Actions from "../Card/Actions/Actions";
-import useCreateLogic from "../../hooks/useCreateLogic";
+import useLib from "../../hooks/useLib";
 
 export default function CreateCard() {
 
     const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
 
-    const { saveLib } = useCreateLogic();
+    const { uploadLib } = useLib();
 
     const isKeyboardVisible = useKeyboardVisibility();
 
     const save = async () => {
         try {
-            await saveLib(title, body);
+            await uploadLib(title, body);
+        } catch (error) {
+        }
+    }
+
+    const delete_ = async () => {
+        try {
+            console.log("deleting");
         } catch (error) {
         }
     }
@@ -32,7 +39,7 @@ export default function CreateCard() {
                 <Separator />
                 <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="Text here..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
             </View>
-            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} />}
+            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} onPressDelete={delete_} />}
         </View>
     )
 }

@@ -7,7 +7,7 @@ import { useLibStore } from '../../../src/hooks/useLibStore';
 export default function Tab() {
     const { getLib } = useLibStore();
 
-    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } })
+    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } });
 
     if (isFetching) {
         return <StyledContainer />;
