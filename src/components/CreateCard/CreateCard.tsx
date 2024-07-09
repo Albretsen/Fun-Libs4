@@ -5,10 +5,17 @@ import { useCreateContext } from "../../Contexts/CreateContext";
 import useKeyboardVisibility from "../../hooks/useKeyboardVisibility";
 import Actions from "../Card/Actions/Actions";
 import useLib from "../../hooks/useLib";
+import { router } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CreateCard() {
 
     const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
+
+    const navigation = useNavigation();
+
+    const queryClient = useQueryClient();
 
     const { uploadLib } = useLib();
 
@@ -16,7 +23,10 @@ export default function CreateCard() {
 
     const save = async () => {
         try {
+            router.replace('/');
+            navigation.navigate('Community');
             await uploadLib(title, body);
+            queryClient.invalidateQueries({ queryKey: ['community_libs'] });
         } catch (error) {
         }
     }

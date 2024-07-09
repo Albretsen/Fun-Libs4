@@ -5,6 +5,8 @@ import { router } from 'expo-router';
 import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import useLib from "../../../hooks/useLib";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
 
 interface ActionsProps {
     item?: any,
@@ -17,6 +19,10 @@ export default function Actions(props: ActionsProps) {
     const { item, variant = "read", onPressSave, onPressDelete } = props;
 
     const { getSession } = useAuth();
+
+    const queryClient = useQueryClient();
+
+    const navigation = useNavigation();
 
     const { deleteLib } = useLib();
 
@@ -43,9 +49,10 @@ export default function Actions(props: ActionsProps) {
         switch (variant) {
             case "play":
                 try {
-                    console.log("Deleting " + item.id);
+                    router.replace('/');
+                    navigation.navigate('Community');
                     await deleteLib(item.id);
-                    console.log("Success");
+                    queryClient.invalidateQueries({ queryKey: ['community_libs'] });
                 } catch (error) {
                     console.log(error);
                 }
