@@ -4,6 +4,7 @@ import { supabase } from "../../../supabase";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useSocial from "../../hooks/useSocial";
+import { formatNumber } from "../../utils/format";
 
 export default function Stats(props: any) {
     const { item } = props;
@@ -56,11 +57,11 @@ export default function Stats(props: any) {
         <XStack gap={16}>
             <XStack gap={4} alignItems={"center"} onPress={like}>
                 {liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />}
-                <Text>{likes} likes</Text>
+                <Text>{likes} {likes != 1 ? 'likes' : 'like'}</Text>
             </XStack>
             <XStack gap={4} alignItems={"center"}>
                 <Eye />
-                <Text>14k plays</Text>
+                <Text>{formatNumber(item.plays)} {item.plays != 1 ? 'plays' : 'play'}</Text>
             </XStack>
         </XStack>
     )
