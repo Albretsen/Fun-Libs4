@@ -1,5 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import { Spinner, SizableText, View } from "tamagui";
+import { SizableText, View } from "tamagui";
 import {
     useInfiniteQuery,
     useQueryClient,
@@ -8,6 +8,7 @@ import ListItemSeparator from "./ListItemSeparator";
 import { RefreshControl } from "react-native";
 import { useEffect, useState } from "react";
 import { PAGE_SIZE } from "../../../settings";
+import SkeletonCard from "../Card/SkeletonCard";
 
 export default function List(props: any) {
     const { queryKey, queryFn, ListItem } = props;
@@ -37,7 +38,7 @@ export default function List(props: any) {
     });
 
     useEffect(() => {
-        let temp_items: any = [];
+        const temp_items: any = [];
         if (!data) return;
         for (let i = 0; i < data.pages.length; i++) {
             for (let j = 0; j < data.pages[i].data.length; j++) {
@@ -57,11 +58,15 @@ export default function List(props: any) {
         }
     };
 
-    if (isFetching && !isFetchingNextPage) {
-        return (
-            <Spinner size="small" color="$color" />
-        );
-    }
+    // if (isFetching && !isFetchingNextPage) {
+    //     return (
+    //         <View flex={1}>
+    //             {[...Array(5)].map((_, index) => (
+    //                 <SkeletonCard key={index} />
+    //             ))}
+    //         </View>
+    //     );
+    // }
 
     if (isError) {
         return (
@@ -72,11 +77,17 @@ export default function List(props: any) {
     return (
         <View flex={1}>
             <FlashList
-                data={items}
+                data={isFetching && !isFetchingNextPage ? [] : items}
                 renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'} />}
                 keyExtractor={(item: any) => item.id}
                 estimatedItemSize={80}
-                ListEmptyComponent={<SizableText size={'$5'}>No results</SizableText>}
+                ListEmptyComponent={
+                    <View flex={1}>
+                        {[...Array(5)].map((_, index) => (
+                            <SkeletonCard key={index} />
+                        ))}
+                    </View>
+                }
                 onRefresh={refresh}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
