@@ -22,7 +22,7 @@ export default function Card(props: CardProps) {
     const config = variants[variant];
 
     return (
-        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} marginBottom={16}>
+        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <View>

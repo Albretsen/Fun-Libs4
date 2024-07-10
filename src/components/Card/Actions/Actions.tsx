@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import useLib from "../../../hooks/useLib";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 interface ActionsProps {
     item?: any,
@@ -54,6 +55,11 @@ export default function Actions(props: ActionsProps) {
                     await deleteLib(item.id);
                     queryClient.invalidateQueries({ queryKey: ['community_libs'] });
                 } catch (error) {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Error',
+                        text2: 'Please try again.'
+                    });
                     console.log(error);
                 }
                 break;

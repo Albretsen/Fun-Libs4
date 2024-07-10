@@ -8,6 +8,7 @@ import useLib from "../../hooks/useLib";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 export default function CreateCard() {
 
@@ -28,6 +29,13 @@ export default function CreateCard() {
             await uploadLib(title, body);
             queryClient.invalidateQueries({ queryKey: ['community_libs'] });
         } catch (error) {
+            router.replace('/create');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please try again.'
+            });
+            console.log(error);
         }
     }
 
@@ -47,7 +55,7 @@ export default function CreateCard() {
                     <SizableText size={'$4'} fontWeight={400}>by you</SizableText>
                 </View>
                 <Separator />
-                <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="Text here..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
+                <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="In an (Adjective) forest, a man named (Name)..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
             </View>
             {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} onPressDelete={delete_} />}
         </View>
