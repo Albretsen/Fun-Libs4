@@ -8,6 +8,7 @@ import ListItemSeparator from "./ListItemSeparator";
 import { RefreshControl } from "react-native";
 import { useEffect, useState } from "react";
 import { PAGE_SIZE } from "../../../settings";
+import SkeletonCard from "../Card/SkeletonCard";
 
 export default function List(props: any) {
     const { queryKey, queryFn, ListItem } = props;
@@ -59,7 +60,11 @@ export default function List(props: any) {
 
     if (isFetching && !isFetchingNextPage) {
         return (
-            <Spinner size="small" color="$color" />
+            <View flex={1}>
+                {[...Array(5)].map((_, index) => (
+                    <SkeletonCard key={index} />
+                ))}
+            </View>
         );
     }
 
