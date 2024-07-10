@@ -1,8 +1,22 @@
 import Lib from '../utils/libs';
 import nlp from 'compromise';
 import levenshteinDistance from '../utils/levenshtein';
+import { supabase } from '../../supabase';
 
 export default function useLib() {
+	const uploadLib = async (title: string, body: string) => {
+		let lib = parseTextToLib(body);
+		const { data, error } = await supabase.from('libs').insert({ ...lib, title });
+		if (error !== null) throw error;
+		return data;
+	};
+
+	const deleteLib = async (id: string) => {
+		const { data, error } = await supabase.from('libs').delete().eq('id', id);
+		if (error !== null) throw error;
+		return data;
+	};
+
 	const getPrompt = (item: Lib, pointer: number) => {
 		try {
 			return Object.keys(item.parsed_prompts[pointer])[0];
@@ -133,5 +147,11 @@ export default function useLib() {
 		return { parsed_text, parsed_prompts };
 	};
 
-	return { parseTextToLib, getPromptDescription, getPrompt };
+	return {
+		parseTextToLib,
+		getPromptDescription,
+		getPrompt,
+		uploadLib,
+		deleteLib,
+	};
 }

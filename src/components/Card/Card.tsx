@@ -7,6 +7,7 @@ import GameControls from "./GameControls";
 import Actions from "./Actions/Actions";
 import { useLibStore } from "../../hooks/useLibStore";
 import HighlightedText from "./HighlightedText";
+import { supabase } from "../../../supabase";
 
 interface CardProps {
     item: any,
@@ -21,7 +22,7 @@ export default function Card(props: CardProps) {
     const config = variants[variant];
 
     return (
-        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} marginBottom={16}>
+        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <View>
@@ -35,7 +36,10 @@ export default function Card(props: CardProps) {
                     <View>
                         <XStack justifyContent="space-between">
                             {config.stats ? <Stats item={item} /> : null}
-                            {config.playButton ? <Link onPress={() => setLib(item)} href={{
+                            {config.playButton ? <Link onPress={async () => {
+                                setLib(item);
+                                await supabase.rpc('increment_plays', { p_id: item.id });
+                            }} href={{
                                 pathname: "/play/view",
                             }} asChild>
                                 <Button borderRadius={100} backgroundColor={'$main4'}> Play </Button>

@@ -1,5 +1,6 @@
 import { supabase } from '../../supabase';
 import useAuth from './useAuth';
+import useLib from './useLib';
 
 export default function useSocial() {
 	const { session } = useAuth();
