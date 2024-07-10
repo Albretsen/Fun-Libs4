@@ -12,12 +12,6 @@ export default function useCreateLogic() {
 		start: 0,
 	});
 
-	const saveLib = async (title: string, body: string) => {
-		let lib = parseTextToLib(body);
-		const { data, error } = await supabase.from('libs').insert({ ...lib, title });
-		if (error !== null) throw error;
-	};
-
 	const addPrompt = (prompt: string) => {
 		prompt = '(' + prompt + ')';
 
@@ -42,6 +36,5 @@ export default function useCreateLogic() {
 		addPrompt,
 		setCursorPosition,
 		cursorPosition,
-		saveLib,
 	};
 }

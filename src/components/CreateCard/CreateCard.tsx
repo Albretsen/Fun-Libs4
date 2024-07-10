@@ -4,19 +4,50 @@ import Separator from "../Card/Separator";
 import { useCreateContext } from "../../Contexts/CreateContext";
 import useKeyboardVisibility from "../../hooks/useKeyboardVisibility";
 import Actions from "../Card/Actions/Actions";
-import useCreateLogic from "../../hooks/useCreateLogic";
+import useLib from "../../hooks/useLib";
+import { router } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
+import useError from "../../hooks/useError";
 
 export default function CreateCard() {
 
     const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
 
-    const { saveLib } = useCreateLogic();
+    const { parseTextToLib } = useLib();
+
+    const { funLibsError } = useError();
+
+    const navigation = useNavigation();
+
+    const queryClient = useQueryClient();
+
+    const { uploadLib } = useLib();
 
     const isKeyboardVisible = useKeyboardVisibility();
 
     const save = async () => {
         try {
-            await saveLib(title, body);
+            router.replace('/');
+            navigation.navigate('Community');
+            validate({ ...parseTextToLib(body), title })
+            await uploadLib(title, body);
+            queryClient.invalidateQueries({ queryKey: ['community_libs'] });
+        } catch (error: unknown) {
+            router.replace('/create');
+            funLibsError(error);
+        }
+    }
+
+    const validate = (lib: any) => {
+        if (!(lib.title && lib.title.length > 0)) throw Error("Add a title.");
+        if (!(lib.parsed_text && lib.parsed_text.length > 0)) throw Error("Add a text.");
+        if (!(lib.parsed_prompts && lib.parsed_prompts.length > 0)) throw Error("Add a prompt.");
+    }
+
+    const delete_ = async () => {
+        try {
+            console.log("deleting");
         } catch (error) {
         }
     }
@@ -30,9 +61,9 @@ export default function CreateCard() {
                     <SizableText size={'$4'} fontWeight={400}>by you</SizableText>
                 </View>
                 <Separator />
-                <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="Text here..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
+                <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={'$placeholder'} multiline={true} verticalAlign={'top'} placeholder="In an (Adjective) forest, a man named (Name)..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
             </View>
-            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} />}
+            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} onPressDelete={delete_} />}
         </View>
     )
 }

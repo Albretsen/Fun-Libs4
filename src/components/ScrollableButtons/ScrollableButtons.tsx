@@ -3,7 +3,7 @@ import Button from "./Button"
 
 export default function ScrollableButtons() {
     return (
-        <View style={{ marginTop: 16 }}>
+        <View style={{ marginBottom: 16 }}>
             <ScrollView horizontal>
                 <XStack gap={16}>
                     <Button label="Free" state="active" />
