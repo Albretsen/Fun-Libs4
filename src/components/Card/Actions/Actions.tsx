@@ -8,6 +8,7 @@ import useLib from "../../../hooks/useLib";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import useError from "../../../hooks/useError";
 
 interface ActionsProps {
     item?: any,
@@ -20,6 +21,8 @@ export default function Actions(props: ActionsProps) {
     const { item, variant = "read", onPressSave, onPressDelete } = props;
 
     const { getSession } = useAuth();
+
+    const { funLibsError } = useError();
 
     const queryClient = useQueryClient();
 
@@ -55,12 +58,7 @@ export default function Actions(props: ActionsProps) {
                     await deleteLib(item.id);
                     queryClient.invalidateQueries({ queryKey: ['community_libs'] });
                 } catch (error) {
-                    Toast.show({
-                        type: 'error',
-                        text1: 'Error',
-                        text2: 'Please try again.'
-                    });
-                    console.log(error);
+                    funLibsError(error);
                 }
                 break;
             default:

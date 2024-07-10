@@ -8,11 +8,15 @@ import useLib from "../../hooks/useLib";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
+import useError from "../../hooks/useError";
 
 export default function CreateCard() {
 
     const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
+
+    const { parseTextToLib } = useLib();
+
+    const { funLibsError } = useError();
 
     const navigation = useNavigation();
 
@@ -26,17 +30,19 @@ export default function CreateCard() {
         try {
             router.replace('/');
             navigation.navigate('Community');
+            validate({ ...parseTextToLib(body), title })
             await uploadLib(title, body);
             queryClient.invalidateQueries({ queryKey: ['community_libs'] });
-        } catch (error) {
+        } catch (error: unknown) {
             router.replace('/create');
-            Toast.show({
-                type: 'error',
-                text1: 'Error',
-                text2: 'Please try again.'
-            });
-            console.log(error);
+            funLibsError(error);
         }
+    }
+
+    const validate = (lib: any) => {
+        if (!(lib.title && lib.title.length > 0)) throw Error("Add a title.");
+        if (!(lib.parsed_text && lib.parsed_text.length > 0)) throw Error("Add a text.");
+        if (!(lib.parsed_prompts && lib.parsed_prompts.length > 0)) throw Error("Add a prompt.");
     }
 
     const delete_ = async () => {
