@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SizableText } from 'tamagui';
+import { View, SizableText, XStack } from 'tamagui';
 import { Animated, Easing } from 'react-native';
 
 const SkeletonCard = () => {
@@ -46,8 +46,13 @@ const SkeletonCard = () => {
                 <View style={{ width: '100%', height: 100, marginBottom: 16, position: 'relative', overflow: 'hidden' }}>
                     <Animated.View style={[shimmerStyle, { opacity: 0.7 }]} />
                 </View>
-                <SizableText size={'$8'} fontWeight={900} style={{ width: '80%', backgroundColor: '#f0f0f0', marginBottom: 16 }}></SizableText>
-                <SizableText size={'$4'} fontWeight={400} style={{ width: '50%', backgroundColor: '#f0f0f0', marginBottom: 16 }}></SizableText>
+                <XStack gap={16}>
+                    <View width={48} height={48} backgroundColor={'#f0f0f0'} borderRadius={1000}></View>
+                    <View flex={1}>
+                        <SizableText size={'$8'} fontWeight={900} style={{ width: '80%', backgroundColor: '#f0f0f0', marginBottom: 16 }}></SizableText>
+                        <SizableText size={'$4'} fontWeight={400} style={{ width: '50%', backgroundColor: '#f0f0f0', marginBottom: 16 }}></SizableText>
+                    </View>
+                </XStack>
                 <View style={{ width: '100%', height: 1, backgroundColor: '#f0f0f0', marginTop: -12, marginBottom: 16 }}></View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ width: 100, height: 16, backgroundColor: '#f0f0f0', marginBottom: 16 }}></View>
