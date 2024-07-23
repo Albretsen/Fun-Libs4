@@ -1,4 +1,4 @@
-import { View, SizableText, XStack, Button } from "tamagui";
+import { View, SizableText, XStack, Button, Image } from "tamagui";
 import CoverImage from "./CoverImage";
 import Stats from "./Stats";
 import { Link } from "expo-router";
@@ -25,10 +25,15 @@ export default function Card(props: CardProps) {
         <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
-                <View>
-                    <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
-                    <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
-                </View>
+                <XStack gap={16}>
+                    <Image height={48} width={48} backgroundColor={'$main6'} objectFit="contain" source={{
+                        uri: item.profiles.avatar_url ? item.profiles.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                    }} borderRadius={1000}></Image>
+                    <View>
+                        <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
+                        <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
+                    </View>
+                </XStack>
                 {config.separator ? <Separator /> : null}
                 {config.text ? <View flex={1} marginTop={-12} marginBottom={-16}><HighlightedText item={item} /></View> : null}
                 {config.gameControls ? <GameControls item={item} /> : null}
