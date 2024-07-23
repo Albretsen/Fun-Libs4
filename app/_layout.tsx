@@ -4,7 +4,7 @@ import { TamaguiProvider, View } from '@tamagui/core';
 import config from '../tamagui.config';
 import { useLoadAssets } from '../src/hooks/loading/useLoadAssets';
 import { Stack } from 'expo-router/stack';
-import { Theme } from 'tamagui';
+import { SizableText, Theme } from 'tamagui';
 import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts';
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
@@ -16,6 +16,7 @@ import {
 } from '@tanstack/react-query';
 import { CreateProvider } from '../src/Contexts/CreateContext';
 import Toast from 'react-native-toast-message';
+import Header from '../src/components/Header';
 
 const queryClient = new QueryClient();
 
@@ -33,11 +34,14 @@ export default function App() {
                 <Theme name="light">
                     <CreateProvider>
                         {session && session.user ?
-                            <Stack
-                                screenOptions={{
-                                    headerShown: false
-                                }}
-                            />
+                            <>
+                                <Header />
+                                <Stack
+                                    screenOptions={{
+                                        headerShown: false,
+                                    }}
+                                />
+                            </>
                             :
                             <LoginScreen />}
                         <Toast config={toastConfig} />
