@@ -81,11 +81,14 @@ export default function List(props: any) {
                 renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'} />}
                 keyExtractor={(item: any) => item.id}
                 estimatedItemSize={80}
-                ListEmptyComponent={
+                ListEmptyComponent={isFetching ?
                     <View flex={1}>
                         {[...Array(5)].map((_, index) => (
                             <SkeletonCard key={index} />
                         ))}
+                    </View> :
+                    <View flex={1}>
+                        <SizableText size={'$5'}>No results</SizableText>
                     </View>
                 }
                 onRefresh={refresh}
