@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import useLib from "../../../hooks/useLib";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
 import useError from "../../../hooks/useError";
 
 interface ActionsProps {
@@ -32,6 +31,8 @@ export default function Actions(props: ActionsProps) {
 
     const [userId, setUserId] = useState<string>();
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     useEffect(() => {
         const getUserId = async () => {
             setUserId((await getSession())?.user.id)
@@ -45,8 +46,18 @@ export default function Actions(props: ActionsProps) {
         router.replace("/play/view");
     }
 
-    const save = () => {
-        console.log("save not implemented");
+    const save = async () => {
+        if (onPressSave) {
+            setLoading(true);
+            try {
+                await onPressSave();
+                setLoading(false);
+            } catch {
+                setLoading(false);
+            }
+        } else {
+            console.log("Not implemented");
+        }
     }
 
     const delete_ = async () => {
@@ -69,13 +80,25 @@ export default function Actions(props: ActionsProps) {
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} backgroundColor={'$background'} paddingVertical={8}>
             <XStack justifyContent="space-evenly" alignItems="center" flexWrap="wrap">
-                {config.save ? <ActionButton label={"Save"} icon={Save} onPress={onPressSave ? onPressSave : save} /> : null}
-                {config.like ? <ActionButton label={"28 likes"} icon={Heart} /> : null}
+                {variant === 'create' ? <>
+                    <ActionButton label={"Publish"} icon={Save} onPress={save} loading={loading} />
+                    <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} />
+                </> : null}
+                {variant === 'play' ? <>
+                    <ActionButton label={"28 likes"} icon={Heart} />
+                    <ActionButton label={"Share"} icon={Share} />
+                    <ActionButton label={"Profile"} icon={User} />
+                </> : null}
+                {variant === 'read' ? <>
+                </> : null}
+                {variant === 'listItem' ? <>
+                </> : null}
+                {/* {config.like ? <ActionButton label={"28 likes"} icon={Heart} /> : null}
                 {config.restart ? <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null}
                 {config.share ? <ActionButton label={"Share"} icon={Share} /> : null}
                 {item?.author === userId ? <ActionButton label={"Edit"} icon={Pen} /> : null}
                 {item?.author === userId ? <ActionButton label={"Delete"} icon={Trash} onPress={onPressDelete ? onPressDelete : delete_} /> : null}
-                {config.profile ? <ActionButton label={"Profile"} icon={User} /> : null}
+                {config.profile ? <ActionButton label={"Profile"} icon={User} /> : null} */}
             </XStack>
         </View>
     )

@@ -28,10 +28,10 @@ export default function CreateCard() {
 
     const save = async () => {
         try {
-            router.replace('/');
-            navigation.navigate('Community');
             validate({ ...parseTextToLib(body), title })
             await uploadLib(title, body);
+            router.replace('/');
+            navigation.navigate('Community');
             queryClient.invalidateQueries({ queryKey: ['community_libs'] });
         } catch (error: unknown) {
             router.replace('/create');
