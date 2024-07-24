@@ -7,7 +7,7 @@ export default function Header() {
         <Stack.Screen
             options={{
                 headerShown: true,
-                header: () => <SafeAreaView><Text>TEST</Text><Input></Input></SafeAreaView>
+                header: (props) => <SafeAreaView><Text>{JSON.stringify(props)}</Text><Input></Input></SafeAreaView>
             }}
         />
     )
