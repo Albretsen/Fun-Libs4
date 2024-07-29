@@ -44,8 +44,9 @@ export default function TabLayout() {
                     ),
                 }}
             />
-            <Tabs.Screen
+            {/* <Tabs.Screen
                 name="read"
+
                 options={{
                     title: 'Read',
                     tabBarIcon: ({ focused }) => (
@@ -59,7 +60,7 @@ export default function TabLayout() {
                         </View>
                     ),
                 }}
-            />
+            /> */}
             <Tabs.Screen
                 name="create"
                 options={{

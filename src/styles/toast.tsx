@@ -1,4 +1,5 @@
 import { View, SizableText } from 'tamagui';
+import { ToastConfigParams } from 'react-native-toast-message';
 
 /*
   1. Create the config
