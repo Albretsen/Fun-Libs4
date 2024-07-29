@@ -46,12 +46,7 @@ export default function useAuth() {
 		if (error) Alert.alert(error.message);
 	};
 
-	const signUp = async (
-		email: string,
-		username: string,
-		password: string,
-		guest = false,
-	) => {
+	const signUp = async (email: string, username: string, password: string) => {
 		const {
 			data: { session },
 			error,
@@ -60,12 +55,34 @@ export default function useAuth() {
 			password,
 		});
 
-		console.log(JSON.stringify(session));
-
 		await supabase
 			.from('profiles')
-			.update({ username, email, guest })
+			.update({ username, email })
 			.eq('id', session?.user.id);
+
+		if (error) Alert.alert(error.message);
+		if (!session) Alert.alert('Please check your inbox for email verification!');
+	};
+
+	const anonToPermanentUser = async (
+		email: string,
+		username: string,
+		password: string,
+	) => {
+		let { data, error } = await supabase.auth.updateUser({
+			email,
+		});
+
+		let { data_, error_ } = await supabase.auth.updateUser({
+			password,
+		});
+
+		if (session) {
+			await supabase
+				.from('profiles')
+				.update({ username, email })
+				.eq('id', session.user.id);
+		}
 
 		if (error) Alert.alert(error.message);
 		if (!session) Alert.alert('Please check your inbox for email verification!');
@@ -82,5 +99,13 @@ export default function useAuth() {
 		if (error) Alert.alert(error.message);
 	};
 
-	return { signIn, signUp, signOut, signInAnonymously, session, getSession };
+	return {
+		signIn,
+		signUp,
+		signOut,
+		signInAnonymously,
+		session,
+		getSession,
+		anonToPermanentUser,
+	};
 }

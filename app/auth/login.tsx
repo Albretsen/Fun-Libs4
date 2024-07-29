@@ -6,6 +6,7 @@ import useAuth from '../../src/hooks/useAuth';
 import { StyledContainer } from '../../src/styles/styles';
 import { validateEmail } from '../../src/utils/validation';
 import Toast from 'react-native-toast-message';
+import SignUp from '../../src/components/Auth/SignUp';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ export default function LoginScreen() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [state, setState] = useState<'signin' | 'signup' | undefined>(undefined);
-    const { signIn, signUp, signInAnonymously } = useAuth();
+    const { signIn, signInAnonymously } = useAuth();
 
     const accountAlreadyExists = async () => {
         const result = await supabase.from('profiles').select().eq('email', email);
@@ -50,12 +51,6 @@ export default function LoginScreen() {
         setLoading(false);
     }
 
-    async function signUpWithEmail() {
-        setLoading(true);
-        await signUp(email, username, password);
-        setLoading(false);
-    }
-
     async function devSignIn() {
         setLoading(true);
         const { error } = await supabase.auth.signInWithPassword({
@@ -80,22 +75,16 @@ export default function LoginScreen() {
                         </>
                         : null}
                     {state === 'signup' ?
-                        <>
-                            <Input onChangeText={(text) => setUsername(text)} value={username} placeholder={`Username`} borderColor={'$main12'} />
-                            <Input onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
-                            <Input onChangeText={(text) => setConfirmPassword(text)} value={confirmPassword} secureTextEntry={true} placeholder={`Confirm password`} borderColor={'$main12'} />
-                            <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => signUpWithEmail()} >Sign up</Button>
-                        </>
+                        <SignUp email={email} />
                         : null}
                     {state === undefined ? <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => continue_()} >{'Continue'}</Button> : null}
                 </View>
                 <SizableText size={'$4'}>or</SizableText>
                 <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => signInAnonymously_()}>Continue as Guest</Button>
-                <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'}>Sign in with Google</Button>
                 {process.env.EXPO_PUBLIC_DEVELOPMENT_MODE ? <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => devSignIn()}>Auto sign in (Development mode only)</Button> : null}
             </View>
             <View alignItems='center' paddingBottom={16}>
-                <SizableText size={'$5'} textDecorationLine='underline'>Skip</SizableText>
+                <SizableText size={'$5'} textDecorationLine='underline' onPress={() => signInAnonymously_()}>Skip</SizableText>
             </View>
         </StyledContainer>
     )
