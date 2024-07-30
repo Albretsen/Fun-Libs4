@@ -11,7 +11,7 @@ export default function TabLayout() {
     const theme = useTheme();
 
     return (
-        <View flex={1} backgroundColor={'$background'}>
+        <View flex={1} backgroundColor={'$background'} >
             <Header />
             <Tab.Navigator screenOptions={{
                 swipeEnabled: false,

@@ -4,6 +4,7 @@ import { Button, View, SizableText } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import { Stack } from 'expo-router';
+import Header from '../../src/components/Header';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
@@ -12,11 +13,7 @@ export default function Tab() {
         <>
             {!session?.user.is_anonymous ?
                 <StyledContainer>
-                    <Stack.Screen
-                        options={{
-                            headerShown: false,
-                        }}
-                    />
+                    <Header />
                     <Text>Tab Profile</Text>
                     <Button onPress={() => signOut()}>Sign out</Button>
                 </StyledContainer>
