@@ -8,11 +8,17 @@ export default function useAds() {
 			? 'ca-app-pub-1354741235649835/9424468100'
 			: 'ca-app-pub-1354741235649835/2448171228';
 
+	const InterstitialAdID = process.env.EXPO_PUBLIC_DEVELOPMENT_MODE
+		? TestIds.INTERSTITIAL
+		: Platform.OS === 'android'
+			? 'ca-app-pub-1354741235649835/4619107832'
+			: 'ca-app-pub-1354741235649835/2967045976';
+
 	const initializeAds = async () => {
 		await mobileAds()
 			.initialize()
 			.then(adapterStatuses => {});
 	};
 
-	return { initializeAds, BannerAdID };
+	return { initializeAds, BannerAdID, InterstitialAdID };
 }
