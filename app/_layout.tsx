@@ -1,6 +1,6 @@
 import React from 'react';
 import '@tamagui/core/reset.css';
-import { TamaguiProvider, View } from '@tamagui/core';
+import { TamaguiProvider } from '@tamagui/core';
 import config from '../tamagui.config';
 import { useLoadAssets } from '../src/hooks/loading/useLoadAssets';
 import { Stack } from 'expo-router/stack';
@@ -35,7 +35,7 @@ export default function App() {
                         {session && session.user ?
                             <Stack
                                 screenOptions={{
-                                    headerShown: false
+                                    headerShown: false,
                                 }}
                             />
                             :

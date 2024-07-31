@@ -3,6 +3,7 @@ import OfficialTab from '../play/official';
 import CommunityTab from '../play/community';
 import { View, useTheme, Text } from 'tamagui';
 import { Dimensions } from 'react-native';
+import Header from '../../src/components/Header';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -10,7 +11,8 @@ export default function TabLayout() {
     const theme = useTheme();
 
     return (
-        <View flex={1} backgroundColor={'$background'}>
+        <View flex={1} backgroundColor={'$background'} >
+            <Header />
             <Tab.Navigator screenOptions={{
                 swipeEnabled: false,
                 tabBarStyle: {

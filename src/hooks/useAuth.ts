@@ -53,12 +53,15 @@ export default function useAuth() {
 		} = await supabase.auth.signUp({
 			email,
 			password,
+			options: {
+				data: {
+					username,
+					email,
+					avatar_url:
+						'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+				},
+			},
 		});
-
-		await supabase
-			.from('profiles')
-			.update({ username, email })
-			.eq('id', session?.user.id);
 
 		if (error) Alert.alert(error.message);
 		if (!session) Alert.alert('Please check your inbox for email verification!');
@@ -69,11 +72,11 @@ export default function useAuth() {
 		username: string,
 		password: string,
 	) => {
-		let { data, error } = await supabase.auth.updateUser({
+		const { data, error } = await supabase.auth.updateUser({
 			email,
 		});
 
-		let { data_, error_ } = await supabase.auth.updateUser({
+		await supabase.auth.updateUser({
 			password,
 		});
 

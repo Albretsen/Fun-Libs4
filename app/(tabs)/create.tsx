@@ -4,6 +4,8 @@ import KeyboardExtender from '../../src/components/Misc/KeyboardExtender';
 import { SizableText, View } from 'tamagui';
 import SignUp from '../../src/components/Auth/SignUp';
 import useAuth from '../../src/hooks/useAuth';
+import { Stack } from 'expo-router';
+import Header from '../../src/components/Header';
 
 export default function Tab() {
 
@@ -13,6 +15,7 @@ export default function Tab() {
         <>
             {!session?.user.is_anonymous ?
                 <View flex={1}>
+                    <Header />
                     <StyledContainer>
                         <CreateCard />
                     </StyledContainer>
