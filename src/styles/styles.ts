@@ -7,4 +7,5 @@ export const StyledContainer = styled(View, {
 	paddingLeft: 16,
 	paddingRight: 16,
 	paddingTop: 16,
+	paddingBottom: 16,
 });

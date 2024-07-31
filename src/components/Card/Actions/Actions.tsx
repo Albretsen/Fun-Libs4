@@ -1,13 +1,15 @@
-import { View, XStack } from "tamagui";
-import { Heart, Share, User, RotateCcw, Save, Trash, Pen } from "@tamagui/lucide-icons";
+import { useTheme, View, XStack } from "tamagui";
+import { Heart, Share, User, RotateCcw, Save } from "@tamagui/lucide-icons";
 import ActionButton from "./ActionButton";
 import { router } from 'expo-router';
-import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import useLib from "../../../hooks/useLib";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import useError from "../../../hooks/useError";
+import useLikes from "../../../hooks/useLikes";
+import { useLibStore } from "../../../hooks/useLibStore";
+import useShare from "../../../hooks/useShare";
 
 interface ActionsProps {
     item?: any,
@@ -19,9 +21,9 @@ interface ActionsProps {
 export default function Actions(props: ActionsProps) {
     const { item, variant = "read", onPressSave, onPressDelete } = props;
 
-    const { getSession } = useAuth();
-
     const { funLibsError } = useError();
+
+    const { shareLib } = useShare();
 
     const queryClient = useQueryClient();
 
@@ -29,18 +31,11 @@ export default function Actions(props: ActionsProps) {
 
     const { deleteLib } = useLib();
 
-    const [userId, setUserId] = useState<string>();
-
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        const getUserId = async () => {
-            setUserId((await getSession())?.user.id)
-        }
-        getUserId();
-    }, [])
+    const theme = useTheme();
 
-    const config = variants[variant];
+    const { like, likes, liked } = useLikes(item);
 
     const restart = () => {
         router.replace("/play/view");
@@ -82,14 +77,14 @@ export default function Actions(props: ActionsProps) {
             <XStack justifyContent="space-evenly" alignItems="center" flexWrap="wrap">
                 {variant === 'create' ? <>
                     <ActionButton label={"Publish"} icon={Save} onPress={save} loading={loading} />
-                    <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} />
                 </> : null}
                 {variant === 'play' ? <>
-                    <ActionButton label={"28 likes"} icon={Heart} />
-                    <ActionButton label={"Share"} icon={Share} />
+                    <ActionButton label={likes + " " + (likes != 1 ? 'likes' : 'like')} onPress={like} icon={liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />} />
                     <ActionButton label={"Profile"} icon={User} />
                 </> : null}
                 {variant === 'read' ? <>
+                    <ActionButton label={"Share"} icon={Share} onPress={() => shareLib(item)} />
+                    <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} />
                 </> : null}
                 {variant === 'listItem' ? <>
                 </> : null}
@@ -102,32 +97,4 @@ export default function Actions(props: ActionsProps) {
             </XStack>
         </View>
     )
-};
-
-const variants: any = {
-    play: {
-        restart: false,
-        like: true,
-        share: true,
-        profile: true,
-    },
-    read: {
-        restart: true,
-        like: true,
-        share: true,
-        profile: true,
-    },
-    listItem: {
-        restart: false,
-        like: false,
-        share: false,
-        profile: false,
-    },
-    create: {
-        restart: true,
-        like: false,
-        share: false,
-        profile: false,
-        save: true,
-    }
 };
