@@ -147,8 +147,35 @@ export default function useLib() {
 		return { parsed_text, parsed_prompts };
 	};
 
+	const parseLibToText = (lib: any) => {
+		let result = '';
+		lib.parsed_text.map((text: string, index: number) => {
+			if (index % 2 === 0) result += text;
+			if (index % 2 !== 0) {
+				let highlighted_word = text;
+				if (lib.user_input) {
+					try {
+						for (let i = 0; i < lib.parsed_prompts.length; i++) {
+							if (
+								lib.parsed_prompts[i][Object.keys(lib.parsed_prompts[i])[0]].includes(
+									index,
+								)
+							) {
+								highlighted_word = lib.user_input[i];
+								break;
+							}
+						}
+					} catch (error) {}
+				}
+				result += highlighted_word;
+			}
+		});
+		return result;
+	};
+
 	return {
 		parseTextToLib,
+		parseLibToText,
 		getPromptDescription,
 		getPrompt,
 		uploadLib,

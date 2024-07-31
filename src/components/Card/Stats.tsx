@@ -22,7 +22,7 @@ export default function Stats(props: any) {
 
     const getLikes = async () => {
         const result = await supabase.from('likes').select('*', { count: 'exact' }).eq('lib_id', item.id);
-        let session = await getSession();
+        const session = await getSession();
         if (session && 'user' in session && session.user?.id) {
             result.data?.forEach(async (item_) => {
                 if (item_.user_id && item_.user_id === session.user.id) {
@@ -37,7 +37,7 @@ export default function Stats(props: any) {
         if (!liked) {
             setLiked(true);
             setLikes(likes + 1);
-            let result = await addLike(item.id);
+            const result = await addLike(item.id);
             if (result.error != null) {
                 setLikes(likes);
                 setLiked(false);
@@ -45,7 +45,7 @@ export default function Stats(props: any) {
         } else {
             setLiked(false);
             setLikes(likes - 1);
-            let result = await removeLike(item.id);
+            const result = await removeLike(item.id);
             if (result.error != null) {
                 setLikes(likes);
                 setLiked(true);
