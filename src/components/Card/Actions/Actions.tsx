@@ -37,10 +37,6 @@ export default function Actions(props: ActionsProps) {
 
     const { like, likes, liked } = useLikes(item);
 
-    useEffect(() => {
-        console.log(liked);
-    }, [liked]);
-
     const restart = () => {
         router.replace("/play/view");
     }
