@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../supabase';
 import { AppState } from 'react-native';
+import useAds from '../useAds';
 
 export const useInitializeScripts = () => {
 	const [isLoadingComplete, setIsLoadingComplete] = useState(false);
+
+	const { initializeAds } = useAds();
 
 	useEffect(() => {
 		const initializeScripts = async () => {
 			try {
 				addAuthRefresh();
+				await initializeAds();
 			} catch (error) {
 				console.warn(error);
 			} finally {
@@ -17,7 +21,7 @@ export const useInitializeScripts = () => {
 		};
 
 		initializeScripts();
-	}, []);
+	}, [initializeAds]);
 
 	const addAuthRefresh = () => {
 		AppState.addEventListener('change', state => {
