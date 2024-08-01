@@ -1,10 +1,15 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import useLib from './useLib';
 import Lib from '../utils/libs';
 import { router } from 'expo-router';
 import { useLibStore } from './useLibStore';
+import { useInterstitialAd } from 'react-native-google-mobile-ads';
+import useAds from './useAds';
 
 export default function useGameLogic(item: Lib) {
+	const { InterstitialAdID } = useAds();
+	const { isLoaded, isClosed, load, show } = useInterstitialAd(InterstitialAdID);
+
 	const { getPrompt, getPromptDescription } = useLib();
 	const { getLib, setLib } = useLibStore();
 
@@ -53,8 +58,25 @@ export default function useGameLogic(item: Lib) {
 		let lib = getLib();
 		lib.user_input = finalInputs;
 		setLib(lib);
-		router.replace('/play/read'); //TODO: decide between "navigate" and "replace" method
+		if (isLoaded) {
+			// Shows ad
+			show();
+		} else {
+			router.replace('/play/read');
+		}
 	};
+
+	useEffect(() => {
+		// Loads ad
+		load();
+	}, [load]);
+
+	useEffect(() => {
+		if (isClosed) {
+			// Action after the ad is closed
+			router.replace('/play/read');
+		}
+	}, [isClosed, router]);
 
 	return {
 		prompt,

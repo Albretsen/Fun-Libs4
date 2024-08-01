@@ -15,7 +15,7 @@ export default function Header() {
             options={{
                 headerShown: true,
                 header: (props) =>
-                    <SafeAreaView>
+                    <View>
                         {!props.back ?
                             <View backgroundColor={'$background'}>
                                 <XStack margin={16} height={32} alignItems="center" >
@@ -36,7 +36,7 @@ export default function Header() {
                                 </XStack>
                             </View>
                         }
-                    </SafeAreaView>
+                    </View>
             }}
         />
     )

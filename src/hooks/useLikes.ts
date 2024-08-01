@@ -16,6 +16,7 @@ export default function useLikes(item: any) {
 	}, []);
 
 	const getLikes = async () => {
+		if (!item) return;
 		const session = await getSession();
 		const result = await supabase
 			.from('likes')
@@ -32,6 +33,7 @@ export default function useLikes(item: any) {
 	};
 
 	const like = async () => {
+		if (!item) return;
 		if (!liked) {
 			setLiked(true);
 			setLikes(likes + 1);

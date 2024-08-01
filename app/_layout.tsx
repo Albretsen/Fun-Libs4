@@ -9,6 +9,7 @@ import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts'
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
 import { toastConfig } from '../src/styles/toast';
+import { BannerAd } from 'react-native-google-mobile-ads';
 
 import {
     QueryClient,
@@ -16,6 +17,8 @@ import {
 } from '@tanstack/react-query';
 import { CreateProvider } from '../src/Contexts/CreateContext';
 import Toast from 'react-native-toast-message';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import useAds from '../src/hooks/useAds';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,8 @@ export default function App() {
 
     const { session } = useAuth();
 
+    const { BannerAdID } = useAds();
+
     if (!assetsLoaded || !scriptsLoaded) return null;
 
     return (
@@ -33,11 +38,14 @@ export default function App() {
                 <Theme name="light">
                     <CreateProvider>
                         {session && session.user ?
-                            <Stack
-                                screenOptions={{
-                                    headerShown: false,
-                                }}
-                            />
+                            <SafeAreaView style={{ flex: 1 }}>
+                                <Stack
+                                    screenOptions={{
+                                        headerShown: false,
+                                    }}
+                                />
+                                <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
+                            </SafeAreaView>
                             :
                             <LoginScreen />}
                         <Toast config={toastConfig} />
