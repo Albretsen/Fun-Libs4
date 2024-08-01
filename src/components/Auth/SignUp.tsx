@@ -49,7 +49,6 @@ export default function SignUp(props: SignUpProps) {
         if (!session?.user.is_anonymous) {
             await signUp(email_, username, password);
         } else {
-            console.log("Anon signup");
             await anonToPermanentUser(email_, username, password);
         }
         setLoading(false);

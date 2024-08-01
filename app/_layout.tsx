@@ -30,8 +30,6 @@ export default function App() {
 
     const { BannerAdID } = useAds();
 
-    console.log(BannerAdID);
-
     if (!assetsLoaded || !scriptsLoaded) return null;
 
     return (
