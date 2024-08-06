@@ -22,6 +22,7 @@ export default function TabLayout() {
             },
             tabBarStyle: {
                 height: 64,
+                backgroundColor: theme.main2.val,
                 display: pagesToHideTabBar.includes(page) && isKeyboardVisible ? 'none' : 'flex'
             },
             tabBarIconStyle: {
@@ -34,7 +35,7 @@ export default function TabLayout() {
                     title: 'Play',
                     tabBarIcon: ({ focused }) => (
                         <View style={{
-                            backgroundColor: focused ? theme.main3.val : 'transparent',
+                            backgroundColor: focused ? theme.main4.val : 'transparent',
                             borderRadius: 8,
                             paddingVertical: 4,
                             paddingHorizontal: 14,
@@ -67,7 +68,7 @@ export default function TabLayout() {
                     title: 'Create',
                     tabBarIcon: ({ focused }) => (
                         <View style={{
-                            backgroundColor: focused ? theme.main3.val : 'transparent',
+                            backgroundColor: focused ? theme.main4.val : 'transparent',
                             borderRadius: 8,
                             paddingVertical: 4,
                             paddingHorizontal: 14,
@@ -83,7 +84,7 @@ export default function TabLayout() {
                     title: 'Profile',
                     tabBarIcon: ({ focused }) => (
                         <View style={{
-                            backgroundColor: focused ? theme.main3.val : 'transparent',
+                            backgroundColor: focused ? theme.main4.val : 'transparent',
                             borderRadius: 8,
                             paddingVertical: 4,
                             paddingHorizontal: 14,
