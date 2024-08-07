@@ -12,7 +12,10 @@ export default function Tab() {
     const [user, setUser] = useState<any>();
 
     useEffect(() => {
-        if (session) setUser(session.user);
+        if (session) {
+            console.log(session.user);
+            setUser(session.user)
+        };
     }, [session]);
 
     return (
@@ -20,7 +23,7 @@ export default function Tab() {
             {!session?.user.is_anonymous ?
                 <StyledContainer>
                     <Header />
-                    <Text>Tab Profile: {user.user_metadata.username}</Text>
+                    <Text>Tab Profile: {user?.user_metadata?.username}</Text>
                     <Button onPress={() => signOut()}>Sign out</Button>
                 </StyledContainer>
                 :
