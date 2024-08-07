@@ -5,37 +5,44 @@ import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import Header from '../../src/components/Header';
 import { useEffect, useState } from 'react';
+import List from '../../src/components/list/List';
+import Card from '../../src/components/Card/Card';
+import { supabase } from '../../supabase';
+import { PAGE_SIZE } from '../../settings';
 
 export default function Tab() {
-    const { signOut, session } = useAuth();
+  const { signOut, session } = useAuth();
 
-    const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<any>();
 
-    useEffect(() => {
-        if (session) {
-            console.log(session.user);
-            setUser(session.user)
-        };
-    }, [session]);
+  useEffect(() => {
+    if (session) {
+      console.log(session.user);
+      setUser(session.user)
+    };
+  }, [session]);
 
-    return (
-        <>
-            {!session?.user.is_anonymous ?
-                <StyledContainer>
-                    <Header />
-                    <Text>Tab Profile: {user?.user_metadata?.username}</Text>
-                    <Button onPress={() => signOut()}>Sign out</Button>
-                </StyledContainer>
-                :
-                <StyledContainer >
-                    <View gap={8}>
-                        <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
-                        <SignUp />
-                    </View>
-                </StyledContainer>
-            }
-        </>
-    );
+  return (
+    <>
+      {!session?.user.is_anonymous ?
+        <StyledContainer>
+          <Header />
+          <Text>Tab Profile: {user?.user_metadata?.username}</Text>
+          <Button onPress={() => signOut()}>Sign out</Button>
+          <List queryKey={"official_libs"} ListItem={Card} queryFn={async (page: number) => {
+            return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
+          }} />
+        </StyledContainer>
+        :
+        <StyledContainer >
+          <View gap={8}>
+            <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+            <SignUp />
+          </View>
+        </StyledContainer>
+      }
+    </>
+  );
 }
 
 /*

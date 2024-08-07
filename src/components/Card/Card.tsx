@@ -29,9 +29,11 @@ export default function Card(props: CardProps) {
                     <Image height={48} width={48} backgroundColor={'$main6'} objectFit="contain" source={{
                         uri: item.profiles.avatar_url ? item.profiles.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
                     }} borderRadius={1000}></Image>
-                    <View>
-                        <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
-                        <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
+                    <View style={{
+                        flex: 1,
+                    }}>
+                        <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$8'} fontWeight={900}>{item.title}</SizableText>
+                        <SizableText style={{ width: "100%" }} numberOfLines={1} ellipsizeMode="tail" size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
                     </View>
                 </XStack>
                 {config.separator ? <Separator /> : null}
