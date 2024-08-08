@@ -4,6 +4,7 @@ import { supabase } from "../../../supabase";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useSocial from "../../hooks/useSocial";
+import { formatNumber } from "../../utils/format";
 
 export default function Stats(props: any) {
     const { item } = props;
@@ -21,7 +22,7 @@ export default function Stats(props: any) {
 
     const getLikes = async () => {
         const result = await supabase.from('likes').select('*', { count: 'exact' }).eq('lib_id', item.id);
-        let session = await getSession();
+        const session = await getSession();
         if (session && 'user' in session && session.user?.id) {
             result.data?.forEach(async (item_) => {
                 if (item_.user_id && item_.user_id === session.user.id) {
@@ -36,7 +37,7 @@ export default function Stats(props: any) {
         if (!liked) {
             setLiked(true);
             setLikes(likes + 1);
-            let result = await addLike(item.id);
+            const result = await addLike(item.id);
             if (result.error != null) {
                 setLikes(likes);
                 setLiked(false);
@@ -44,7 +45,7 @@ export default function Stats(props: any) {
         } else {
             setLiked(false);
             setLikes(likes - 1);
-            let result = await removeLike(item.id);
+            const result = await removeLike(item.id);
             if (result.error != null) {
                 setLikes(likes);
                 setLiked(true);
@@ -56,11 +57,11 @@ export default function Stats(props: any) {
         <XStack gap={16}>
             <XStack gap={4} alignItems={"center"} onPress={like}>
                 {liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />}
-                <Text>{likes} likes</Text>
+                <Text>{likes} {likes != 1 ? 'likes' : 'like'}</Text>
             </XStack>
             <XStack gap={4} alignItems={"center"}>
                 <Eye />
-                <Text>14k plays</Text>
+                <Text>{formatNumber(item.plays)} {item.plays != 1 ? 'plays' : 'play'}</Text>
             </XStack>
         </XStack>
     )

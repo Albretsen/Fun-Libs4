@@ -1,8 +1,22 @@
 import Lib from '../utils/libs';
 import nlp from 'compromise';
 import levenshteinDistance from '../utils/levenshtein';
+import { supabase } from '../../supabase';
 
 export default function useLib() {
+	const uploadLib = async (title: string, body: string) => {
+		let lib = parseTextToLib(body);
+		const { data, error } = await supabase.from('libs').insert({ ...lib, title });
+		if (error !== null) throw error;
+		return data;
+	};
+
+	const deleteLib = async (id: string) => {
+		const { data, error } = await supabase.from('libs').delete().eq('id', id);
+		if (error !== null) throw error;
+		return data;
+	};
+
 	const getPrompt = (item: Lib, pointer: number) => {
 		try {
 			return Object.keys(item.parsed_prompts[pointer])[0];
@@ -133,5 +147,38 @@ export default function useLib() {
 		return { parsed_text, parsed_prompts };
 	};
 
-	return { parseTextToLib, getPromptDescription, getPrompt };
+	const parseLibToText = (lib: any) => {
+		let result = '';
+		lib.parsed_text.map((text: string, index: number) => {
+			if (index % 2 === 0) result += text;
+			if (index % 2 !== 0) {
+				let highlighted_word = text;
+				if (lib.user_input) {
+					try {
+						for (let i = 0; i < lib.parsed_prompts.length; i++) {
+							if (
+								lib.parsed_prompts[i][Object.keys(lib.parsed_prompts[i])[0]].includes(
+									index,
+								)
+							) {
+								highlighted_word = lib.user_input[i];
+								break;
+							}
+						}
+					} catch (error) {}
+				}
+				result += highlighted_word;
+			}
+		});
+		return result;
+	};
+
+	return {
+		parseTextToLib,
+		parseLibToText,
+		getPromptDescription,
+		getPrompt,
+		uploadLib,
+		deleteLib,
+	};
 }

@@ -3,11 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import Card from '../../../src/components/Card/Card';
 import { SizableText } from 'tamagui';
 import { useLibStore } from '../../../src/hooks/useLibStore';
+import Header from '../../../src/components/Header';
 
 export default function Tab() {
     const { getLib } = useLibStore();
 
-    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } })
+    const { isFetching, isError, data, error } = useQuery<any>({ queryKey: ["lib"], queryFn: async () => { return getLib() } });
 
     if (isFetching) {
         return <StyledContainer />;
@@ -21,6 +22,7 @@ export default function Tab() {
 
     return (
         <StyledContainer >
+            <Header />
             <Card item={data} variant='read' />
         </StyledContainer>
     );

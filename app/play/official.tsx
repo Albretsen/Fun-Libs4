@@ -10,7 +10,7 @@ export default function Tab() {
         <StyledContainer>
             <PackPicker />
             <List queryKey={"official_libs"} ListItem={Card} queryFn={async (page: number) => {
-                return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
+                return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
             }} />
             {/* <Link href="auth/login">GO TO LOGIN PAGE</Link> */}
         </StyledContainer>

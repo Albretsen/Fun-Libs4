@@ -1,4 +1,4 @@
-import { View, SizableText, XStack, Button } from "tamagui";
+import { View, SizableText, XStack, Button, Image } from "tamagui";
 import CoverImage from "./CoverImage";
 import Stats from "./Stats";
 import { Link } from "expo-router";
@@ -7,6 +7,7 @@ import GameControls from "./GameControls";
 import Actions from "./Actions/Actions";
 import { useLibStore } from "../../hooks/useLibStore";
 import HighlightedText from "./HighlightedText";
+import { supabase } from "../../../supabase";
 
 interface CardProps {
     item: any,
@@ -21,13 +22,18 @@ export default function Card(props: CardProps) {
     const config = variants[variant];
 
     return (
-        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} marginBottom={16}>
+        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
-                <View>
-                    <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
-                    <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
-                </View>
+                <XStack gap={16}>
+                    <Image height={48} width={48} backgroundColor={'$main6'} objectFit="contain" source={{
+                        uri: item.profiles.avatar_url ? item.profiles.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                    }} borderRadius={1000}></Image>
+                    <View>
+                        <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
+                        <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
+                    </View>
+                </XStack>
                 {config.separator ? <Separator /> : null}
                 {config.text ? <View flex={1} marginTop={-12} marginBottom={-16}><HighlightedText item={item} /></View> : null}
                 {config.gameControls ? <GameControls item={item} /> : null}
@@ -35,7 +41,10 @@ export default function Card(props: CardProps) {
                     <View>
                         <XStack justifyContent="space-between">
                             {config.stats ? <Stats item={item} /> : null}
-                            {config.playButton ? <Link onPress={() => setLib(item)} href={{
+                            {config.playButton ? <Link onPress={async () => {
+                                setLib(item);
+                                await supabase.rpc('increment_plays', { p_id: item.id });
+                            }} href={{
                                 pathname: "/play/view",
                             }} asChild>
                                 <Button borderRadius={100} backgroundColor={'$main4'}> Play </Button>

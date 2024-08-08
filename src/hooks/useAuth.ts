@@ -39,24 +39,62 @@ export default function useAuth() {
 
 	const signIn = async (email: string, password: string) => {
 		const { error } = await supabase.auth.signInWithPassword({
-			email: email,
-			password: password,
+			email,
+			password,
 		});
 
 		if (error) Alert.alert(error.message);
 	};
 
-	const signUp = async (email: string, password: string) => {
+	const signUp = async (email: string, username: string, password: string) => {
 		const {
 			data: { session },
 			error,
 		} = await supabase.auth.signUp({
-			email: email,
-			password: password,
+			email,
+			password,
+			options: {
+				data: {
+					username,
+					email,
+					avatar_url:
+						'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+				},
+			},
 		});
 
 		if (error) Alert.alert(error.message);
 		if (!session) Alert.alert('Please check your inbox for email verification!');
+	};
+
+	const anonToPermanentUser = async (
+		email: string,
+		username: string,
+		password: string,
+	) => {
+		const { data, error } = await supabase.auth.updateUser({
+			email,
+		});
+
+		await supabase.auth.updateUser({
+			password,
+		});
+
+		if (session) {
+			await supabase
+				.from('profiles')
+				.update({ username, email })
+				.eq('id', session.user.id);
+		}
+
+		if (error) Alert.alert(error.message);
+		if (!session) Alert.alert('Please check your inbox for email verification!');
+	};
+
+	const signInAnonymously = async () => {
+		const { error } = await supabase.auth.signInAnonymously();
+
+		if (error) Alert.alert(error.message);
 	};
 
 	const signOut = async () => {
@@ -64,5 +102,13 @@ export default function useAuth() {
 		if (error) Alert.alert(error.message);
 	};
 
-	return { signIn, signUp, signOut, session, getSession };
+	return {
+		signIn,
+		signUp,
+		signOut,
+		signInAnonymously,
+		session,
+		getSession,
+		anonToPermanentUser,
+	};
 }

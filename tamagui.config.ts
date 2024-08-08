@@ -31,7 +31,7 @@ const funLibsTheme = {
 		main10: tokens.color.blue10Light,
 		main11: tokens.color.blue11Light,
 		main12: tokens.color.blue12Light,
-		background: 'white',
+		background: tokens.color.blue1Light,
 		backgroundHover: tokens.color.blue3Light,
 		backgroundPress: tokens.color.blue5Light,
 		backgroundFocus: tokens.color.blue5Light,
