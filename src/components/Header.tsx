@@ -22,13 +22,15 @@ export default function Header() {
                                     <Menu />
                                     {/* <Input placeholder="Search" height={'100%'} flex={1} marginHorizontal={16} borderRadius={999} /> */}
                                     <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
-                                    <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
-                                        uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-                                    }} borderRadius={1000} />
+                                    <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={8}>
+                                        <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
+                                            uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                                        }} borderRadius={1000} />
+                                    </TouchableOpacity>
                                 </XStack>
                             </View>
                             :
-                            <View backgroundColor={'$background'}>
+                            < View backgroundColor={'$background'}>
                                 <XStack margin={16} height={16} alignItems="center">
                                     <TouchableOpacity onPress={() => router.back()} hitSlop={16} style={{ height: '100%' }}>
                                         <ArrowLeft />
@@ -36,7 +38,7 @@ export default function Header() {
                                 </XStack>
                             </View>
                         }
-                    </View>
+                    </SafeAreaView >
             }}
         />
     )
