@@ -38,7 +38,7 @@ export default function Header() {
                                 </XStack>
                             </View>
                         }
-                    </SafeAreaView >
+                    </View >
             }}
         />
     )
