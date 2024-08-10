@@ -1,6 +1,13 @@
 import { View, Image } from "tamagui"
 
-export default function CoverImage(props: any) {
+interface CoverImageProps {
+    item: {
+        cover: boolean | any,
+        id: string,
+    },
+}
+
+export default function CoverImage(props: CoverImageProps) {
     const { item } = props;
 
     return <>{item ? (<>{
