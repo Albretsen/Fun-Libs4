@@ -1,6 +1,5 @@
-import { Text } from 'react-native';
 import { StyledContainer } from '../../src/styles/styles';
-import { Button, View, SizableText, Image } from 'tamagui';
+import { Button, View, SizableText } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import Header from '../../src/components/Header';
@@ -9,6 +8,9 @@ import List from '../../src/components/list/List';
 import Card from '../../src/components/Card/Card';
 import { supabase } from '../../supabase';
 import { PAGE_SIZE } from '../../settings';
+import ProfilePicture from '../../src/components/Card/ProfilePicture';
+import CoverImage from '../../src/components/Card/CoverImage';
+import ProfileStats from '../../src/components/Profile/Stats/Stats';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
@@ -26,17 +28,25 @@ export default function Tab() {
         <>
             {!session?.user.is_anonymous ?
                 <>
-                    <Image style={{ width: "100%", height: 150 }} source={{
-                        uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${3}.png`,
-                    }
-                    } borderRadius={10} >
-
-                    </Image >
+                    <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
                     <StyledContainer>
                         <Header />
-
-                        <Text>Tab Profile: {user?.user_metadata?.username}</Text>
-                        <Button onPress={() => signOut()}>Sign out</Button>
+                        <View style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}>
+                            <View style={{
+                                flex: 1,
+                            }}>
+                                <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
+                            </View>
+                            <ProfilePicture size={60} avatarURL='https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/1.png' />
+                        </View>
+                        {/* <Button onPress={() => signOut()}>Sign out</Button> */}
+                        <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
+                        <ProfileStats />
+                        <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
                         <List queryKey={"official_libs"} ListItem={Card} queryFn={async (page: number) => {
                             return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
                         }} />

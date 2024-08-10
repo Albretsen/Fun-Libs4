@@ -27,7 +27,7 @@ export default function Card(props: CardProps) {
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <XStack gap={16}>
-                    <ProfilePicture avatarId={item.profiles.avatar_url} />
+                    <ProfilePicture avatarURL={item.profiles.avatar_url} />
                     <View style={{
                         flex: 1,
                     }}>
