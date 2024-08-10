@@ -8,6 +8,7 @@ import Actions from "./Actions/Actions";
 import { useLibStore } from "../../hooks/useLibStore";
 import HighlightedText from "./HighlightedText";
 import { supabase } from "../../../supabase";
+import ProfilePicture from "./ProfilePicture";
 
 interface CardProps {
     item: any,
@@ -26,9 +27,7 @@ export default function Card(props: CardProps) {
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <XStack gap={16}>
-                    <Image height={48} width={48} backgroundColor={'$main6'} objectFit="contain" source={{
-                        uri: item.profiles.avatar_url ? item.profiles.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-                    }} borderRadius={1000}></Image>
+                    <ProfilePicture avatarId={item.profiles.avatar_url} />
                     <View style={{
                         flex: 1,
                     }}>
