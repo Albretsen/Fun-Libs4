@@ -1,7 +1,9 @@
 import { usePackStore } from "../../hooks/usePackStore";
 import ScrollableButtons from "../ScrollableButtons/ScrollableButtons";
+import useIAP from "../../hooks/useIAP";
 
 export default function PackPicker() {
+    useIAP();
 
     const { setPack } = usePackStore();
 
