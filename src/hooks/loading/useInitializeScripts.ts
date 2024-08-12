@@ -25,7 +25,7 @@ export const useInitializeScripts = () => {
 		};
 
 		initializeScripts();
-	}, [initializeAds]);
+	}, [initializeAds, initializeIAP]);
 
 	const addAuthRefresh = () => {
 		AppState.addEventListener('change', state => {

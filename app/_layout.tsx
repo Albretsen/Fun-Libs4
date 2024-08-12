@@ -4,7 +4,7 @@ import { TamaguiProvider } from '@tamagui/core';
 import config from '../tamagui.config';
 import { useLoadAssets } from '../src/hooks/loading/useLoadAssets';
 import { Stack } from 'expo-router/stack';
-import { Theme } from 'tamagui';
+import { PortalProvider, Theme } from 'tamagui';
 import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts';
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
@@ -37,18 +37,20 @@ export default function App() {
             <TamaguiProvider config={config}>
                 <Theme name="light">
                     <CreateProvider>
-                        {session && session.user ?
-                            <SafeAreaView style={{ flex: 1 }}>
-                                <Stack
-                                    screenOptions={{
-                                        headerShown: false,
-                                    }}
-                                />
-                                <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
-                            </SafeAreaView>
-                            :
-                            <LoginScreen />}
-                        <Toast config={toastConfig} />
+                        <PortalProvider>
+                            {session && session.user ?
+                                <SafeAreaView style={{ flex: 1 }}>
+                                    <Stack
+                                        screenOptions={{
+                                            headerShown: false,
+                                        }}
+                                    />
+                                    <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
+                                </SafeAreaView>
+                                :
+                                <LoginScreen />}
+                            <Toast config={toastConfig} />
+                        </PortalProvider>
                     </CreateProvider>
                 </Theme>
             </TamaguiProvider>

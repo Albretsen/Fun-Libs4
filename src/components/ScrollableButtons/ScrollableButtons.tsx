@@ -20,8 +20,8 @@ export default function ScrollableButtons(props: ScrollableButtonsProps) {
     const handlePress = (index: number, onPress: () => void, state: string | null) => {
         if (state !== 'locked') {
             setActiveIndex(index);
-            onPress();
         }
+        onPress();
     };
 
     return (
