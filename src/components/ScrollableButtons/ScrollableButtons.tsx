@@ -18,14 +18,12 @@ export default function ScrollableButtons(props: ScrollableButtonsProps) {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handlePress = (index: number, onPress: () => void, state: string | null) => {
-        if (state !== 'locked') {
-            setActiveIndex(index);
-        }
+        setActiveIndex(index);
         onPress();
     };
 
     return (
-        <View style={{ marginBottom: 16 }}>
+        <View>
             <ScrollView horizontal>
                 <XStack gap={16}>
                     {buttons ? buttons.map((element, index) => {

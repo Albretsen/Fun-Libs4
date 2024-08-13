@@ -2,11 +2,14 @@ import { Platform } from 'react-native';
 import Purchases, { LOG_LEVEL } from 'react-native-purchases';
 import { supabase } from '../../supabase';
 import { usePackStore } from './usePackStore';
+import useAuth from './useAuth';
 
 let isConfigured = false;
 
 export default function useIAP() {
 	const { setOwnedPacks } = usePackStore();
+
+	const { session } = useAuth();
 
 	const setAPIKey = async () => {
 		if (Platform.OS === 'ios') {
@@ -30,8 +33,8 @@ export default function useIAP() {
 		});
 	};
 
-	const setOwnedPacksState = async () => {
-		const customerInfo = await Purchases.getCustomerInfo();
+	const setOwnedPacksState = async (customerInfo: any) => {
+		if (!customerInfo) customerInfo = await Purchases.getCustomerInfo();
 		if (customerInfo.allPurchasedProductIdentifiers) {
 			setOwnedPacks(customerInfo.allPurchasedProductIdentifiers);
 		}
@@ -47,5 +50,68 @@ export default function useIAP() {
 		}
 	};
 
-	return { initializeIAP };
+	const purchase = async (pack: string | null) => {
+		if (!pack) return;
+		try {
+			pack += '_pack';
+			if (!session || !session.user) {
+				throw new Error('User is not signed in');
+			}
+
+			const fetchedProducts = await Purchases.getOfferings();
+
+			let packageToPurchase = null;
+			const offerings = fetchedProducts.all.offerings.availablePackages;
+
+			for (let i = 0; i < offerings.length; i++) {
+				if (offerings[i].identifier === pack) {
+					packageToPurchase = offerings[i];
+					break;
+				}
+			}
+
+			if (!packageToPurchase) {
+				throw new Error(`Package with identifier ${pack} not found.`);
+			}
+
+			const { customerInfo } = await Purchases.purchasePackage(packageToPurchase);
+
+			setOwnedPacksState(customerInfo);
+
+			return customerInfo;
+		} catch (error) {
+			if (!(error instanceof Error)) return;
+			console.error('Error during purchase:', error.message);
+
+			if (error.userCancelled) {
+				console.log('User cancelled the purchase.');
+			} else {
+				console.log('Purchase failed due to an error.');
+			}
+		}
+	};
+
+	const getPrice = async (pack: string | null) => {
+		if (!pack) return '';
+		pack += '_pack';
+		const fetchedProducts = await Purchases.getOfferings();
+
+		let packageToPurchase = null;
+		const offerings = fetchedProducts.all.offerings.availablePackages;
+
+		for (let i = 0; i < offerings.length; i++) {
+			if (offerings[i].identifier === pack) {
+				packageToPurchase = offerings[i];
+				break;
+			}
+		}
+
+		if (!packageToPurchase) {
+			throw new Error(`Package with identifier ${pack} not found.`);
+		}
+
+		return packageToPurchase.product.priceString;
+	};
+
+	return { initializeIAP, purchase, getPrice };
 }

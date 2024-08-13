@@ -7,6 +7,7 @@ interface PackState {
 	ownedPacks: string[] | null;
 	setOwnedPacks: (ownedPacks: string[]) => void;
 	getOwnedPacks: () => string[] | null;
+	packsData: any;
 }
 
 export const usePackStore = create<PackState>()((set, get) => ({
@@ -23,5 +24,15 @@ export const usePackStore = create<PackState>()((set, get) => ({
 	},
 	getOwnedPacks: () => {
 		return get().ownedPacks;
+	},
+	packsData: {
+		romance: {
+			title: 'The Romantic Pack ❤️',
+			description: 'This pack unlocks high quality stories with a romantic theme.',
+		},
+		historic: {
+			title: 'The Historic Pack 🚀',
+			description: 'This pack unlocks high quality stories from history.',
+		},
 	},
 }));
