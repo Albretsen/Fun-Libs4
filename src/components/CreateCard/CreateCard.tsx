@@ -7,8 +7,9 @@ import Actions from "../Card/Actions/Actions";
 import useLib from "../../hooks/useLib";
 import { router } from "expo-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, ParamListBase } from "@react-navigation/native";
 import useError from "../../hooks/useError";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 export default function CreateCard() {
 
@@ -18,7 +19,7 @@ export default function CreateCard() {
 
     const { funLibsError } = useError();
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
     const queryClient = useQueryClient();
 

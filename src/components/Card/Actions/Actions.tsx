@@ -5,11 +5,12 @@ import { router } from 'expo-router';
 import { useEffect, useState } from "react";
 import useLib from "../../../hooks/useLib";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, ParamListBase } from "@react-navigation/native";
 import useError from "../../../hooks/useError";
 import useLikes from "../../../hooks/useLikes";
 import { useLibStore } from "../../../hooks/useLibStore";
 import useShare from "../../../hooks/useShare";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 interface ActionsProps {
     item?: any,
@@ -27,7 +28,7 @@ export default function Actions(props: ActionsProps) {
 
     const queryClient = useQueryClient();
 
-    const navigation = useNavigation();
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
     const { deleteLib } = useLib();
 
