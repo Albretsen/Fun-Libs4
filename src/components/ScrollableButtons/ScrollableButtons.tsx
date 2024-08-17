@@ -24,7 +24,7 @@ export default function ScrollableButtons(props: ScrollableButtonsProps) {
 
     return (
         <View>
-            <ScrollView horizontal>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} >
                 <XStack gap={16}>
                     {buttons ? buttons.map((element, index) => {
                         const isActive = index === activeIndex;

@@ -34,9 +34,40 @@ export default function useIAP() {
 	};
 
 	const setOwnedPacksState = async (customerInfo: any) => {
-		if (!customerInfo) customerInfo = await Purchases.getCustomerInfo();
-		if (customerInfo.allPurchasedProductIdentifiers) {
-			setOwnedPacks(customerInfo.allPurchasedProductIdentifiers);
+		if (!customerInfo) {
+			const [purchasedProducts, legacyPacks] = await Promise.all([
+				(async () => {
+					const info = await Purchases.getCustomerInfo();
+					return info.allPurchasedProductIdentifiers || [];
+				})(),
+				(async () => {
+					const legacyPacks = await checkLegacyOwnedPacks();
+					return legacyPacks || [];
+				})(),
+			]);
+
+			const packs = [...purchasedProducts, ...legacyPacks];
+
+			if (packs.length > 0) {
+				setOwnedPacks(packs);
+			}
+		} else {
+			if (customerInfo.allPurchasedProductIdentifiers) {
+				setOwnedPacks(customerInfo.allPurchasedProductIdentifiers);
+			}
+		}
+	};
+
+	const checkLegacyOwnedPacks = async () => {
+		if (!session?.user.email) return;
+		const result = await supabase
+			.from('users')
+			.select(`*`)
+			.eq('email', session?.user.email)
+			.limit(1)
+			.single();
+		if (result.data?.purchases) {
+			return result.data.purchases;
 		}
 	};
 

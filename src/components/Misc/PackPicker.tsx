@@ -43,13 +43,15 @@ export default function PackPicker() {
                     { label: "🎉 Free", state: "active", onPress: () => { changePack(null) } },
                     { label: "❤️ Romantic", state: ownedPacks?.includes("romance" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("romance") } },
                     { label: "🚀 History", state: ownedPacks?.includes("historic" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("historic") } },
+                    { label: "🐣 Easter", state: ownedPacks?.includes("easter" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("easter") } },
+                    { label: "🎄 Christmas", state: ownedPacks?.includes("christmas" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("christmas") } },
                 ]
             } />
-            {pack ?
+            {pack && !(ownedPacks?.includes(pack + "_pack")) ?
                 <View gap={8} paddingTop={8}>
                     <SizableText size={'$8'} fontWeight={900}>{packsData[pack].title}</SizableText>
                     <SizableText size={'$4'} fontWeight={400}>{packsData[pack].description}</SizableText>
-                    <Button borderRadius={100} backgroundColor={'$main4'} width={''} onPress={purchasePack}>Unlock {price}</Button>
+                    <Button borderRadius={100} backgroundColor={'$main4'} width={''} onPress={purchasePack}>Unlock{price}</Button>
                 </View> : null}
         </View>
     )

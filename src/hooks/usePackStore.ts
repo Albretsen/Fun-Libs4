@@ -34,5 +34,14 @@ export const usePackStore = create<PackState>()((set, get) => ({
 			title: 'The Historic Pack 🚀',
 			description: 'This pack unlocks high quality stories from history.',
 		},
+		easter: {
+			title: 'The Easter Pack 🐣',
+			description: 'This pack unlocks high quality stories with an easter theme.',
+		},
+		christmas: {
+			title: 'The Christmas Pack 🎄',
+			description:
+				'This pack unlocks high quality stories with a christmas theme.',
+		},
 	},
 }));
