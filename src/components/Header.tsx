@@ -32,10 +32,11 @@ export default function Header() {
                                             aspectRatio={1}
                                             backgroundColor={'$main4'}
                                             borderRadius={50}
+                                            onPress={() => router.back()}
                                         >
                                             <X />
                                         </Button>
-                                        <Button
+                                        {/* <Button
                                             borderWidth={1}
                                             borderColor={'$main6'}
                                             backgroundColor={'$main4'}
@@ -45,7 +46,7 @@ export default function Header() {
                                         >
                                             <Pen />
                                             <SizableText>Edit</SizableText>
-                                        </Button>
+                                        </Button> */}
                                     </XStack>
                                     {/* <SizableText>{JSON.stringify(props)}</SizableText> */}
                                 </View>

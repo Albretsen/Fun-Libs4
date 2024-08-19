@@ -19,7 +19,6 @@ export default function Tab() {
 
     useEffect(() => {
         if (session) {
-            console.log(session.user);
             setUser(session.user)
         };
     }, [session]);
@@ -44,14 +43,15 @@ export default function Tab() {
                             <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
                         </View>
                         {/* <Button onPress={() => signOut()}>Sign out</Button> */}
-                        <ScrollView >
-                            <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
-                            <ProfileStats />
-                            <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
-                            <List queryKey={"official_libs"} ListItem={Card} queryFn={async (page: number) => {
-                                return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
-                            }} />
-                        </ScrollView>
+                        {user ?
+                            <ScrollView >
+                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
+                                <ProfileStats user={user} />
+                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
+                                <List queryKey={"profile_libs"} ListItem={Card} queryFn={async (page: number) => {
+                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).order('plays', { ascending: false });
+                                }} />
+                            </ScrollView> : null}
                     </StyledContainer>
                 </>
                 :

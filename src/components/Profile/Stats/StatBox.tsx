@@ -4,10 +4,11 @@ import { ReactNode } from "react"
 interface StatBoxProps {
     iconComponent: ReactNode,
     text: string,
+    id: number,
 }
 
 export default function StatBox(props: StatBoxProps) {
-    const { iconComponent, text } = props;
+    const { iconComponent, text, id } = props;
     return (
         <View
             flex={1}
@@ -19,6 +20,7 @@ export default function StatBox(props: StatBoxProps) {
             borderRadius={10}
             borderColor={'$main6'}
             justifyContent="center"
+            key={id}
         >
             <View alignItems="center" gap={10}>
                 {iconComponent}
