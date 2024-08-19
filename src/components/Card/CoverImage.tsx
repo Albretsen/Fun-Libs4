@@ -1,14 +1,29 @@
 import { View, Image } from "tamagui"
 
-export default function CoverImage(props: any) {
-    const { item } = props;
+interface CoverImageProps {
+    item: {
+        cover: boolean | any,
+        id: string,
+    },
+    /** 
+    * @property Defaults to 10
+    */
+    borderRadius?: number,
+    /** 
+    * @property Defaults to 100
+    */
+    height?: number;
+}
+
+export default function CoverImage(props: CoverImageProps) {
+    const { item, borderRadius = 10, height = 100 } = props;
 
     return <>{item ? (<>{
         item.cover ?
-            <Image height={100} source={{
+            <Image height={height} source={{
                 uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${item.id}.png`,
             }
-            } borderRadius={10} >
+            } borderRadius={borderRadius} >
 
             </Image >
             :
