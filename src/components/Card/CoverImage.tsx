@@ -27,8 +27,9 @@ export default function CoverImage(props: CoverImageProps) {
 
             </Image >
             :
-            <View height={100} backgroundColor={'$main4'} borderRadius={10}>
+            null
+        // <View height={100} backgroundColor={'$main4'} borderRadius={10}>
 
-            </View>
+        // </View>
     }</>) : null}</>
 }
