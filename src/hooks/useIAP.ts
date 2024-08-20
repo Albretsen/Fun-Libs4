@@ -9,7 +9,7 @@ let isConfigured = false;
 export default function useIAP() {
 	const { setOwnedPacks } = usePackStore();
 
-	const { session } = useAuth();
+	const { session, getSession } = useAuth();
 
 	const setAPIKey = async () => {
 		if (Platform.OS === 'ios') {
@@ -33,7 +33,7 @@ export default function useIAP() {
 		});
 	};
 
-	const setOwnedPacksState = async (customerInfo: any) => {
+	const setOwnedPacksState = async (customerInfo: any | undefined) => {
 		if (!customerInfo) {
 			const [purchasedProducts, legacyPacks] = await Promise.all([
 				(async () => {
@@ -59,11 +59,12 @@ export default function useIAP() {
 	};
 
 	const checkLegacyOwnedPacks = async () => {
-		if (!session?.user.email) return;
+		let localSession = await getSession();
+		if (!localSession?.user.email) return;
 		const result = await supabase
 			.from('users')
 			.select(`*`)
-			.eq('email', session?.user.email)
+			.eq('email', localSession?.user.email)
 			.limit(1)
 			.single();
 		if (result.data?.purchases) {
@@ -144,5 +145,5 @@ export default function useIAP() {
 		return packageToPurchase.product.priceString;
 	};
 
-	return { initializeIAP, purchase, getPrice };
+	return { initializeIAP, purchase, getPrice, setOwnedPacksState };
 }

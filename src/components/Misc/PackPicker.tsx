@@ -12,7 +12,7 @@ export default function PackPicker() {
 
     const queryClient = useQueryClient();
 
-    const { purchase, getPrice } = useIAP();
+    const { purchase, getPrice, setOwnedPacksState } = useIAP();
 
     const changePack = (pack: string | null) => {
         setPack(pack);
@@ -34,11 +34,15 @@ export default function PackPicker() {
         }
 
         getPriceAsync();
-    }, [pack])
+    }, [pack]);
+
+    useEffect(() => {
+        setOwnedPacksState(undefined);
+    }, []);
 
     return (
         <View paddingBottom={16}>
-            <ScrollableButtons buttons={
+            <ScrollableButtons ownedPacks={ownedPacks ? ownedPacks : []} buttons={
                 [
                     { label: "🎉 Free", state: "active", onPress: () => { changePack(null) } },
                     { label: "❤️ Romantic", state: ownedPacks?.includes("romance" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("romance") } },

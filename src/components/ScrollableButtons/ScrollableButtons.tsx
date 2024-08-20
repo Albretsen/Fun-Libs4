@@ -11,6 +11,7 @@ interface ButtonProps {
 
 interface ScrollableButtonsProps {
     buttons: ButtonProps[];
+    ownedPacks: string[];
 }
 
 export default function ScrollableButtons(props: ScrollableButtonsProps) {
