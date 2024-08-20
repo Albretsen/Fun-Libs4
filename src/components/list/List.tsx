@@ -30,7 +30,7 @@ export default function List(props: any) {
         initialPageParam: 0,
         queryFn: ({ pageParam = 0 }) => queryFn(pageParam),
         getNextPageParam: (lastPage, pages) => {
-            if (lastPage.data.length < PAGE_SIZE) {
+            if (!lastPage || !lastPage.data || lastPage.data.length < PAGE_SIZE) {
                 return undefined;
             }
             return pages.length;
@@ -41,12 +41,14 @@ export default function List(props: any) {
         const temp_items: any = [];
         if (!data) return;
         for (let i = 0; i < data.pages.length; i++) {
+            if (!data.pages[i] || !data.pages[i].data) continue;
             for (let j = 0; j < data.pages[i].data.length; j++) {
                 temp_items.push(data.pages[i].data[j]);
             }
         }
         setItems(temp_items);
     }, [data]);
+
 
     const refresh = () => {
         queryClient.invalidateQueries({ queryKey: [queryKey] })

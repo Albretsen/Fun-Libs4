@@ -31,6 +31,7 @@ export default function Stats(props: any) {
             });
         }
         if (result?.count) setLikes(result.count);
+        else setLikes(0);
     };
 
     const like = async () => {
