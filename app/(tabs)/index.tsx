@@ -18,7 +18,7 @@ export default function TabLayout() {
                 tabBarStyle: {
                     backgroundColor: 'transparent',
                     shadowColor: 'transparent',
-                    width: '55%',
+                    width: '100%',
                     marginHorizontal: 16
                 },
                 tabBarIndicatorStyle: {

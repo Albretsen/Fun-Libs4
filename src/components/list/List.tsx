@@ -28,9 +28,12 @@ export default function List(props: any) {
     } = useInfiniteQuery<any>({
         queryKey: [queryKey],
         initialPageParam: 0,
-        queryFn: ({ pageParam = 0 }) => queryFn(pageParam),
+        queryFn: async ({ pageParam = 0 }) => {
+            const response = await queryFn(pageParam);
+            return response;
+        },
         getNextPageParam: (lastPage, pages) => {
-            if (lastPage.data.length < PAGE_SIZE) {
+            if (lastPage.data.length === 0 || lastPage.data.length < PAGE_SIZE) {
                 return undefined;
             }
             return pages.length;
@@ -91,6 +94,7 @@ export default function List(props: any) {
                         <SizableText size={'$5'}>No results</SizableText>
                     </View>
                 }
+                ListFooterComponent={<View height={16} />}
                 onRefresh={refresh}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
