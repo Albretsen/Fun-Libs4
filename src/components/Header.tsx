@@ -21,7 +21,7 @@ export default function Header() {
                 headerShown: true,
                 header: (props) =>
                     <>
-                        <SafeAreaView>
+                        <View>
                             {props.route.name === "profile" ?
                                 <View style={{
                                     height: 0,
@@ -76,7 +76,7 @@ export default function Header() {
                                         </XStack>
                                     </View>
                                 }</>}
-                        </SafeAreaView>
+                        </View>
                         <Drawer side="left" ref={navigationDrawerRef}>
                             <Button onPress={() => {
                                 navigationDrawerRef.current?.closeDrawer();
