@@ -7,10 +7,11 @@ import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
+import { Linking } from "react-native";
 
 export default function Header() {
 
-    const { session } = useAuth();
+    const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
 
@@ -59,9 +60,11 @@ export default function Header() {
                                             </TouchableOpacity>
                                             {/* <Input placeholder="Search" height={'100%'} flex={1} marginHorizontal={16} borderRadius={999} /> */}
                                             <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
-                                            <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
-                                                uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-                                            }} borderRadius={1000} />
+                                            <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={16}>
+                                                <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
+                                                    uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                                                }} borderRadius={1000} />
+                                            </TouchableOpacity>
                                         </XStack>
                                     </View>
                                     :
@@ -75,7 +78,26 @@ export default function Header() {
                                 }</>}
                         </SafeAreaView>
                         <Drawer side="left" ref={navigationDrawerRef}>
-                            {/* Drawer content here */}
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/")
+                            }}>Home</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/create")
+                            }}>Create</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/profile")
+                            }}>Profile</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                Linking.openURL('mailto:contact@funlibs.app')
+                            }}>Help</Button>
+                            <Button color={'$red11'} backgroundColor={'$red'} onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                signOut()
+                            }}>Sign out</Button>
                         </Drawer>
                     </>
             }}
