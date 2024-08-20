@@ -7,6 +7,7 @@ import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
+import { Linking } from "react-native";
 
 export default function Header() {
 
@@ -77,10 +78,26 @@ export default function Header() {
                                 }</>}
                         </SafeAreaView>
                         <Drawer side="left" ref={navigationDrawerRef}>
-                            <Button onPress={() => router.navigate("/")}>Home</Button>
-                            <Button onPress={() => router.navigate("/create")}>Create</Button>
-                            <Button onPress={() => router.navigate("/profile")}>Profile</Button>
-                            <Button onPress={signOut}>Sign out</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/")
+                            }}>Home</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/create")
+                            }}>Create</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                router.navigate("/profile")
+                            }}>Profile</Button>
+                            <Button onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                Linking.openURL('mailto:contact@funlibs.app')
+                            }}>Help</Button>
+                            <Button color={'$red11'} backgroundColor={'$red'} onPress={() => {
+                                navigationDrawerRef.current?.closeDrawer();
+                                signOut()
+                            }}>Sign out</Button>
                         </Drawer>
                     </>
             }}
