@@ -10,7 +10,7 @@ import { useRef } from "react";
 
 export default function Header() {
 
-    const { session } = useAuth();
+    const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
 
@@ -75,7 +75,10 @@ export default function Header() {
                                 }</>}
                         </SafeAreaView>
                         <Drawer side="left" ref={navigationDrawerRef}>
-                            {/* Drawer content here */}
+                            <Button onPress={() => router.navigate("/")}>Home</Button>
+                            <Button onPress={() => router.navigate("/create")}>Create</Button>
+                            <Button onPress={() => router.navigate("/profile")}>Profile</Button>
+                            <Button onPress={signOut}>Sign out</Button>
                         </Drawer>
                     </>
             }}
