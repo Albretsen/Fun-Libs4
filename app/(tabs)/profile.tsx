@@ -1,10 +1,16 @@
-import { Text } from 'react-native';
 import { StyledContainer } from '../../src/styles/styles';
-import { Button, View, SizableText } from 'tamagui';
+import { Button, View, SizableText, ScrollView } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import Header from '../../src/components/Header';
 import { useEffect, useState } from 'react';
+import List from '../../src/components/list/List';
+import Card from '../../src/components/Card/Card';
+import { supabase } from '../../supabase';
+import { PAGE_SIZE } from '../../settings';
+import ProfilePicture from '../../src/components/Card/ProfilePicture';
+import CoverImage from '../../src/components/Card/CoverImage';
+import ProfileStats from '../../src/components/Profile/Stats/Stats';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
@@ -12,17 +18,42 @@ export default function Tab() {
     const [user, setUser] = useState<any>();
 
     useEffect(() => {
-        if (session) setUser(session.user);
+        if (session) {
+            setUser(session.user)
+        };
     }, [session]);
 
     return (
         <>
             {!session?.user.is_anonymous ?
-                <StyledContainer>
-                    <Header />
-                    <Text>Tab Profile: {user.user_metadata.username}</Text>
-                    <Button onPress={() => signOut()}>Sign out</Button>
-                </StyledContainer>
+                <>
+                    <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
+                    <StyledContainer>
+                        <Header />
+                        <View style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}>
+                            <View style={{
+                                flex: 1,
+                            }}>
+                                <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
+                            </View>
+                            <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
+                        </View>
+                        {/* <Button onPress={() => signOut()}>Sign out</Button> */}
+                        {user ?
+                            <ScrollView >
+                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
+                                <ProfileStats user={user} />
+                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
+                                <List queryKey={"profile_libs"} ListItem={Card} queryFn={async (page: number) => {
+                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).order('plays', { ascending: false });
+                                }} />
+                            </ScrollView> : null}
+                    </StyledContainer>
+                </>
                 :
                 <StyledContainer >
                     <View gap={8}>

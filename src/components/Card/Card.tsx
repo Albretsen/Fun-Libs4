@@ -8,6 +8,7 @@ import Actions from "./Actions/Actions";
 import { useLibStore } from "../../hooks/useLibStore";
 import HighlightedText from "./HighlightedText";
 import { supabase } from "../../../supabase";
+import ProfilePicture from "./ProfilePicture";
 
 interface CardProps {
     item: any,
@@ -26,12 +27,12 @@ export default function Card(props: CardProps) {
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <XStack gap={16}>
-                    <Image height={48} width={48} backgroundColor={'$main6'} objectFit="contain" source={{
-                        uri: item.profiles.avatar_url ? item.profiles.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-                    }} borderRadius={1000}></Image>
-                    <View>
-                        <SizableText size={'$8'} fontWeight={900}>{item.title}</SizableText>
-                        <SizableText size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
+                    <ProfilePicture avatarURL={item.profiles.avatar_url} />
+                    <View style={{
+                        flex: 1,
+                    }}>
+                        <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$8'} fontWeight={900}>{item.title}</SizableText>
+                        <SizableText style={{ width: "100%" }} numberOfLines={1} ellipsizeMode="tail" size={'$4'} fontWeight={400}>by {item.profiles.username}</SizableText>
                     </View>
                 </XStack>
                 {config.separator ? <Separator /> : null}
