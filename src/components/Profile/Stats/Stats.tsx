@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import StatBox from "./StatBox";
 import { ReactNode, useEffect, useState } from "react";
 import { supabase } from "../../../../supabase";
+import SkeletonStatBox from "./SkeletonStatBox";
 
 interface ProfileStatsProps {
     user: any
@@ -79,9 +80,15 @@ export default function ProfileStats(props: ProfileStatsProps) {
             justifyContent: "space-between",
             gap: 10
         }}>
-            {statBoxData ? statBoxData.map((elem, i) => {
+            {statBoxData && statBoxData.length > 0 ? statBoxData.map((elem, i) => {
                 return <StatBox iconComponent={elem.iconComponent} text={elem.text} id={i} key={i} />
-            }) : null}
+            }) :
+                <>
+                    <SkeletonStatBox />
+                    <SkeletonStatBox />
+                    <SkeletonStatBox />
+                </>
+            }
         </View>
     )
 }
