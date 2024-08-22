@@ -23,6 +23,7 @@ export default function List(props: any) {
         data,
         error,
         fetchNextPage,
+        refetch,
         hasNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery<any>({
@@ -38,20 +39,16 @@ export default function List(props: any) {
     });
 
     useEffect(() => {
-        const temp_items: any = [];
         if (!data) return;
-        for (let i = 0; i < data.pages.length; i++) {
-            if (!data.pages[i] || !data.pages[i].data) continue;
-            for (let j = 0; j < data.pages[i].data.length; j++) {
-                temp_items.push(data.pages[i].data[j]);
-            }
-        }
+
+        const temp_items: any[] = data.pages.flatMap(page => page.data ?? []);
         setItems(temp_items);
     }, [data]);
 
 
-    const refresh = () => {
-        queryClient.invalidateQueries({ queryKey: [queryKey] })
+    const refresh = async () => {
+        queryClient.invalidateQueries({ queryKey: [queryKey] });
+        queryClient.removeQueries({ queryKey: [queryKey] });
     }
 
     const onEndReached = () => {

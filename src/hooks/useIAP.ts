@@ -5,10 +5,10 @@ import { usePackStore } from './usePackStore';
 import useAuth from './useAuth';
 
 let isConfigured = false;
+let isAuthListenerSet = false;
 
 export default function useIAP() {
 	const { setOwnedPacks } = usePackStore();
-
 	const { session, getSession } = useAuth();
 
 	const setAPIKey = async () => {
@@ -20,6 +20,8 @@ export default function useIAP() {
 	};
 
 	const setAuthListener = async () => {
+		if (isAuthListenerSet) return;
+
 		supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_IN') {
 				if (session?.user.id) await Purchases.logIn(session.user.id);
@@ -28,9 +30,12 @@ export default function useIAP() {
 					Purchases.setDisplayName(session.user.user_metadata.username);
 				}
 			} else if (event === 'SIGNED_OUT') {
+				console.log('test');
 				await Purchases.logOut();
 			}
 		});
+
+		isAuthListenerSet = true;
 	};
 
 	const setOwnedPacksState = async (customerInfo: any | undefined) => {

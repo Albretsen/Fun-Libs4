@@ -78,26 +78,30 @@ export default function Header() {
                                 }</>}
                         </View>
                         <Drawer side="left" ref={navigationDrawerRef}>
-                            <Button onPress={() => {
-                                navigationDrawerRef.current?.closeDrawer();
-                                router.navigate("/")
-                            }}>Home</Button>
-                            <Button onPress={() => {
-                                navigationDrawerRef.current?.closeDrawer();
-                                router.navigate("/create")
-                            }}>Create</Button>
-                            <Button onPress={() => {
-                                navigationDrawerRef.current?.closeDrawer();
-                                router.navigate("/profile")
-                            }}>Profile</Button>
-                            <Button onPress={() => {
-                                navigationDrawerRef.current?.closeDrawer();
-                                Linking.openURL('mailto:contact@funlibs.app')
-                            }}>Help</Button>
-                            <Button color={'$red11'} backgroundColor={'$red'} onPress={() => {
-                                navigationDrawerRef.current?.closeDrawer();
-                                signOut()
-                            }}>Sign out</Button>
+                            <View marginVertical={16} >
+                                <Button fontWeight={900} fontSize={'$6'} alignSelf="flex-start" onPress={() => {
+                                }}>Fun Libs</Button>
+                                <Button alignSelf="flex-start" onPress={() => {
+                                    navigationDrawerRef.current?.closeDrawer();
+                                    router.navigate("/")
+                                }}>Home</Button>
+                                <Button alignSelf="flex-start" onPress={() => {
+                                    navigationDrawerRef.current?.closeDrawer();
+                                    router.navigate("/create")
+                                }}>Create</Button>
+                                <Button alignSelf="flex-start" onPress={() => {
+                                    navigationDrawerRef.current?.closeDrawer();
+                                    router.navigate("/profile")
+                                }}>Profile</Button>
+                                <Button alignSelf="flex-start" onPress={() => {
+                                    navigationDrawerRef.current?.closeDrawer();
+                                    Linking.openURL('mailto:contact@funlibs.app')
+                                }}>Help</Button>
+                                <Button fontWeight={900} alignSelf="flex-start" color={'$red11'} backgroundColor={'$red'} onPress={() => {
+                                    navigationDrawerRef.current?.closeDrawer();
+                                    signOut()
+                                }}>Sign out</Button>
+                            </View>
                         </Drawer>
                     </>
             }}

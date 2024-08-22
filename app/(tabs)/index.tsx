@@ -19,7 +19,6 @@ export default function TabLayout() {
                     backgroundColor: 'transparent',
                     shadowColor: 'transparent',
                     width: '100%',
-                    marginHorizontal: 16
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: theme.color.val,

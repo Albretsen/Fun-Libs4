@@ -49,18 +49,21 @@ export default function Tab() {
                                 <ProfileStats user={user} />
                                 <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
                                 <List queryKey={"profile_libs"} ListItem={Card} queryFn={async (page: number) => {
-                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).order('plays', { ascending: false });
+                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('plays', { ascending: false });
                                 }} />
                             </ScrollView> : null}
                     </StyledContainer>
                 </>
                 :
-                <StyledContainer >
-                    <View gap={8}>
-                        <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
-                        <SignUp />
-                    </View>
-                </StyledContainer>
+                <>
+                    <View height={70} backgroundColor={'$background'} />
+                    <StyledContainer >
+                        <View gap={8}>
+                            <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+                            <SignUp />
+                        </View>
+                    </StyledContainer>
+                </>
             }
         </>
     );

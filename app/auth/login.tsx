@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Alert } from 'react-native'
 import { supabase } from '../../supabase';
-import { Button, SizableText, View, Input, Spinner } from 'tamagui';
+import { Button, SizableText, View, Input, Spinner, ScrollView } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import { StyledContainer } from '../../src/styles/styles';
 import { validateEmail } from '../../src/utils/validation';
@@ -64,26 +64,31 @@ export default function LoginScreen() {
 
     return (
         <StyledContainer>
-            <View flex={1} alignItems='center' justifyContent='center' marginHorizontal={16} gap={16}>
-                <SizableText size={'$8'} fontWeight={900}>Log in or sign up</SizableText>
-                <View width={'100%'} gap={8}>
-                    <Input onChangeText={(text) => setEmail(text)} value={email} keyboardType={'email-address'} placeholder={`Email`} borderColor={'$main12'} />
-                    {state === 'signin' ?
-                        <>
-                            <Input onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
-                            <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => signInWithEmail()} >Sign in</Button>
-                        </>
-                        : null}
-                    {state === 'signup' ?
-                        <SignUp email={email} />
-                        : null}
-                    {state === undefined ? <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => continue_()} >{'Continue'}</Button> : null}
-                </View>
-                <SizableText size={'$4'}>or</SizableText>
-                <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => signInAnonymously_()}>Continue as Guest</Button>
-                {process.env.EXPO_PUBLIC_DEVELOPMENT_MODE ? <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => devSignIn()}>Auto sign in (Development mode only)</Button> : null}
+            <View alignItems='center' justifyContent='center' flex={0.7}>
+                <SizableText size={'$10'} fontWeight={900}>Fun Libs</SizableText>
             </View>
-            <View alignItems='center' paddingBottom={16}>
+            <ScrollView flex={1}>
+                <View flex={1} alignItems='center' justifyContent='center' marginHorizontal={16} gap={16}>
+                    <SizableText size={'$8'} fontWeight={500}>Log in or sign up</SizableText>
+                    <View width={'100%'} gap={8}>
+                        <Input onChangeText={(text) => setEmail(text)} value={email} keyboardType={'email-address'} placeholder={`Email`} borderColor={'$main12'} />
+                        {state === 'signin' ?
+                            <>
+                                <Input onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
+                                <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => signInWithEmail()} >Sign in</Button>
+                            </>
+                            : null}
+                        {state === 'signup' ?
+                            <SignUp email={email} />
+                            : null}
+                        {state === undefined ? <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => continue_()} >{'Continue'}</Button> : null}
+                    </View>
+                    <SizableText size={'$4'}>or</SizableText>
+                    <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => signInAnonymously_()}>Continue as Guest</Button>
+                    {process.env.EXPO_PUBLIC_DEVELOPMENT_MODE ? <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => devSignIn()}>Auto sign in (Development mode only)</Button> : null}
+                </View>
+            </ScrollView>
+            <View alignItems='center' padding={16}>
                 <SizableText size={'$5'} textDecorationLine='underline' onPress={() => signInAnonymously_()}>Skip</SizableText>
             </View>
         </StyledContainer>

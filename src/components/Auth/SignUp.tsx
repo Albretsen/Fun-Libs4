@@ -56,9 +56,9 @@ export default function SignUp(props: SignUpProps) {
 
     return (
         <>
-            {!email ? <Input onChangeText={(text) => setEmail(text)} value={email_} placeholder={`Email`} borderColor={'$main12'} /> : null}
-            <Input onChangeText={(text) => setUsername(text)} value={username} placeholder={`Username`} borderColor={'$main12'} />
-            <Input onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
+            {!email ? <Input inputMode={'email'} onChangeText={(text) => setEmail(text)} value={email_} placeholder={`Email`} borderColor={'$main12'} /> : null}
+            <Input inputMode={'text'} onChangeText={(text) => setUsername(text)} value={username} placeholder={`Username`} borderColor={'$main12'} />
+            <Input inputMode={'text'} onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
             <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => signUpWithEmail()} >Sign up</Button>
         </>
     )

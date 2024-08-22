@@ -77,6 +77,12 @@ export default function useAuth() {
 		email = email.toLowerCase();
 		const { data, error } = await supabase.auth.updateUser({
 			email,
+			data: {
+				email,
+				username,
+				avatar_url:
+					'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+			},
 		});
 
 		await supabase.auth.updateUser({
@@ -86,7 +92,12 @@ export default function useAuth() {
 		if (session) {
 			await supabase
 				.from('profiles')
-				.update({ username, email })
+				.update({
+					username,
+					email,
+					avatar_url:
+						'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+				})
 				.eq('id', session.user.id);
 		}
 
