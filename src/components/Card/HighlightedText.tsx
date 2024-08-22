@@ -15,7 +15,7 @@ export default function HighlightedText(props: any) {
                                 try {
                                     for (let i = 0; i < item.parsed_prompts.length; i++) {
                                         if (item.parsed_prompts[i][Object.keys(item.parsed_prompts[i])[0]].includes(index)) {
-                                            highlighted_word = item.user_input[i];
+                                            highlighted_word = item.user_input[i] || Object.keys(item.parsed_prompts[i])[0];
                                             break;
                                         }
                                     }

@@ -38,6 +38,7 @@ export default function useAuth() {
 	}
 
 	const signIn = async (email: string, password: string) => {
+		email = email.toLowerCase();
 		const { error } = await supabase.auth.signInWithPassword({
 			email,
 			password,
@@ -47,6 +48,7 @@ export default function useAuth() {
 	};
 
 	const signUp = async (email: string, username: string, password: string) => {
+		email = email.toLowerCase();
 		const {
 			data: { session },
 			error,
@@ -72,6 +74,7 @@ export default function useAuth() {
 		username: string,
 		password: string,
 	) => {
+		email = email.toLowerCase();
 		const { data, error } = await supabase.auth.updateUser({
 			email,
 		});

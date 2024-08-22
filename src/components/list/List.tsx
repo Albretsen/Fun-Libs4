@@ -81,7 +81,9 @@ export default function List(props: any) {
             <FlashList
                 data={isFetching && !isFetchingNextPage ? [] : items}
                 renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'} />}
-                keyExtractor={(item: any) => item.id}
+                keyExtractor={(item: any, i: number) => {
+                    return item.id + " " + i
+                }}
                 estimatedItemSize={80}
                 ListEmptyComponent={isFetching ?
                     <View flex={1}>
