@@ -11,11 +11,15 @@ export default function useShare() {
 	};
 
 	const shareLib = async (lib: any) => {
-		const message = parseLibToText(lib) + '\n\n' + 'Written in Fun Libs!';
+		try {
+			const message = parseLibToText(lib) + '\n\n' + 'Written in Fun Libs!';
 
-		await Share.share({
-			message,
-		});
+			await Share.share({
+				message,
+			});
+		} catch {
+			console.log('Error sharing');
+		}
 	};
 
 	return { share, shareLib };

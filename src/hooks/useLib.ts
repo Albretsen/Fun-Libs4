@@ -161,7 +161,8 @@ export default function useLib() {
 									index,
 								)
 							) {
-								highlighted_word = lib.user_input[i];
+								highlighted_word =
+									lib.user_input[i] || Object.keys(lib.parsed_prompts[i])[0];
 								break;
 							}
 						}

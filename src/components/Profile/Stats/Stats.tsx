@@ -53,7 +53,7 @@ export default function ProfileStats(props: ProfileStatsProps) {
             });
         }
 
-        return { iconComponent: <Eye />, text: `${total} view${total !== 1 ? 's' : ''}` };
+        return { iconComponent: <Eye />, text: `${total} play${total !== 1 ? 's' : ''}` };
     };
 
     const countLikes = async () => {

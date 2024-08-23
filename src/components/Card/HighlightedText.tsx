@@ -23,7 +23,7 @@ export default function HighlightedText(props: any) {
 
                                 }
                             }
-                            return (<SizableText key={index} size={'$5'} fontWeight={400} color={'$main8'} lineHeight={32}>{highlighted_word}</SizableText>);
+                            return (<SizableText key={index} size={'$5'} fontWeight={400} color={'$main11'} lineHeight={32}>{highlighted_word}</SizableText>);
                         }
                     })}
                 </Text>
