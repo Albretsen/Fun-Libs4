@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,11 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "40"
+      "buildNumber": "41"
     },
     "android": {
       "package": "com.asgalb.FunLibs",
-      "versionCode": 40,
+      "versionCode": 41,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -34,6 +34,16 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          }
+        }
+      ],
       "expo-router",
       [
         "react-native-google-mobile-ads",
@@ -94,7 +104,8 @@
             "3qcr597p9d.skadnetwork"
           ]
         }
-      ]
+      ],
+      "expo-build-properties"
     ]
   }
 }
