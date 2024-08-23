@@ -85,7 +85,7 @@ export default function LoginScreen() {
                     </View>
                     <SizableText size={'$4'}>or</SizableText>
                     <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => signInAnonymously_()}>Continue as Guest</Button>
-                    {process.env.EXPO_PUBLIC_DEVELOPMENT_MODE ? <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => devSignIn()}>Auto sign in (Development mode only)</Button> : null}
+                    {process.env.EXPO_PUBLIC_DEVELOPMENT_MODE == "true" ? <Button backgroundColor={'transparent'} borderColor={'$main12'} color={'$main12'} width={'100%'} onPress={() => devSignIn()}>Auto sign in (Development mode only)</Button> : null}
                 </View>
             </ScrollView>
             <View alignItems='center' padding={16}>
