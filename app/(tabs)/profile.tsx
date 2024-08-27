@@ -11,6 +11,7 @@ import { PAGE_SIZE } from '../../settings';
 import ProfilePicture from '../../src/components/Card/ProfilePicture';
 import CoverImage from '../../src/components/Card/CoverImage';
 import ProfileStats from '../../src/components/Profile/Stats/Stats';
+import { Link } from 'expo-router';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
@@ -40,7 +41,12 @@ export default function Tab() {
                             }}>
                                 <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
                             </View>
-                            <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
+                            {/* TODO: Needs check for whether this is the logged in user's userpage or not */}
+                            <Link href={{
+                                pathname: "/select-avatar",
+                            }}>
+                                <ProfilePicture editable size={60} avatarURL={user?.user_metadata?.avatar_url} />
+                            </Link>
                         </View>
                         {/* <Button onPress={() => signOut()}>Sign out</Button> */}
                         {user ?

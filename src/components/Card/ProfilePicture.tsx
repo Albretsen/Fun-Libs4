@@ -1,4 +1,5 @@
-import { Image } from "tamagui"
+import { Image, View } from "tamagui"
+import { SquarePen } from "@tamagui/lucide-icons";
 
 interface ProfilePictureProps {
     /** 
@@ -7,13 +8,30 @@ interface ProfilePictureProps {
     */
     size?: number,
     avatarURL?: string,
+    editable?: boolean;
 }
 
 export default function ProfilePicture(props: ProfilePictureProps) {
-    const { size = 48, avatarURL } = props;
+    const { size = 48, avatarURL, editable } = props;
     return (
-        <Image height={size} width={size} backgroundColor={'$main6'} objectFit="contain" source={{
-            uri: avatarURL ? avatarURL : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-        }} borderRadius={1000}></Image>
+        <View>
+            <Image height={size} width={size} backgroundColor={'$main6'} objectFit="contain" source={{
+                uri: avatarURL ? avatarURL : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+            }} borderRadius={1000}></Image>
+            {editable && (
+                <View backgroundColor={'$main2'} style={{
+                    position: "absolute",
+                    bottom: -6,
+                    right: -6,
+                    padding: 6,
+                    borderRadius: 100,
+                }}>
+                    <SquarePen size={size / 3.5} style={{
+
+                    }} />
+                </View>
+            )}
+        </View>
+
     )
 }
