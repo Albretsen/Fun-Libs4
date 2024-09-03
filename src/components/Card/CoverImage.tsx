@@ -21,7 +21,7 @@ export default function CoverImage(props: CoverImageProps) {
     return <>{item ? (<>{
         item.cover ?
             <Image height={height} source={{
-                uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${item.id}.png`,
+                uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${item.id}.jpg`,
             }
             } borderRadius={borderRadius} >
 
