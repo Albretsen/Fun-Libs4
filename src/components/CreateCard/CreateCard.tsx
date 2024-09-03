@@ -33,6 +33,7 @@ export default function CreateCard() {
             router.replace('/');
             navigation.navigate('Community');
             queryClient.invalidateQueries({ queryKey: ['community_libs'] });
+            queryClient.invalidateQueries({ queryKey: ['profile_libs'] });
         } catch (error: unknown) {
             router.replace('/create');
             funLibsError(error);

@@ -19,5 +19,15 @@ export default function useSocial() {
 			.eq('user_id', session?.user.id);
 	};
 
-	return { addLike, removeLike };
+	/**
+	 * TODO:
+	 * "Multithread" awaits
+	 */
+	const changeAvatar = async (avatar_url: string) => {
+		if (!session?.user?.id) return false;
+		await supabase.auth.updateUser({ data: { avatar_url } });
+		return await supabase.from('profiles').update({ avatar_url }).eq('id', session?.user.id);
+	}
+
+	return { addLike, removeLike, changeAvatar };
 }

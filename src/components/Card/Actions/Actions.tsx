@@ -63,6 +63,7 @@ export default function Actions(props: ActionsProps) {
                     navigation.navigate('Community');
                     await deleteLib(item.id);
                     queryClient.invalidateQueries({ queryKey: ['community_libs'] });
+                    queryClient.invalidateQueries({ queryKey: ['profile_libs'] });
                 } catch (error) {
                     funLibsError(error);
                 }

@@ -12,16 +12,33 @@ import ProfilePicture from '../../src/components/Card/ProfilePicture';
 import CoverImage from '../../src/components/Card/CoverImage';
 import ProfileStats from '../../src/components/Profile/Stats/Stats';
 import { Link } from 'expo-router';
+import { useProfileStore } from '../../src/hooks/useProfileStore';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
+
+    const { user_id } = useProfileStore();
 
     const [user, setUser] = useState<any>();
 
     useEffect(() => {
         if (session) {
-            setUser(session.user)
+            //setUser(session.user)
         };
+
+        const getProfile = async () => {
+            let tempUser = { user_metadata: {}, id: null };
+            const result = await supabase.from('profiles').select().eq('id', user_id).single();
+            if (result.data) {
+                tempUser.user_metadata = result.data;
+                tempUser.id = result.data?.id;
+                setUser(tempUser);
+            } else {
+
+            }
+        };
+
+        getProfile();
     }, [session]);
 
     return (
@@ -55,7 +72,7 @@ export default function Tab() {
                                 <ProfileStats user={user} />
                                 <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
                                 <List queryKey={"profile_libs"} ListItem={Card} queryFn={async (page: number) => {
-                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).order('plays', { ascending: false });
+                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('plays', { ascending: false });
                                 }} />
                             </ScrollView> : null}
                     </StyledContainer>

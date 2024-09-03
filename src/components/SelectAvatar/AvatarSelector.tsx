@@ -1,9 +1,40 @@
 import ProfilePicture from "../Card/ProfilePicture";
-import { View, ScrollView, Button } from "tamagui";
+import { View, ScrollView, Button, } from "tamagui";
+import useSocial from "../../hooks/useSocial";
+import { useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
+import Toast from 'react-native-toast-message';
+import { Pressable } from "react-native";
 
 export default function AvatarSelector() {
 
+    const { getSession } = useAuth();
+    const [selectedAvatar, setSelectedAvatar] = useState()
+    const { changeAvatar } = useSocial();
     const avatarIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+
+    const switchAvatar = async (avatar_url: string) => {
+        const result = await changeAvatar(avatar_url);
+        console.log("Change avatar result stringified:");
+        console.log(result);
+        if (!result || result.error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Error updating avatar, please try again.'
+            });
+        }
+    }
+
+    useEffect(() => {
+        const getAvatar = async () => {
+            const session = await getSession();
+            setSelectedAvatar(session?.user.user_metadata.avatar_url);
+        }
+
+        getAvatar();
+    }, []);
+
     return (
         <View style={{
             justifyContent: "center",
@@ -13,7 +44,7 @@ export default function AvatarSelector() {
         }}>
             <ProfilePicture
                 size={100}
-                avatarURL='https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png'
+                avatarURL={selectedAvatar}
             />
             <ScrollView borderRadius={20} contentContainerStyle={{
                 flexDirection: "row",
@@ -26,11 +57,12 @@ export default function AvatarSelector() {
 
             }}>
                 {avatarIds.map((id) => (
-                    <ProfilePicture
-                        key={id}
-                        size={90}
-                        avatarURL={'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png'}
-                    />
+                    <Pressable key={id} onPress={() => setSelectedAvatar('https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png')}>
+                        <ProfilePicture
+                            size={90}
+                            avatarURL={'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png'}
+                        />
+                    </Pressable>
                 ))}
             </ScrollView>
             <View style={{
@@ -54,6 +86,7 @@ export default function AvatarSelector() {
                     borderRadius={15}
                     backgroundColor={'$main7'}
                     color={'$main12'}
+                    onPress={() => { changeAvatar(selectedAvatar) }}
                 >
                     Save
                 </Button>
