@@ -23,7 +23,7 @@ export default function TabLayout() {
                     fontFamily: 'Inter', fontSize: 13, paddingBottom: Platform.OS == "android" ? 4 : 0, color: theme.main12.val,
                 },
                 tabBarStyle: {
-                    height: Platform.OS == "android" ? 64 : 100,
+                    height: Platform.OS == "android" ? 64 : 90,
                     backgroundColor: theme.main2.val,
                     display: pagesToHideTabBar.includes(page) && isKeyboardVisible ? 'none' : 'flex'
                 },
