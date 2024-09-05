@@ -21,12 +21,11 @@ export default function Header() {
                 headerShown: true,
                 header: (props) =>
                     <>
-                        {/* <SafeAreaView> */}
                         {props.route.name === "profile" ?
                             <View style={{
                                 height: 0,
                             }}>
-                                <XStack margin={16} height={32} justifyContent="space-between" alignItems="center">
+                                <XStack margin={16} marginTop={Platform.OS == "android" ? 30 : 16} height={32} justifyContent="space-between" alignItems="center">
                                     <Button
                                         borderWidth={1}
                                         borderColor={'$main6'}
@@ -38,23 +37,23 @@ export default function Header() {
                                         <X />
                                     </Button>
                                     {/* <Button
-                                            borderWidth={1}
-                                            borderColor={'$main6'}
-                                            backgroundColor={'$main4'}
-                                            height={40}
-                                            borderRadius={50}
-                                            gap={0}
-                                        >
-                                            <Pen />
-                                            <SizableText>Edit</SizableText>
-                                        </Button> */}
+                                        borderWidth={1}
+                                        borderColor={'$main6'}
+                                        backgroundColor={'$main4'}
+                                        height={40}
+                                        borderRadius={50}
+                                        gap={0}
+                                    >
+                                        <Pen />
+                                        <SizableText>Edit</SizableText>
+                                    </Button> */}
                                 </XStack>
                                 {/* <SizableText>{JSON.stringify(props)}</SizableText> */}
                             </View>
                             :
                             <>{!props.back ?
                                 <View backgroundColor={'$background'}>
-                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 26 : 16} height={32} alignItems="center" >
+                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 30 : 16} height={32} alignItems="center" >
                                         <TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
                                             <Menu />
                                         </TouchableOpacity>
@@ -76,7 +75,6 @@ export default function Header() {
                                     </XStack>
                                 </View>
                             }</>}
-                        {/* </SafeAreaView> */}
                         <Drawer side="left" ref={navigationDrawerRef}>
                             <Button onPress={() => {
                                 navigationDrawerRef.current?.closeDrawer();
