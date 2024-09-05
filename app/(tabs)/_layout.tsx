@@ -16,7 +16,7 @@ export default function TabLayout() {
     const isKeyboardVisible = useKeyboardVisibility();
 
     return (
-        <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS == "android" ? 10 : 0, backgroundColor: theme.main1.val }}>
+        <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS == "android" ? 0 : 0, backgroundColor: theme.main1.val }}>
             <Tabs screenOptions={{
                 tabBarActiveTintColor: theme.main12.val,
                 tabBarLabelStyle: {

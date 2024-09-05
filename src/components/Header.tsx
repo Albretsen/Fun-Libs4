@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
 
 export default function Header() {
 
@@ -54,7 +54,7 @@ export default function Header() {
                             :
                             <>{!props.back ?
                                 <View backgroundColor={'$background'}>
-                                    <XStack margin={16} height={32} alignItems="center" >
+                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 26 : 16} height={32} alignItems="center" >
                                         <TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
                                             <Menu />
                                         </TouchableOpacity>
@@ -69,7 +69,7 @@ export default function Header() {
                                 </View>
                                 :
                                 <View backgroundColor={'$background'}>
-                                    <XStack margin={16} height={16} alignItems="center">
+                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 26 : 16} height={16} alignItems="center">
                                         <TouchableOpacity onPress={() => router.back()} hitSlop={16} style={{ height: '100%' }}>
                                             <ArrowLeft />
                                         </TouchableOpacity>
