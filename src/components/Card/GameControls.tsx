@@ -41,7 +41,7 @@ export default function GameControls(props: any) {
                             value={input}
                             placeholder={prompt}
                         />
-                        <TouchableOpacity onPress={handleFill} style={{
+                        <TouchableOpacity hitSlop={16} onPress={handleFill} style={{
                             position: "absolute",
                             right: 8,
                             top: 11

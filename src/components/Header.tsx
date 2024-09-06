@@ -8,8 +8,11 @@ import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
 import { Linking, Platform } from "react-native";
+import { useTheme } from "tamagui";
 
 export default function Header() {
+
+    const theme = useTheme();
 
     const { session, signOut } = useAuth();
 
@@ -52,7 +55,7 @@ export default function Header() {
                             </View>
                             :
                             <>{!props.back ?
-                                <View backgroundColor={'$background'}>
+                                <View backgroundColor={theme.background.val}>
                                     <XStack margin={16} marginTop={Platform.OS == "android" ? 30 : 16} height={32} alignItems="center" >
                                         <TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
                                             <Menu />

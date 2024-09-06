@@ -25,7 +25,7 @@ export default function TabLayout() {
                 tabBarStyle: {
                     height: Platform.OS == "android" ? 64 : 90,
                     backgroundColor: theme.main2.val,
-                    display: pagesToHideTabBar.includes(page) && isKeyboardVisible ? 'none' : 'flex'
+                    display: pagesToHideTabBar.includes(page) && isKeyboardVisible ? 'none' : 'flex',
                 },
                 tabBarIconStyle: {
                     marginBottom: Platform.OS == "android" ? -4 : 0

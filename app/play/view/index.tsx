@@ -21,7 +21,7 @@ export default function Tab() {
     }
 
     return (
-        <StyledContainer >
+        <StyledContainer>
             <Header />
             <Card item={data} variant='play' />
         </StyledContainer>

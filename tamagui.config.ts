@@ -15,6 +15,7 @@ const tokens = createTokens({
 });
 
 const rgbBlue12Light = hslToRgb(tokens.color.blue12Light.val);
+const rgbBlue12Dark = hslToRgb(tokens.color.blue12Dark.val);
 
 const funLibsTheme = {
 	light: {
@@ -59,7 +60,7 @@ const funLibsTheme = {
 		main10: tokens.color.blue10Dark,
 		main11: tokens.color.blue11Dark,
 		main12: tokens.color.blue12Dark,
-		background: tokens.color.blue12Dark,
+		background: tokens.color.blue1Dark,
 		backgroundHover: tokens.color.blue3Dark,
 		backgroundPress: tokens.color.blue5Dark,
 		backgroundFocus: tokens.color.blue5Dark,
@@ -71,7 +72,7 @@ const funLibsTheme = {
 		colorFocus: tokens.color.blue6Dark,
 		shadowColor: tokens.color.blue5Dark,
 		shadowColorHover: tokens.color.blue6Dark,
-		placeholder: `rgba(${rgbBlue12Light.r}, ${rgbBlue12Light.g}, ${rgbBlue12Light.b}, 0.4)`,
+		placeholder: `rgba(${rgbBlue12Dark.r}, ${rgbBlue12Dark.g}, ${rgbBlue12Dark.b}, 0.4)`,
 	},
 };
 
@@ -146,11 +147,11 @@ export type AppConfig = typeof config;
 declare module 'tamagui' {
 	// overrides TamaguiCustomConfig so your custom types
 	// work everywhere you import `tamagui`
-	interface TamaguiCustomConfig extends AppConfig {}
+	interface TamaguiCustomConfig extends AppConfig { }
 }
 
 declare module '@tamagui/core' {
-	interface TamaguiCustomConfig extends AppConfig {}
+	interface TamaguiCustomConfig extends AppConfig { }
 }
 
 function hslToRgb(hsl: string) {
