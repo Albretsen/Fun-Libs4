@@ -25,7 +25,6 @@ export default function Header() {
                 headerShown: true,
                 header: (props) =>
                     <>
-                        <SizableText>{props.route.name}</SizableText>
                         {props.route.name === "profile" || props.route.name === "public-profile-index" ?
                             <View style={{
                                 height: 0,
