@@ -18,13 +18,15 @@ export default function Header() {
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
 
+
     return (
         <Stack.Screen
             options={{
                 headerShown: true,
                 header: (props) =>
                     <>
-                        {props.route.name === "profile" ?
+                        <SizableText>{props.route.name}</SizableText>
+                        {props.route.name === "profile" || props.route.name === "public-profile-index" ?
                             <View style={{
                                 height: 0,
                             }}>

@@ -47,7 +47,7 @@ export default function Card(props: CardProps) {
     const navigateToProfile = () => {
         if (item?.profiles?.id) {
             setProfileUserId(item.profiles.id);
-            router.navigate("/profile");
+            router.navigate("/public-profile");
         }
     }
 
