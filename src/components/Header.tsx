@@ -9,6 +9,7 @@ import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
 import { Linking, Platform } from "react-native";
 import { useTheme } from "tamagui";
+import { useEffect, useState } from "react";
 
 export default function Header() {
 
@@ -17,7 +18,6 @@ export default function Header() {
     const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
-
 
     return (
         <Stack.Screen
@@ -65,7 +65,9 @@ export default function Header() {
                                         <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
                                         <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={16}>
                                             <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
-                                                uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                                                uri: session?.user.user_metadata.avatar_url
+                                                    ? session.user.user_metadata.avatar_url
+                                                    : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
                                             }} borderRadius={1000} />
                                         </TouchableOpacity>
                                     </XStack>
