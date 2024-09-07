@@ -1,4 +1,5 @@
 import React from 'react';
+import { Appearance } from 'react-native';
 import '@tamagui/core/reset.css';
 import { TamaguiProvider } from '@tamagui/core';
 import config from '../tamagui.config';
@@ -17,6 +18,7 @@ import {
 } from '@tanstack/react-query';
 import { CreateProvider } from '../src/Contexts/CreateContext';
 import Toast from 'react-native-toast-message';
+import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useAds from '../src/hooks/useAds';
 
@@ -30,12 +32,27 @@ export default function App() {
 
     const { BannerAdID } = useAds();
 
+    const [currentTheme, setCurrentTheme] = useState(Appearance.getColorScheme() || "light");
+
+    useEffect(() => {
+        const colorScheme = Appearance.getColorScheme();
+        setCurrentTheme(colorScheme || "light");
+
+        const listener = Appearance.addChangeListener(({ colorScheme }) => {
+            setCurrentTheme(colorScheme || "light");
+        });
+
+        return () => {
+            listener.remove();
+        };
+    }, []);
+
     if (!assetsLoaded || !scriptsLoaded) return null;
 
     return (
         <QueryClientProvider client={queryClient}>
             <TamaguiProvider config={config}>
-                <Theme name="light">
+                <Theme name={currentTheme as "light" | "dark"}>
                     <CreateProvider>
                         <PortalProvider>
                             {session && session.user ?

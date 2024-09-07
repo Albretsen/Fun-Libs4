@@ -7,13 +7,17 @@ import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
-import { Linking } from "react-native";
+import { Linking, Platform } from "react-native";
+import { useTheme } from "tamagui";
 
 export default function Header() {
+
+    const theme = useTheme();
 
     const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
+
 
     return (
         <Stack.Screen
@@ -21,62 +25,61 @@ export default function Header() {
                 headerShown: true,
                 header: (props) =>
                     <>
-                        <View>
-                            {props.route.name === "profile" ?
-                                <View style={{
-                                    height: 0,
-                                }}>
-                                    <XStack margin={16} height={32} justifyContent="space-between" alignItems="center">
-                                        <Button
-                                            borderWidth={1}
-                                            borderColor={'$main6'}
-                                            aspectRatio={1}
-                                            backgroundColor={'$main4'}
-                                            borderRadius={50}
-                                            onPress={() => router.back()}
-                                        >
-                                            <X />
-                                        </Button>
-                                        {/* <Button
-                                            borderWidth={1}
-                                            borderColor={'$main6'}
-                                            backgroundColor={'$main4'}
-                                            height={40}
-                                            borderRadius={50}
-                                            gap={0}
-                                        >
-                                            <Pen />
-                                            <SizableText>Edit</SizableText>
-                                        </Button> */}
+                        <SizableText>{props.route.name}</SizableText>
+                        {props.route.name === "profile" || props.route.name === "public-profile-index" ?
+                            <View style={{
+                                height: 0,
+                            }}>
+                                <XStack margin={16} marginTop={Platform.OS == "android" ? 30 : 16} height={32} justifyContent="space-between" alignItems="center">
+                                    <Button
+                                        borderWidth={1}
+                                        borderColor={'$main6'}
+                                        aspectRatio={1}
+                                        backgroundColor={'$main4'}
+                                        borderRadius={50}
+                                        onPress={() => router.back()}
+                                    >
+                                        <X />
+                                    </Button>
+                                    {/* <Button
+                                        borderWidth={1}
+                                        borderColor={'$main6'}
+                                        backgroundColor={'$main4'}
+                                        height={40}
+                                        borderRadius={50}
+                                        gap={0}
+                                    >
+                                        <Pen />
+                                        <SizableText>Edit</SizableText>
+                                    </Button> */}
+                                </XStack>
+                                {/* <SizableText>{JSON.stringify(props)}</SizableText> */}
+                            </View>
+                            :
+                            <>{!props.back ?
+                                <View backgroundColor={theme.background.val}>
+                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 30 : 16} height={32} alignItems="center" >
+                                        <TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
+                                            <Menu />
+                                        </TouchableOpacity>
+                                        {/* <Input placeholder="Search" height={'100%'} flex={1} marginHorizontal={16} borderRadius={999} /> */}
+                                        <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
+                                        <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={16}>
+                                            <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
+                                                uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
+                                            }} borderRadius={1000} />
+                                        </TouchableOpacity>
                                     </XStack>
-                                    {/* <SizableText>{JSON.stringify(props)}</SizableText> */}
                                 </View>
                                 :
-                                <>{!props.back ?
-                                    <View backgroundColor={'$background'}>
-                                        <XStack margin={16} height={32} alignItems="center" >
-                                            <TouchableOpacity onPress={() => navigationDrawerRef.current?.openDrawer()}>
-                                                <Menu />
-                                            </TouchableOpacity>
-                                            {/* <Input placeholder="Search" height={'100%'} flex={1} marginHorizontal={16} borderRadius={999} /> */}
-                                            <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
-                                            <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={16}>
-                                                <Image height={'100%'} width={32} backgroundColor={'$main6'} objectFit="contain" source={{
-                                                    uri: session?.user?.avatar_url ? session.user.avatar_url : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
-                                                }} borderRadius={1000} />
-                                            </TouchableOpacity>
-                                        </XStack>
-                                    </View>
-                                    :
-                                    <View backgroundColor={'$background'}>
-                                        <XStack margin={16} height={16} alignItems="center">
-                                            <TouchableOpacity onPress={() => router.back()} hitSlop={16} style={{ height: '100%' }}>
-                                                <ArrowLeft />
-                                            </TouchableOpacity>
-                                        </XStack>
-                                    </View>
-                                }</>}
-                        </View>
+                                <View backgroundColor={'$background'}>
+                                    <XStack margin={16} marginTop={Platform.OS == "android" ? 26 : 16} height={16} alignItems="center">
+                                        <TouchableOpacity onPress={() => router.back()} hitSlop={16} style={{ height: '100%' }}>
+                                            <ArrowLeft />
+                                        </TouchableOpacity>
+                                    </XStack>
+                                </View>
+                            }</>}
                         <Drawer side="left" ref={navigationDrawerRef}>
                             <View marginVertical={16} >
                                 <Button fontWeight={900} fontSize={'$6'} alignSelf="flex-start" onPress={() => {

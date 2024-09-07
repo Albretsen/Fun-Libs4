@@ -17,13 +17,25 @@ import { useProfileStore } from '../../src/hooks/useProfileStore';
 export default function Tab() {
     const { signOut, session } = useAuth();
 
+    const { user_id } = useProfileStore();
+
     const [user, setUser] = useState<any>();
 
     useEffect(() => {
-        if (session) {
-            setUser(session.user)
+        const getProfile = async () => {
+            let tempUser = { user_metadata: {}, id: null };
+            const result = await supabase.from('profiles').select().eq('id', user_id).single();
+            if (result.data) {
+                tempUser.user_metadata = result.data;
+                tempUser.id = result.data?.id;
+                setUser(tempUser);
+            } else {
+
+            }
         };
-    }, [session]);
+
+        getProfile();
+    }, [user_id]);
 
     return (
         <>
@@ -42,12 +54,7 @@ export default function Tab() {
                             }}>
                                 <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
                             </View>
-                            {/* TODO: Needs check for whether this is the logged in user's userpage or not */}
-                            <Link href={{
-                                pathname: "/select-avatar",
-                            }}>
-                                <ProfilePicture editable size={60} avatarURL={user?.user_metadata?.avatar_url} />
-                            </Link>
+                            <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
                         </View>
                         {/* <Button onPress={() => signOut()}>Sign out</Button> */}
                         {user ?
@@ -55,72 +62,20 @@ export default function Tab() {
                                 <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
                                 <ProfileStats user={user} />
                                 <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
-                                <List queryKey={"profile_libs"} ListItem={Card} queryFn={async (page: number) => {
+                                <List queryKey={"public_profile_libs"} ListItem={Card} queryFn={async (page: number) => {
                                     return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('plays', { ascending: false });
                                 }} />
                             </ScrollView> : null}
                     </StyledContainer>
                 </>
                 :
-                <>
-                    <View height={70} backgroundColor={'$background'} />
-                    <StyledContainer >
-                        <View gap={8}>
-                            <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
-                            <SignUp />
-                        </View>
-                    </StyledContainer>
-                </>
+                <StyledContainer >
+                    <View gap={8}>
+                        <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+                        <SignUp />
+                    </View>
+                </StyledContainer>
             }
         </>
     );
 }
-
-/*
-{
-  "id": "c5c2ec05-c358-4fd4-8886-ba0eea80a866",
-  "aud": "authenticated",
-  "role": "authenticated",
-  "email": "test@email.com",
-  "email_confirmed_at": "2024-08-07T18:47:20.510837016Z",
-  "phone": "",
-  "last_sign_in_at": "2024-08-07T18:47:20.515077921Z",
-  "app_metadata": {
-    "provider": "email",
-    "providers": [
-      "email"
-    ]
-  },
-  "user_metadata": {
-    "avatar_url": "https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png",
-    "email": "test@email.com",
-    "email_verified": false,
-    "phone_verified": false,
-    "sub": "c5c2ec05-c358-4fd4-8886-ba0eea80a866",
-    "username": "Test Account"
-  },
-  "identities": [
-    {
-      "identity_id": "8847b765-a925-4617-8bc0-33967dbe2b50",
-      "id": "c5c2ec05-c358-4fd4-8886-ba0eea80a866",
-      "user_id": "c5c2ec05-c358-4fd4-8886-ba0eea80a866",
-      "identity_data": {
-        "avatar_url": "https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png",
-        "email": "test@email.com",
-        "email_verified": false,
-        "phone_verified": false,
-        "sub": "c5c2ec05-c358-4fd4-8886-ba0eea80a866",
-        "username": "Test Account"
-      },
-      "provider": "email",
-      "last_sign_in_at": "2024-08-07T18:47:20.504936007Z",
-      "created_at": "2024-08-07T18:47:20.505015Z",
-      "updated_at": "2024-08-07T18:47:20.505015Z",
-      "email": "test@email.com"
-    }
-  ],
-  "created_at": "2024-08-07T18:47:20.491151Z",
-  "updated_at": "2024-08-07T18:47:20.520222Z",
-  "is_anonymous": false
-}
-*/
