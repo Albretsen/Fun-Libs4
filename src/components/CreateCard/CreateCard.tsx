@@ -36,9 +36,9 @@ export default function CreateCard() {
             router.replace('/');
             navigation.navigate('Community');
             //await new Promise(resolve => setTimeout(resolve, 3000));
-            queryClient.invalidateQueries({ queryKey: ['community_libs'] });
-            queryClient.invalidateQueries({ queryKey: ['profile_libs'] });
-            queryClient.removeQueries({ queryKey: ['community_libs'] });
+
+            queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+            queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
         } catch (error: unknown) {
             router.replace('/create');
             funLibsError(error);

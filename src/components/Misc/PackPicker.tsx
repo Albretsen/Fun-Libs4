@@ -23,8 +23,8 @@ export default function PackPicker() {
         if (!result) {
             return;
         }
-        queryClient.removeQueries({ queryKey: ['pack_libs_' + pack] });
-        queryClient.removeQueries({ queryKey: ['official_libs'] });
+        queryClient.resetQueries({ queryKey: ['pack_libs_' + pack], exact: true });
+        queryClient.resetQueries({ queryKey: ['official_libs'], exact: true });
     }
 
     useEffect(() => {
