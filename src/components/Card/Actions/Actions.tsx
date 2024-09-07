@@ -1,5 +1,5 @@
-import { useTheme, View, XStack } from "tamagui";
-import { Heart, Share, User, RotateCcw, Save } from "@tamagui/lucide-icons";
+import { SizableStack, SizableText, useTheme, View, XStack } from "tamagui";
+import { Heart, Share, User, RotateCcw, Save, Trash } from "@tamagui/lucide-icons";
 import ActionButton from "./ActionButton";
 import { router } from 'expo-router';
 import { useEffect, useState } from "react";
@@ -11,6 +11,8 @@ import useLikes from "../../../hooks/useLikes";
 import { useLibStore } from "../../../hooks/useLibStore";
 import useShare from "../../../hooks/useShare";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import useAuth from "../../../hooks/useAuth";
+import { AlertDialog, Button } from 'tamagui';
 
 interface ActionsProps {
     item?: any,
@@ -23,16 +25,14 @@ export default function Actions(props: ActionsProps) {
     const { item, variant = "read", onPressSave, onPressDelete } = props;
 
     const { funLibsError } = useError();
-
     const { shareLib } = useShare();
-
     const queryClient = useQueryClient();
-
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
     const { deleteLib } = useLib();
+    const { session } = useAuth();
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [isDialogVisible, setDialogVisible] = useState<boolean>(false);
 
     const theme = useTheme();
 
@@ -40,7 +40,7 @@ export default function Actions(props: ActionsProps) {
 
     const restart = () => {
         router.replace("/play/view");
-    }
+    };
 
     const save = async () => {
         if (onPressSave) {
@@ -54,25 +54,28 @@ export default function Actions(props: ActionsProps) {
         } else {
             console.log("Not implemented");
         }
-    }
+    };
 
-    const delete_ = async () => {
-        switch (variant) {
-            case "play":
-                try {
-                    router.replace('/');
-                    navigation.navigate('Community');
-                    await deleteLib(item.id);
-                    queryClient.removeQueries({ queryKey: ['community_libs'] });
-                    queryClient.invalidateQueries({ queryKey: ['profile_libs'] });
-                } catch (error) {
-                    funLibsError(error);
-                }
-                break;
-            default:
-                console.log("delete not implemented");
+    const confirmDelete = () => {
+        setDialogVisible(true);
+    };
+
+    const handleDelete = async () => {
+        try {
+            router.replace('/');
+            navigation.navigate('Community');
+            await deleteLib(item.id);
+            queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+            queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
+        } catch (error) {
+            funLibsError(error);
         }
-    }
+        setDialogVisible(false);
+    };
+
+    const handleCancel = () => {
+        setDialogVisible(false);
+    };
 
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} backgroundColor={'$background'} paddingVertical={8}>
@@ -81,8 +84,9 @@ export default function Actions(props: ActionsProps) {
                     <ActionButton label={"Publish"} icon={Save} onPress={save} loading={loading} />
                 </> : null}
                 {variant === 'play' ? <>
-                    <ActionButton label={likes + " " + (likes != 1 ? 'likes' : 'like')} onPress={like} icon={liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />} />
+                    <ActionButton label={likes + " " + (likes !== 1 ? 'likes' : 'like')} onPress={like} icon={liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />} />
                     <ActionButton label={"Profile"} icon={User} />
+                    {session && session.user.id === item.profiles.id ? <ActionButton label={"Delete"} icon={Trash} onPress={confirmDelete} /> : null}
                 </> : null}
                 {variant === 'read' ? <>
                     <ActionButton label={"Share"} icon={Share} onPress={() => shareLib(item)} />
@@ -90,13 +94,38 @@ export default function Actions(props: ActionsProps) {
                 </> : null}
                 {variant === 'listItem' ? <>
                 </> : null}
-                {/* {config.like ? <ActionButton label={"28 likes"} icon={Heart} /> : null}
-                {config.restart ? <ActionButton label={"Try again"} icon={RotateCcw} onPress={restart} /> : null}
-                {config.share ? <ActionButton label={"Share"} icon={Share} /> : null}
-                {item?.author === userId ? <ActionButton label={"Edit"} icon={Pen} /> : null}
-                {item?.author === userId ? <ActionButton label={"Delete"} icon={Trash} onPress={onPressDelete ? onPressDelete : delete_} /> : null}
-                {config.profile ? <ActionButton label={"Profile"} icon={User} /> : null} */}
             </XStack>
+
+            {/* Alert Dialog for Deletion Confirmation */}
+            <AlertDialog open={isDialogVisible} onOpenChange={setDialogVisible}>
+                <AlertDialog.Portal>
+                    <AlertDialog.Overlay
+                        key="overlay"
+                        opacity={0.9}
+                        enterStyle={{ opacity: 0 }}
+                        exitStyle={{ opacity: 0 }}
+                    />
+                    <AlertDialog.Content
+                        bordered
+                        elevate
+                        key="content"
+                        enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                        exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                        x={0}
+                        scale={1}
+                        opacity={1}
+                        y={0}
+                    >
+                        <View padding={16}>
+                            <SizableText size={'$5'}>Are you sure you want to delete this item?</SizableText>
+                            <XStack justifyContent="flex-end" marginTop={16}>
+                                <Button onPress={handleCancel} marginRight={8}>Cancel</Button>
+                                <Button borderColor={'$red6'} backgroundColor={'$red4'} onPress={handleDelete}>Delete</Button>
+                            </XStack>
+                        </View>
+                    </AlertDialog.Content>
+                </AlertDialog.Portal>
+            </AlertDialog>
         </View>
-    )
-};
+    );
+}

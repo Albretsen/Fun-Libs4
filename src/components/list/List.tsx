@@ -47,8 +47,7 @@ export default function List(props: any) {
 
 
     const refresh = async () => {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
-        queryClient.removeQueries({ queryKey: [queryKey] });
+        queryClient.resetQueries({ queryKey, exact: true });
     }
 
     const onEndReached = () => {
