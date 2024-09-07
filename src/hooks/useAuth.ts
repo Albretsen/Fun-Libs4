@@ -47,8 +47,14 @@ export default function useAuth() {
 		if (error) Alert.alert(error.message);
 	};
 
-	const signUp = async (email: string, username: string, password: string) => {
+	const signUp = async (
+		email: string,
+		username: string,
+		password: string,
+		avatar: number,
+	) => {
 		email = email.toLowerCase();
+		if (!avatar) avatar = 0;
 		const {
 			data: { session },
 			error,
@@ -59,11 +65,12 @@ export default function useAuth() {
 				data: {
 					username,
 					email,
-					avatar_url:
-						'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+					avatar_url: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/${avatar}.png`,
 				},
 			},
 		});
+
+		console.log(error);
 
 		if (error) Alert.alert(error.message);
 		if (!session) Alert.alert('Please check your inbox for email verification!');
@@ -73,6 +80,7 @@ export default function useAuth() {
 		email: string,
 		username: string,
 		password: string,
+		avatar: number,
 	) => {
 		email = email.toLowerCase();
 		const { data, error } = await supabase.auth.updateUser({
@@ -80,8 +88,7 @@ export default function useAuth() {
 			data: {
 				email,
 				username,
-				avatar_url:
-					'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+				avatar_url: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/${avatar}.png`,
 			},
 		});
 
@@ -95,8 +102,7 @@ export default function useAuth() {
 				.update({
 					username,
 					email,
-					avatar_url:
-						'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/default.png',
+					avatar_url: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/${avatar}.png`,
 				})
 				.eq('id', session.user.id);
 		}

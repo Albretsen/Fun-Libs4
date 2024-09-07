@@ -5,18 +5,19 @@ import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import Toast from 'react-native-toast-message';
 import { Pressable } from "react-native";
+import { AVATAR_IDS } from "../../../settings";
+import { useNavigation, ParamListBase } from "@react-navigation/native";
 
 export default function AvatarSelector() {
 
     const { getSession } = useAuth();
     const [selectedAvatar, setSelectedAvatar] = useState()
     const { changeAvatar } = useSocial();
-    const avatarIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+    const navigation = useNavigation();
 
     const switchAvatar = async (avatar_url: string) => {
+        navigation.goBack();
         const result = await changeAvatar(avatar_url);
-        console.log("Change avatar result stringified:");
-        console.log(result);
         if (!result || result.error) {
             Toast.show({
                 type: 'error',
@@ -56,7 +57,7 @@ export default function AvatarSelector() {
                 paddingBottom: 10,
 
             }}>
-                {avatarIds.map((id) => (
+                {AVATAR_IDS.map((id) => (
                     <Pressable key={id} onPress={() => setSelectedAvatar('https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png')}>
                         <ProfilePicture
                             size={90}
@@ -78,6 +79,7 @@ export default function AvatarSelector() {
                     borderRadius={15}
                     backgroundColor={'$main1'}
                     color={'$main8'}
+                    onPress={() => { navigation.goBack(); }}
                 >
                     Cancel
                 </Button>
@@ -86,7 +88,7 @@ export default function AvatarSelector() {
                     borderRadius={15}
                     backgroundColor={'$main7'}
                     color={'$main12'}
-                    onPress={() => { changeAvatar(selectedAvatar) }}
+                    onPress={() => { switchAvatar(selectedAvatar) }}
                 >
                     Save
                 </Button>

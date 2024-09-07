@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useAds from '../src/hooks/useAds';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const queryClient = new QueryClient();
 
@@ -55,18 +56,20 @@ export default function App() {
                 <Theme name={currentTheme as "light" | "dark"}>
                     <CreateProvider>
                         <PortalProvider>
-                            {session && session.user ?
-                                <SafeAreaView style={{ flex: 1 }}>
-                                    <Stack
-                                        screenOptions={{
-                                            headerShown: false,
-                                        }}
-                                    />
-                                    <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
-                                </SafeAreaView>
-                                :
-                                <LoginScreen />}
-                            <Toast config={toastConfig} />
+                            <GestureHandlerRootView>
+                                {session && session.user ?
+                                    <SafeAreaView style={{ flex: 1 }}>
+                                        <Stack
+                                            screenOptions={{
+                                                headerShown: false,
+                                            }}
+                                        />
+                                        <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
+                                    </SafeAreaView>
+                                    :
+                                    <LoginScreen />}
+                                <Toast config={toastConfig} />
+                            </GestureHandlerRootView>
                         </PortalProvider>
                     </CreateProvider>
                 </Theme>
