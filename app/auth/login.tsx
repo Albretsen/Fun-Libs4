@@ -67,7 +67,7 @@ export default function LoginScreen() {
             <View alignItems='center' paddingTop={80} marginBottom={20}>
                 <SizableText size={'$10'} fontWeight={900}>Fun Libs</SizableText>
             </View>
-            <ScrollView flex={1}>
+            <ScrollView flex={1} keyboardShouldPersistTaps={true}>
                 <View flex={1} alignItems='center' justifyContent='center' marginHorizontal={16} gap={16}>
                     <SizableText size={'$8'} fontWeight={500}>Log in or sign up</SizableText>
                     <View width={'100%'} gap={8}>

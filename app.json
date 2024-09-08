@@ -15,11 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "43"
+      "buildNumber": "44"
     },
     "android": {
       "package": "com.asgalb.FunLibs",
-      "versionCode": 43,
+      "versionCode": 44,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
