@@ -1835,10 +1835,25 @@ export default function useLib() {
 		let match;
 
 		while ((match = regex.exec(text)) !== null) {
+			const suggestion = match[1];
 			parsed_text.push(text.slice(lastIndex, match.index));
-			parsed_prompts.push({ [match[1]]: [parsed_text.length] });
-			parsed_text.push('');
 			lastIndex = regex.lastIndex;
+
+			let promptFound = false;
+			for (let i = 0; i < parsed_prompts.length; i++) {
+				const prompt = parsed_prompts[i];
+				if (Object.keys(prompt)[0] === suggestion) {
+					prompt[suggestion].push(parsed_text.length);
+					promptFound = true;
+					break;
+				}
+			}
+
+			if (!promptFound) {
+				parsed_prompts.push({ [suggestion]: [parsed_text.length] });
+			}
+
+			parsed_text.push('');
 		}
 
 		parsed_text.push(text.slice(lastIndex));
