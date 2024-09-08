@@ -10,16 +10,16 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00254D"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "42"
+      "buildNumber": "43"
     },
     "android": {
       "package": "com.asgalb.FunLibs",
-      "versionCode": 42,
+      "versionCode": 43,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
