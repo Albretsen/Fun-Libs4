@@ -15,7 +15,7 @@ export default function ProfilePicture(props: ProfilePictureProps) {
     const { size = 48, avatarURL, editable } = props;
     return (
         <View>
-            <Image height={size} width={size} backgroundColor={'$main6'} objectFit="contain" source={{
+            <Image height={size} width={size} backgroundColor={'$main6'} source={{
                 uri: avatarURL ? avatarURL : 'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/no-avatar.png',
             }} borderRadius={1000}></Image>
             {editable && (

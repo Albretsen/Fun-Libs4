@@ -1,4 +1,4 @@
-import { Input, Button, Spinner } from "tamagui";
+import { Input, Button, Spinner, SizableText } from "tamagui";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { validateEmail } from "../../utils/validation";
@@ -61,6 +61,7 @@ export default function SignUp(props: SignUpProps) {
             {!email ? <Input inputMode={'email'} onChangeText={(text) => setEmail(text)} value={email_} placeholder={`Email`} borderColor={'$main12'} /> : null}
             <Input inputMode={'text'} onChangeText={(text) => setUsername(text)} value={username} placeholder={`Username`} borderColor={'$main12'} />
             <Input inputMode={'text'} onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
+            <SizableText size={'$5'}>Select an avatar</SizableText>
             <AvatarSelectorCarousel setAvatar={setAvatar} avatar={avatar} />
             <Button iconAfter={loading ? <Spinner /> : null} backgroundColor={'$main12'} color={'$main2'} width={'100%'} onPress={() => signUpWithEmail()} >Continue</Button>
         </>
