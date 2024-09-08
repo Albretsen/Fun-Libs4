@@ -3,17 +3,17 @@ import { Play, BookText, Pen, User } from '@tamagui/lucide-icons';
 import { useTheme, View } from 'tamagui';
 import useKeyboardVisibility from '../../src/hooks/useKeyboardVisibility';
 import { Platform, SafeAreaView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
     const theme = useTheme();
-
     const segment = useSegments();
+    const isKeyboardVisible = useKeyboardVisibility();
+    const { i18n } = useTranslation();
 
     const page = segment[segment.length - 1];
 
     const pagesToHideTabBar = ['create'];
-
-    const isKeyboardVisible = useKeyboardVisibility();
 
     return (
         <SafeAreaView style={{ flex: 1, paddingTop: Platform.OS == "android" ? 0 : 0, backgroundColor: theme.main1.val }}>
@@ -34,7 +34,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="index"
                     options={{
-                        title: 'Play',
+                        title: i18n.t('BottomTabs.Play'),
                         tabBarIcon: ({ focused }) => (
                             <View style={{
                                 backgroundColor: focused ? theme.main4.val : 'transparent',
@@ -67,7 +67,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="create"
                     options={{
-                        title: 'Create',
+                        title: i18n.t('BottomTabs.Create'),
                         tabBarIcon: ({ focused }) => (
                             <View style={{
                                 backgroundColor: focused ? theme.main4.val : 'transparent',
@@ -83,7 +83,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="profile"
                     options={{
-                        title: 'Profile',
+                        title: i18n.t('BottomTabs.Profile'),
                         tabBarIcon: ({ focused }) => (
                             <View style={{
                                 backgroundColor: focused ? theme.main4.val : 'transparent',

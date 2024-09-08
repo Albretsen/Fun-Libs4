@@ -22,6 +22,7 @@ import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import useAds from '../src/hooks/useAds';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import '../src/i18n/i18n';
 
 const queryClient = new QueryClient();
 

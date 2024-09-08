@@ -1,0 +1,9 @@
+{
+	"Welcome to React": "Welcome to React and react-i18next",
+	"test": {
+		"test": "Play 1",
+		"Create": "Create 1",
+		"Profile": "Profile 1"
+	},
+	"test.test": "Play 1"
+}
