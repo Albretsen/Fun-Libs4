@@ -1,4 +1,5 @@
 import { View, Image } from "tamagui"
+import { Dimensions } from "react-native"
 
 interface CoverImageProps {
     item: {
@@ -17,10 +18,16 @@ interface CoverImageProps {
 
 export default function CoverImage(props: CoverImageProps) {
     const { item, borderRadius = 10, height = 100 } = props;
+    const screenWidth = Dimensions.get("screen").width
+    let imageHeight = height
+    if (screenWidth >= 700) {
+        imageHeight = 200;
+    }
+    console.log(screenWidth)
 
     return <>{item ? (<>{
         item.cover ?
-            <Image height={height} source={{
+            <Image height={imageHeight} source={{
                 uri: `https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/covers/${item.id}.jpg`,
             }
             } borderRadius={borderRadius} >
