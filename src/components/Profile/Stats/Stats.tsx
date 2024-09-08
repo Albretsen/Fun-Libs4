@@ -5,6 +5,7 @@ import StatBox from "./StatBox";
 import { ReactNode, useEffect, useState } from "react";
 import { supabase } from "../../../../supabase";
 import SkeletonStatBox from "./SkeletonStatBox";
+import { formatNumber } from "../../../utils/format";
 
 interface ProfileStatsProps {
     user: any
@@ -53,7 +54,7 @@ export default function ProfileStats(props: ProfileStatsProps) {
             });
         }
 
-        return { iconComponent: <Eye />, text: `${total} play${total !== 1 ? 's' : ''}` };
+        return { iconComponent: <Eye />, text: `${formatNumber(total)} play${total !== 1 ? 's' : ''}` };
     };
 
     const countLikes = async () => {
@@ -66,7 +67,7 @@ export default function ProfileStats(props: ProfileStatsProps) {
 
             if (likesResult?.count) {
                 const count = likesResult.count;
-                return { iconComponent: <Heart />, text: `${count} like${count !== 1 ? 's' : ''}` };
+                return { iconComponent: <Heart />, text: `${formatNumber(count)} like${count !== 1 ? 's' : ''}` };
             }
         }
 
