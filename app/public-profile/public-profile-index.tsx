@@ -39,43 +39,38 @@ export default function Tab() {
 
     return (
         <>
-            {!session?.user.is_anonymous ?
-                <>
-                    <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
-                    <StyledContainer>
-                        <Header />
-                        <View style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                        }}>
-                            <View style={{
-                                flex: 1,
-                            }}>
-                                <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
-                            </View>
-                            <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
-                        </View>
-                        {/* <Button onPress={() => signOut()}>Sign out</Button> */}
-                        {user ?
-                            <ScrollView >
-                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
-                                <ProfileStats user={user} />
-                                <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
-                                <List queryKey={"public_profile_libs"} ListItem={Card} queryFn={async (page: number) => {
-                                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('plays', { ascending: false });
-                                }} />
-                            </ScrollView> : null}
-                    </StyledContainer>
-                </>
-                :
-                <StyledContainer >
-                    <View gap={8}>
-                        <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
-                        <SignUp />
+            <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
+            <StyledContainer>
+                <Header />
+                <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}>
+                    <View style={{
+                        flex: 1,
+                    }}>
+                        <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$7'} fontWeight={900}>{user?.user_metadata?.username}</SizableText>
                     </View>
-                </StyledContainer>
-            }
+                    <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
+                </View>
+                {/* <Button onPress={() => signOut()}>Sign out</Button> */}
+                {user ?
+                    <ScrollView >
+                        <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
+                        <ProfileStats user={user} />
+                        <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Top libs</SizableText>
+                        <List queryKey={"public_profile_libs"} ListItem={Card} queryFn={async (page: number) => {
+                            return await supabase.from('libs').select(`*, profiles(*)`).eq("author", user.id).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('plays', { ascending: false });
+                        }} />
+                    </ScrollView> : null}
+            </StyledContainer>
         </>
+        // <StyledContainer >
+        //     <View gap={8}>
+        //         <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+        //         <SignUp />
+        //     </View>
+        // </StyledContainer>
     );
 }

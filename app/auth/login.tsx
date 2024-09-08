@@ -64,7 +64,7 @@ export default function LoginScreen() {
 
     return (
         <StyledContainer>
-            <View alignItems='center' justifyContent='center' flex={0.7}>
+            <View alignItems='center' paddingTop={80} marginBottom={20}>
                 <SizableText size={'$10'} fontWeight={900}>Fun Libs</SizableText>
             </View>
             <ScrollView flex={1}>
