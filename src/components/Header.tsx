@@ -11,6 +11,7 @@ import { Linking, Platform } from "react-native";
 import { useTheme } from "tamagui";
 import { useEffect, useState } from "react";
 import DrawerLink from "./Drawer/DrawerLink";
+import DiscordLink from "./Drawer/DiscordLink";
 
 export default function Header() {
 
@@ -110,13 +111,14 @@ export default function Header() {
                                     }}
                                 />
                                 <DrawerLink
-                                    label="Help"
+                                    label="Help and feedback"
                                     icon={<BadgeHelp scale={0.75} />}
                                     onPress={() => {
                                         navigationDrawerRef.current?.closeDrawer();
                                         Linking.openURL('mailto:contact@funlibs.app')
                                     }}
                                 />
+                                <DiscordLink />
                                 <View marginTop={20}>
                                     <DrawerLink
                                         label="Sign out"
