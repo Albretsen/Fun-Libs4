@@ -13,9 +13,9 @@
       "backgroundColor": "#00254D"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "44"
+      "buildNumber": "45"
     },
     "android": {
       "package": "com.asgalb.FunLibs",
