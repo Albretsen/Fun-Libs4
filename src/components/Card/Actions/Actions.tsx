@@ -13,6 +13,7 @@ import useShare from "../../../hooks/useShare";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import useAuth from "../../../hooks/useAuth";
 import { AlertDialog, Button } from 'tamagui';
+import { useProfileStore } from "../../../hooks/useProfileStore";
 
 interface ActionsProps {
     item?: any,
@@ -30,6 +31,7 @@ export default function Actions(props: ActionsProps) {
     const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
     const { deleteLib } = useLib();
     const { session } = useAuth();
+    const { setProfileUserId } = useProfileStore();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isDialogVisible, setDialogVisible] = useState<boolean>(false);
@@ -77,6 +79,13 @@ export default function Actions(props: ActionsProps) {
         setDialogVisible(false);
     };
 
+    const navigateToProfile = () => {
+        if (item?.profiles?.id) {
+            setProfileUserId(item.profiles.id);
+            router.navigate("/public-profile");
+        }
+    }
+
     return (
         <View borderWidth={1} borderColor={'$main6'} borderRadius={8} backgroundColor={'$background'} paddingVertical={8}>
             <XStack justifyContent="space-evenly" alignItems="center" flexWrap="wrap">
@@ -85,7 +94,7 @@ export default function Actions(props: ActionsProps) {
                 </> : null}
                 {variant === 'play' ? <>
                     <ActionButton label={likes + " " + (likes !== 1 ? 'likes' : 'like')} onPress={like} icon={liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />} />
-                    <ActionButton label={"Profile"} icon={User} />
+                    <ActionButton label={"Profile"} icon={User} onPress={navigateToProfile} />
                     {session && session.user.id === item.profiles.id ? <ActionButton label={"Delete"} icon={Trash} onPress={confirmDelete} /> : null}
                 </> : null}
                 {variant === 'read' ? <>
