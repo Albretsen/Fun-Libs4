@@ -4,15 +4,14 @@ import useIAP from "../../hooks/useIAP";
 import { Button, View, SizableText } from "tamagui";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PackPicker() {
     const [price, setPrice] = useState<string | null>();
-
     const { pack, setPack, ownedPacks, packsData } = usePackStore();
-
     const queryClient = useQueryClient();
-
     const { purchase, getPrice, setOwnedPacksState } = useIAP();
+    const { t } = useTranslation();
 
     const changePack = (pack: string | null) => {
         setPack(pack);
@@ -44,18 +43,18 @@ export default function PackPicker() {
         <View paddingBottom={16}>
             <ScrollableButtons ownedPacks={ownedPacks ? ownedPacks : []} buttons={
                 [
-                    { label: "🎉 Free", state: "active", onPress: () => { changePack(null) } },
-                    { label: "❤️ Romantic", state: ownedPacks?.includes("romance" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("romance") } },
-                    { label: "🚀 History", state: ownedPacks?.includes("historic" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("historic") } },
-                    { label: "🐣 Easter", state: ownedPacks?.includes("easter" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("easter") } },
-                    { label: "🎄 Christmas", state: ownedPacks?.includes("christmas" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("christmas") } },
+                    { label: t('Packs.free.shortTitle'), state: "active", onPress: () => { changePack(null) } },
+                    { label: t('Packs.romance.shortTitle'), state: ownedPacks?.includes("romance" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("romance") } },
+                    { label: t('Packs.historic.shortTitle'), state: ownedPacks?.includes("historic" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("historic") } },
+                    { label: t('Packs.easter.shortTitle'), state: ownedPacks?.includes("easter" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("easter") } },
+                    { label: t('Packs.christmas.shortTitle'), state: ownedPacks?.includes("christmas" + "_pack") ? "inactive" : "locked", onPress: () => { changePack("christmas") } },
                 ]
             } />
             {pack && !(ownedPacks?.includes(pack + "_pack")) ?
                 <View gap={8} paddingTop={8}>
-                    <SizableText size={'$8'} fontWeight={900}>{packsData[pack].title}</SizableText>
-                    <SizableText size={'$4'} fontWeight={400}>{packsData[pack].description}</SizableText>
-                    <Button borderRadius={100} backgroundColor={'$main4'} width={''} onPress={purchasePack}>Unlock{price}</Button>
+                    <SizableText size={'$8'} fontWeight={900}>{t(`Packs.${pack}.title`)}</SizableText>
+                    <SizableText size={'$4'} fontWeight={400}>{t(`Packs.${pack}.description`)}</SizableText>
+                    <Button borderRadius={100} backgroundColor={'$main4'} width={''} onPress={purchasePack}>{t('Packs.Unlock') + " " + price}</Button>
                 </View> : null}
         </View>
     )

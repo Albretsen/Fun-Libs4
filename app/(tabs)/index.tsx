@@ -4,11 +4,13 @@ import CommunityTab from '../play/community';
 import { View, useTheme, Text } from 'tamagui';
 import { Dimensions } from 'react-native';
 import Header from '../../src/components/Header';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabLayout() {
     const theme = useTheme();
+    const { t } = useTranslation();
 
     return (
         <View style={{ top: 0 }} flex={1} backgroundColor={theme.background.val} >
@@ -32,14 +34,14 @@ export default function TabLayout() {
                 <Tab.Screen name="Official" component={OfficialTab} options={{
                     tabBarLabel: ({ color }) => (
                         <Text style={{ color, fontFamily: 'InterBold', fontSize: 16, textTransform: 'none' }} numberOfLines={1}>
-                            Fun Libs
+                            {t('TopTabs.Fun Libs')}
                         </Text>
                     ),
                 }} />
                 <Tab.Screen name="Community" component={CommunityTab} options={{
                     tabBarLabel: ({ color }) => (
                         <Text style={{ color, fontFamily: 'InterBold', fontSize: 16, textTransform: 'none' }} numberOfLines={1}>
-                            Community
+                            {t('TopTabs.Community')}
                         </Text>
                     ),
                 }} />

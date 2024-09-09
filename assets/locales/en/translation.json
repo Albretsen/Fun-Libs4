@@ -1,8 +1,50 @@
 {
 	"Welcome to React": "Welcome to React and react-i18next",
 	"BottomTabs": {
-		"Play": "Play 1",
-		"Create": "Create 1",
-		"Profile": "Profile 1"
+		"Play": "Play",
+		"Create": "Create",
+		"Profile": "Profile"
+	},
+	"Drawer": {
+		"Join the Discord": "Join the Discord"
+	},
+	"Header": {
+        "Home": "Home",
+        "Create": "Create",
+        "Profile": "Profile",
+        "Help and feedback": "Help and feedback",
+        "Sign out": "Sign out",
+        "Fun Libs": "Fun Libs",
+		"Play": "Play"
+    },
+	"TopTabs": {
+		"Fun Libs": "Fun Libs",
+		"Community": "Community"
+	},
+	"Packs": {
+		"Unlock": "Unlock",
+		"free": {
+			"shortTitle": "🎉 Free"
+		},
+		"romance": {
+			"shortTitle": "❤️ Romantic",
+			"title": "The Romantic Pack ❤️",
+			"description": "This pack unlocks high quality stories with a romantic theme."
+		},
+		"historic": {
+			"shortTitle": "🚀 History",
+			"title": "The Historic Pack 🚀",
+			"description": "This pack unlocks high quality stories from history."
+		},
+		"easter": {
+			"shortTitle": "🐣 Easter",
+			"title": "The Easter Pack 🐣",
+			"description": "This pack unlocks high quality stories with an easter theme."
+		},
+		"christmas": {
+			"shortTitle": "🎄 Christmas",
+			"title": "The Christmas Pack 🎄",
+			"description": "This pack unlocks high quality stories with a christmas theme."
+		}
 	}
 }

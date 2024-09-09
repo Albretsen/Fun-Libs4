@@ -12,13 +12,12 @@ import { useTheme } from "tamagui";
 import { useEffect, useState } from "react";
 import DrawerLink from "./Drawer/DrawerLink";
 import DiscordLink from "./Drawer/DiscordLink";
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
-
+    const { t } = useTranslation();
     const theme = useTheme();
-
     const { session, signOut } = useAuth();
-
     const navigationDrawerRef = useRef<DrawerRef>(null);
 
     return (
@@ -64,7 +63,7 @@ export default function Header() {
                                             <Menu />
                                         </TouchableOpacity>
                                         {/* <Input placeholder="Search" height={'100%'} flex={1} marginHorizontal={16} borderRadius={999} /> */}
-                                        <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{props.options.title}</SizableText>
+                                        <SizableText size={'$6'} flex={1} marginHorizontal={16} textAlign="center" fontWeight={'500'}>{t('Header.' + props.options.title)}</SizableText>
                                         <TouchableOpacity onPress={() => router.navigate("/profile")} hitSlop={16}>
                                             <Image height={'100%'} width={32} backgroundColor={'$main6'} source={{
                                                 uri: session?.user.user_metadata.avatar_url
@@ -85,9 +84,9 @@ export default function Header() {
                             }</>}
                         <Drawer backgroundColor={theme.background.val} side="left" ref={navigationDrawerRef}>
                             <View paddingHorizontal={20} marginVertical={20} gap={16}>
-                                <SizableText fontWeight={900} fontSize={'$6'}>Fun Libs</SizableText>
+                                <SizableText fontWeight={900} fontSize={'$6'}>{t('Fun Libs')}</SizableText>
                                 <DrawerLink
-                                    label="Home"
+                                    label={t('Header.Home')}
                                     icon={<Play scale={0.75} />}
                                     onPress={() => {
                                         navigationDrawerRef.current?.closeDrawer();
@@ -95,7 +94,7 @@ export default function Header() {
                                     }}
                                 />
                                 <DrawerLink
-                                    label="Create"
+                                    label={t('Header.Create')}
                                     icon={<Pen scale={0.75} />}
                                     onPress={() => {
                                         navigationDrawerRef.current?.closeDrawer();
@@ -103,7 +102,7 @@ export default function Header() {
                                     }}
                                 />
                                 <DrawerLink
-                                    label="Profile"
+                                    label={t('Header.Profile')}
                                     icon={<User scale={0.75} />}
                                     onPress={() => {
                                         navigationDrawerRef.current?.closeDrawer();
@@ -111,7 +110,7 @@ export default function Header() {
                                     }}
                                 />
                                 <DrawerLink
-                                    label="Help and feedback"
+                                    label={t('Header.Help and feedback')}
                                     icon={<BadgeHelp scale={0.75} />}
                                     onPress={() => {
                                         navigationDrawerRef.current?.closeDrawer();
@@ -121,7 +120,7 @@ export default function Header() {
                                 <DiscordLink />
                                 <View marginTop={20}>
                                     <DrawerLink
-                                        label="Sign out"
+                                        label={t('Header.Sign out')}
                                         labelColor={theme.red11.val}
                                         icon={<LogOut scale={0.75} />}
                                         onPress={() => {
