@@ -42,6 +42,19 @@ export default function List(props: any) {
         if (!data) return;
 
         const temp_items: any[] = data.pages.flatMap(page => page.data ?? []);
+        try {
+            if (temp_items) {
+                temp_items.map((item) => {
+                    if (item?.libs_translations && item.libs_translations.length > 0) {
+                        item.title = item.libs_translations[0].title;
+                        item.parsed_text = item.libs_translations[0].parsed_text;
+                        item.parsed_prompts = item.libs_translations[0].parsed_prompts;
+                    }
+                })
+            }
+        } catch {
+            console.log("Error with translation");
+        }
         setItems(temp_items);
     }, [data]);
 

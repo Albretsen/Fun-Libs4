@@ -16,7 +16,7 @@ export default function Tab() {
             {Platform.OS == "android" ? <PackPicker /> : null}
             {!pack ?
                 <List queryKey={"official_libs"} ListItem={Card} queryFn={async (page: number) => {
-                    return await supabase.from('libs').select(`*, profiles(*)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
+                    return await supabase.from('libs').select(`*, profiles(*), libs_translations(title, parsed_text, parsed_prompts)`).eq("author", process.env.EXPO_PUBLIC_FUN_LIBS_ACCOUNT_UUID).eq("libs_translations.locale", "en").range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1).order('created_at', { ascending: false });
                 }} />
                 :
                 <List queryKey={"pack_libs_" + pack} ListItem={ownedPacks?.includes(pack + "_pack") ? Card : LockedCard} queryFn={async (page: number) => {
