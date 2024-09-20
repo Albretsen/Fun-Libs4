@@ -23,7 +23,6 @@ export default function CoverImage(props: CoverImageProps) {
     if (screenWidth >= 700) {
         imageHeight = 200;
     }
-    console.log(screenWidth)
 
     return <>{item ? (<>{
         item.cover ?

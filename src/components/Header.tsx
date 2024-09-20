@@ -2,7 +2,7 @@ import { Image, Input, View, XStack, Text, SizableText, Button } from "tamagui";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../hooks/useAuth";
-import { Bell, ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut } from "@tamagui/lucide-icons";
+import { Bell, ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut, UserX } from "@tamagui/lucide-icons";
 import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
@@ -119,7 +119,7 @@ export default function Header() {
                                     }}
                                 />
                                 <DiscordLink />
-                                <View marginTop={20}>
+                                <View marginTop={20} gap={16}>
                                     <DrawerLink
                                         label="Sign out"
                                         labelColor={theme.red11.val}
@@ -127,6 +127,16 @@ export default function Header() {
                                         onPress={() => {
                                             navigationDrawerRef.current?.closeDrawer();
                                             signOut();
+                                        }}
+                                    />
+                                    {/* TODO: This should maybe just be shown if actually logged in */}
+                                    <DrawerLink
+                                        label="Delete account"
+                                        labelColor={theme.red11.val}
+                                        icon={<UserX scale={0.75} />}
+                                        onPress={() => {
+                                            navigationDrawerRef.current?.closeDrawer();
+                                            router.navigate("/delete-account")
                                         }}
                                     />
                                 </View>

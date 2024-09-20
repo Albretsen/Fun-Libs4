@@ -196,8 +196,8 @@ const Drawer = forwardRef((props: DrawerProps, ref) => {
             transparent={true}
             visible={isVisible}
         >
-            {/* Margin bottom 61 prevents banner ad from being covered */}
-            <GestureHandlerRootView style={{ flex: 1, marginBottom: 61 }}>
+            {/* Margin bottom 64 prevents banner ad from being covered */}
+            <GestureHandlerRootView style={{ flex: 1, marginBottom: 64 }}>
                 <Animated.View style={{ flex: 1, backgroundColor: backdropColor }}>
                     {/* Drawer is contained in a flex view, a mask takes up the remaining space from the drawer.
                     The order of these - reverse or not - are determined by whether the drawer is right- or left aligned */}
