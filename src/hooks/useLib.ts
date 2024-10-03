@@ -1829,37 +1829,55 @@ export default function useLib() {
 	const parseTextToLib = (text: string) => {
 		const parsed_text = [];
 		const parsed_prompts = [];
+		// Regular expression to match any text inside parentheses, e.g., (prompt)
 		const regex = /\(([^)]+)\)/g;
-
+		// Keeps track of the last processed index in the original text
 		let lastIndex = 0;
+		// Variable to store the current regex match
 		let match;
 
+		// Loop through the text to find all matches of text inside parentheses
 		while ((match = regex.exec(text)) !== null) {
 			const suggestion = match[1];
+
+			// Push the non-prompt text segment (from lastIndex to the start of the current match) to `parsed_text`
 			parsed_text.push(text.slice(lastIndex, match.index));
+
+			// Update `lastIndex` to the end of the current match
 			lastIndex = regex.lastIndex;
 
 			let promptFound = false;
-			for (let i = 0; i < parsed_prompts.length; i++) {
-				const prompt = parsed_prompts[i];
-				if (Object.keys(prompt)[0] === suggestion) {
-					prompt[suggestion].push(parsed_text.length);
-					promptFound = true;
-					break;
+			// Check if the current suggestion is already in `parsed_prompts`
+			// Only checks for duplicates of prompt ends in number
+			if (/\d$/.test(suggestion)) {
+				for (let i = 0; i < parsed_prompts.length; i++) {
+					const prompt = parsed_prompts[i];
+
+					// If the suggestion is already in `parsed_prompts`, add the index of its occurrence in `parsed_text`
+					if (Object.keys(prompt)[0] === suggestion) {
+						// Index of the empty string placeholder in `parsed_text`
+						prompt[suggestion].push(parsed_text.length);
+						promptFound = true;
+						break; // Exit the loop once the matching prompt is found
+					}
 				}
 			}
 
+			// Creates a new entry in `parsed_prompts` if prompt is not a repeat prompt
 			if (!promptFound) {
 				parsed_prompts.push({ [suggestion]: [parsed_text.length] });
 			}
 
+			// Add an empty string placeholder to `parsed_text` where the prompt was located
 			parsed_text.push('');
 		}
 
+		// After the loop, add any remaining non-prompt text from `lastIndex` to the end of the text
 		parsed_text.push(text.slice(lastIndex));
 
 		return { parsed_text, parsed_prompts };
 	};
+
 
 	const parseLibToText = (lib: any) => {
 		let result = '';
@@ -1880,7 +1898,7 @@ export default function useLib() {
 								break;
 							}
 						}
-					} catch (error) {}
+					} catch (error) { }
 				}
 				result += highlighted_word;
 			}
