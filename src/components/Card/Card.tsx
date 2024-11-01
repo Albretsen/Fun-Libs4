@@ -13,6 +13,7 @@ import { Pressable } from "react-native";
 import { router } from "expo-router";
 import { useProfileStore } from "../../hooks/useProfileStore";
 import LibPreview from "./LibPreview";
+import { Linking } from "react-native";
 
 type ParsedPrompts = {
     [key: string]: number[];
@@ -51,6 +52,11 @@ export default function Card(props: CardProps) {
         }
     }
 
+    const openJokeCentral = () => {
+        const url = 'https://play.google.com/store/apps/details?id=com.whimsicalworks.jokecentral';
+        Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
+    };
+
     return (
         <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
@@ -71,6 +77,9 @@ export default function Card(props: CardProps) {
                         </Pressable>
                     </View>
                 </XStack>
+                {item.id == "joke-central-id" && (
+                    <Button onPress={openJokeCentral} borderColor={"$blue10Light"}>Tap to see Joke Central in the Play Store!</Button>
+                )}
 
                 {config.separator ? <Separator /> : null}
 

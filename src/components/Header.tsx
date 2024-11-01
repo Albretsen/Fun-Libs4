@@ -12,6 +12,7 @@ import { useTheme } from "tamagui";
 import { useEffect, useState } from "react";
 import DrawerLink from "./Drawer/DrawerLink";
 import DiscordLink from "./Drawer/DiscordLink";
+import JokeCentralLink from "./Drawer/JokeCentralLink";
 
 export default function Header() {
 
@@ -139,6 +140,10 @@ export default function Header() {
                                             router.navigate("/delete-account")
                                         }}
                                     />
+                                </View>
+
+                                <View marginTop={20} gap={16}>
+                                    <JokeCentralLink />
                                 </View>
                             </View>
                         </Drawer>
