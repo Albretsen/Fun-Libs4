@@ -6,6 +6,7 @@ interface ButtonProps {
     label: string;
     state: 'active' | 'inactive' | 'locked';
     onPress: () => void;
+    dateDiff?: number,
 }
 
 interface ScrollableButtonsProps {

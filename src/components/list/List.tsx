@@ -91,6 +91,7 @@ export default function List(props: any) {
                         <SizableText size={'$5'}>No results</SizableText>
                     </View>
                 }
+                contentContainerStyle={{ paddingBottom: 16 }}
                 onRefresh={refresh}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={0.5}
