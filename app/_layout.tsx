@@ -5,7 +5,7 @@ import { TamaguiProvider } from '@tamagui/core';
 import config from '../tamagui.config';
 import { useLoadAssets } from '../src/hooks/loading/useLoadAssets';
 import { Stack } from 'expo-router/stack';
-import { PortalProvider, Theme } from 'tamagui';
+import { PortalProvider, Theme, Spinner, View } from 'tamagui';
 import { useInitializeScripts } from '../src/hooks/loading/useInitializeScripts';
 import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
@@ -33,7 +33,8 @@ export default function App() {
 
     const { BannerAdID } = useAds();
 
-    const [currentTheme, setCurrentTheme] = useState(Appearance.getColorScheme() || "light");
+    const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(Appearance.getColorScheme() || "light");
+
 
     useEffect(() => {
         const colorScheme = Appearance.getColorScheme();
@@ -48,8 +49,6 @@ export default function App() {
         };
     }, []);
 
-    if (!assetsLoaded || !scriptsLoaded) return null;
-
     return (
         <QueryClientProvider client={queryClient}>
             <TamaguiProvider config={config}>
@@ -57,17 +56,30 @@ export default function App() {
                     <CreateProvider>
                         <PortalProvider>
                             <GestureHandlerRootView>
-                                {session && session.user ?
-                                    <SafeAreaView style={{ flex: 1 }}>
-                                        <Stack
-                                            screenOptions={{
-                                                headerShown: false,
-                                            }}
-                                        />
-                                        <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />
-                                    </SafeAreaView>
-                                    :
-                                    <LoginScreen />}
+                                {assetsLoaded && scriptsLoaded ? (
+                                    <>
+                                        {session && session.user ?
+                                            <SafeAreaView style={{ flex: 1 }}>
+                                                <Stack
+                                                    screenOptions={{
+                                                        headerShown: false,
+                                                    }}
+                                                />
+                                                {BannerAdID && <BannerAd unitId={BannerAdID} size='ANCHORED_ADAPTIVE_BANNER' />}
+                                            </SafeAreaView>
+                                            :
+                                            <LoginScreen />}
+                                    </>
+                                ) : (
+                                    <View
+                                        flex={1}
+                                        alignItems='center'
+                                        justifyContent='center'
+                                        backgroundColor={'$background'}
+                                    >
+                                        <Spinner />
+                                    </View>
+                                )}
                                 <Toast config={toastConfig} />
                             </GestureHandlerRootView>
                         </PortalProvider>
