@@ -77,7 +77,7 @@ export default function Card(props: CardProps) {
                         </Pressable>
                     </View>
                 </XStack>
-                {item.id == "joke-central-id" && (
+                {item.id == process.env.EXPO_PUBLIC_JOKE_CENTRAL_ID && (
                     <Button onPress={openJokeCentral} borderColor={"$blue10Light"}>Tap to see Joke Central in the Play Store!</Button>
                 )}
 
