@@ -39,7 +39,8 @@ export default function GameControls(props: any) {
                             paddingRight={36}
                             onChangeText={input => setInput(input)}
                             value={input}
-                            placeholder={prompt}
+                            // Regex removes trailing numbers from prompt
+                            placeholder={prompt.replace(/\d+$/, '')}
                         />
                         <TouchableOpacity hitSlop={16} onPress={handleFill} style={{
                             position: "absolute",
