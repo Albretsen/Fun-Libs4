@@ -45,6 +45,7 @@ const funLibsTheme = {
 		shadowColor: tokens.color.blue5Light,
 		shadowColorHover: tokens.color.blue6Light,
 		placeholder: `rgba(${rgbBlue12Light.r}, ${rgbBlue12Light.g}, ${rgbBlue12Light.b}, 0.4)`,
+		lockBackground: "rgba(168, 191, 227,0.9)",
 	},
 	dark: {
 		...themes.dark,
@@ -73,6 +74,7 @@ const funLibsTheme = {
 		shadowColor: tokens.color.blue5Dark,
 		shadowColorHover: tokens.color.blue6Dark,
 		placeholder: `rgba(${rgbBlue12Dark.r}, ${rgbBlue12Dark.g}, ${rgbBlue12Dark.b}, 0.4)`,
+		lockBackground: "rgba(0,20,34,0.9)",
 	},
 };
 

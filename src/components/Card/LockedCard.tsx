@@ -58,7 +58,7 @@ export default function LockedCard(props: CardProps) {
             {config.actions ? <Actions item={item} variant={variant} /> : null}
             <View position="absolute" top={0} left={0} right={0} bottom={0} backgroundColor="rgba(100,100,100,0.2)" justifyContent="center" alignItems="center" borderRadius={10}>
                 <View
-                    backgroundColor={"rgba(0,20,34,0.9)"}
+                    backgroundColor={"$lockBackground"}
                     padding={12}
                     borderRadius={20}
                     marginTop={50}

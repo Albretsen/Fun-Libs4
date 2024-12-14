@@ -1,7 +1,14 @@
 import { Text, SizableText, ScrollView, View } from "tamagui";
+import { Lib } from "./Lib";
 
-export default function HighlightedText(props: any) {
-    const { item } = props;
+interface HighlightedTextProps {
+    item: Lib,
+    // A component that appears within the scrollview, after the text
+    endComponent?: React.ReactNode,
+}
+
+export default function HighlightedText(props: HighlightedTextProps) {
+    const { item, endComponent } = props;
 
     return (
         <View flex={1}>
@@ -27,6 +34,7 @@ export default function HighlightedText(props: any) {
                         }
                     })}
                 </Text>
+                {endComponent}
             </ScrollView>
         </View>
     );
