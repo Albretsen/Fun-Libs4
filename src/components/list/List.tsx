@@ -48,6 +48,10 @@ export default function List(props: any) {
 
     const refresh = async () => {
         queryClient.resetQueries({ queryKey, exact: true });
+
+        // It seems explicitly stating the tab is necessary for refresh to work
+        queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+        queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
     }
 
     const onEndReached = () => {
