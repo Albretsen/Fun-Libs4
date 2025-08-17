@@ -15,6 +15,7 @@ import { useProfileStore } from "../../hooks/useProfileStore";
 import LibPreview from "./LibPreview";
 import { Lib } from "./Lib";
 import JokeCentralButton from "./JokeCentralButton";
+import { formatDistanceToNow } from "date-fns";
 
 interface CardProps {
     item: Lib,
@@ -36,6 +37,9 @@ export default function Card(props: CardProps) {
         }
     }
 
+    const creationDate = new Date(item.created_at);
+    const timeSinceCreation = formatDistanceToNow(creationDate, { addSuffix: true });
+
     return (
         <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
@@ -54,6 +58,7 @@ export default function Card(props: CardProps) {
                                 <SizableText size={'$4'} fontWeight={900}> {item.profiles.username}</SizableText>
                             </SizableText>
                         </Pressable>
+                        <SizableText style={{ width: "100%" }} ellipsizeMode="tail" size={'$3'} fontWeight={500}>{"Created " + timeSinceCreation}</SizableText>
                     </View>
                 </XStack>
                 {(item.id == process.env.EXPO_PUBLIC_JOKE_CENTRAL_ID && (variant === "listItem" || variant === "play")) && (
