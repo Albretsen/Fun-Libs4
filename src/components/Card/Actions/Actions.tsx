@@ -126,7 +126,7 @@ export default function Actions(props: ActionsProps) {
                         y={0}
                     >
                         <View padding={16}>
-                            <SizableText size={'$5'}>Are you sure you want to delete this item?</SizableText>
+                            <SizableText size={'$5'}>Are you sure you want to delete this story?</SizableText>
                             <XStack justifyContent="flex-end" marginTop={16}>
                                 <Button onPress={handleCancel} marginRight={8}>Cancel</Button>
                                 <Button borderColor={'$red6'} backgroundColor={'$red4'} onPress={handleDelete}>Delete</Button>

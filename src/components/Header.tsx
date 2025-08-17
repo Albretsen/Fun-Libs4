@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import DrawerLink from "./Drawer/DrawerLink";
 import DiscordLink from "./Drawer/DiscordLink";
 import JokeCentralLink from "./Drawer/JokeCentralLink";
+import { userDeleteAccount } from "../../userDeleteAccount";
+import Modal from "./Misc/Modal";
 
 export default function Header() {
 
@@ -21,6 +23,8 @@ export default function Header() {
     const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
+
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
 
     return (
         <Stack.Screen
@@ -136,8 +140,9 @@ export default function Header() {
                                         labelColor={theme.red11.val}
                                         icon={<UserX scale={0.75} />}
                                         onPress={() => {
-                                            navigationDrawerRef.current?.closeDrawer();
-                                            router.navigate("/delete-account")
+                                            // navigationDrawerRef.current?.closeDrawer();
+                                            // router.navigate("/delete-account")
+                                            setModalVisible(true);
                                         }}
                                     />
                                 </View>
@@ -147,6 +152,20 @@ export default function Header() {
                                 </View> */}
                             </View>
                         </Drawer>
+
+                        <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+                            <View gap={20} alignItems="center" backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} padding={15}>
+                                <SizableText>Are you sure you want to delete your account? This will also delete all your published stories.</SizableText>
+                                <XStack gap={10}>
+                                    <Button backgroundColor={'$main2'} borderColor={'$main6'} onPress={() => setModalVisible(false)}>
+                                        No, take me back
+                                    </Button>
+                                    <Button borderColor={'$red6'} backgroundColor={'$red4'} onPress={userDeleteAccount}>
+                                        Yes, delete
+                                    </Button>
+                                </XStack>
+                            </View>
+                        </Modal>
                     </>
             }}
         />
