@@ -7,6 +7,8 @@ export default function useCreateLogic() {
 
 	const [title, setTitle] = useState<string>('');
 	const [body, setBody] = useState<string>('');
+	const [id, setId] = useState<string>('');
+	const [editing, setEditing] = useState<boolean>(false);
 	const [cursorPosition, setCursorPosition] = useState<any>({
 		end: 0,
 		start: 0,
@@ -33,6 +35,10 @@ export default function useCreateLogic() {
 		setTitle,
 		body,
 		setBody,
+		id,
+		setId,
+		editing,
+		setEditing,
 		addPrompt,
 		setCursorPosition,
 		cursorPosition,

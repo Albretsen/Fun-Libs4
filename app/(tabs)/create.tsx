@@ -7,9 +7,33 @@ import { StyledContainer } from '../../src/styles/styles';
 import useAuth from '../../src/hooks/useAuth';
 import KeyboardExtender from '../../src/components/Misc/KeyboardExtender';
 import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import { useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { useCreateContext } from '../../src/Contexts/CreateContext';
 
 export default function Tab() {
     const { session } = useAuth();
+
+    const { setEditing, setTitle, setBody, setCursorPosition } = useCreateContext();
+
+    useFocusEffect(
+        useCallback(() => {
+            // Runs when the screen is focused
+            // console.log('Screen is focused');
+
+            return () => {
+                // Runs when the screen loses focus (user navigates away)
+                // Clears the editor and makes sure it is not set to 'editing'
+                setEditing(false);
+                setTitle('');
+                setBody('');
+                setCursorPosition({
+                    end: 0,
+                    start: 0,
+                });
+            }
+        }, [])
+    );
 
     if (Platform.OS === 'ios') {
         return (

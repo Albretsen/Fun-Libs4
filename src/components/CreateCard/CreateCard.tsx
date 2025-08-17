@@ -13,7 +13,7 @@ import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/n
 
 export default function CreateCard() {
 
-    const { title, setTitle, body, setBody, setCursorPosition, cursorPosition } = useCreateContext();
+    const { title, setTitle, body, setBody, id, setId, editing, setEditing, setCursorPosition, cursorPosition } = useCreateContext();
 
     const { parseTextToLib } = useLib();
 
@@ -23,19 +23,47 @@ export default function CreateCard() {
 
     const queryClient = useQueryClient();
 
-    const { uploadLib } = useLib();
+    const { uploadLib, editLib } = useLib();
 
     const isKeyboardVisible = useKeyboardVisibility();
 
     const theme = useTheme();
 
-    const save = async () => {
+    const publish = async () => {
         try {
             validate({ ...parseTextToLib(body), title });
             await uploadLib(title, body);
             router.replace('/');
             navigation.navigate('Community');
             //await new Promise(resolve => setTimeout(resolve, 3000));
+
+            setTitle('');
+            setBody('');
+            setCursorPosition({
+                end: 0,
+                start: 0,
+            });
+
+            queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+            queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
+        } catch (error: unknown) {
+            router.replace('/create');
+            funLibsError(error);
+        }
+    }
+
+    const edit = async () => {
+        try {
+            validate({ ...parseTextToLib(body), title });
+            await editLib(id, title, body);
+            router.replace('/');
+            navigation.navigate('Community');
+
+            setTitle('');
+            setBody('');
+            setCursorPosition('');
+
+            setEditing(false);
 
             queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
             queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
@@ -69,7 +97,16 @@ export default function CreateCard() {
                 <Separator />
                 <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={theme.placeholder.val} multiline={true} verticalAlign={'top'} placeholder="In an (Adjective) forest, a man named (Name)..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
             </View>
-            {isKeyboardVisible ? null : <Actions variant="create" onPressSave={save} onPressDelete={delete_} />}
+            {editing ? (
+                <>
+                    {isKeyboardVisible ? null : <Actions variant="edit" onPressSave={edit} onPressDelete={delete_} />}
+                </>
+            ) : (
+                <>
+                    {isKeyboardVisible ? null : <Actions variant="create" onPressSave={publish} onPressDelete={delete_} />}
+                </>
+            )}
+
         </View>
     )
 }

@@ -1,4 +1,4 @@
-import { View, SizableText, XStack, Button, Image } from "tamagui";
+import { View, SizableText, XStack, Button, YStack } from "tamagui";
 import CoverImage from "./CoverImage";
 import Stats from "./Stats";
 import { Link } from "expo-router";
@@ -16,6 +16,9 @@ import LibPreview from "./LibPreview";
 import { Lib } from "./Lib";
 import JokeCentralButton from "./JokeCentralButton";
 import { formatDistanceToNow } from "date-fns";
+import DeleteLibAction from "./Actions/DeleteLibButton";
+import EditLibAction from "./Actions/EditLibAction";
+import useAuth from "../../hooks/useAuth";
 
 interface CardProps {
     item: Lib,
@@ -25,6 +28,8 @@ interface CardProps {
 export default function Card(props: CardProps) {
     const { setLib } = useLibStore();
     const { setProfileUserId } = useProfileStore();
+
+    const { session } = useAuth();
 
     const { item, variant } = props;
 
@@ -45,21 +50,33 @@ export default function Card(props: CardProps) {
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
                 <CoverImage item={item} />
                 <XStack gap={10}>
-                    <Pressable onPress={navigateToProfile}>
-                        <ProfilePicture avatarURL={item.profiles.avatar_url} />
-                    </Pressable>
-                    <View style={{
-                        flex: 1,
-                    }}>
-                        <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$6'} fontWeight={900}>{item.title}</SizableText>
+                    <XStack style={{ flex: 1 }} gap={10}>
                         <Pressable onPress={navigateToProfile}>
-                            <SizableText style={{ width: "100%" }} numberOfLines={1} ellipsizeMode="tail" size={'$4'} fontWeight={400}>
-                                by
-                                <SizableText size={'$4'} fontWeight={900}> {item.profiles.username}</SizableText>
-                            </SizableText>
+                            <ProfilePicture avatarURL={item.profiles.avatar_url} />
                         </Pressable>
-                        <SizableText style={{ width: "100%" }} ellipsizeMode="tail" size={'$3'} fontWeight={500}>{"Created " + timeSinceCreation}</SizableText>
-                    </View>
+                        <View style={{
+                            flex: 1,
+                        }}>
+                            <SizableText style={{ width: "100%" }} numberOfLines={2} ellipsizeMode="tail" size={'$6'} fontWeight={900}>
+                                {item.title}
+                            </SizableText>
+                            <Pressable onPress={navigateToProfile}>
+                                <SizableText style={{ width: "100%" }} numberOfLines={1} ellipsizeMode="tail" size={'$4'} fontWeight={400}>
+                                    by
+                                    <SizableText size={'$4'} fontWeight={900}> {item.profiles.username}</SizableText>
+                                </SizableText>
+                            </Pressable>
+                            <SizableText style={{ width: "100%" }} ellipsizeMode="tail" size={'$3'} fontWeight={500}>{"Created " + timeSinceCreation}</SizableText>
+                        </View>
+                    </XStack>
+                    <YStack gap={10}>
+                        {(session && session.user.id === item.profiles.id) && config.stats ? (
+                            <>
+                                <EditLibAction lib={item} variant='cardButton' />
+                                <DeleteLibAction lib={item} variant='cardButton' />
+                            </>
+                        ) : null}
+                    </YStack>
                 </XStack>
                 {(item.id == process.env.EXPO_PUBLIC_JOKE_CENTRAL_ID && (variant === "listItem" || variant === "play")) && (
                     <JokeCentralButton />

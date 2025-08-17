@@ -19,6 +19,17 @@ export default function useLib() {
 		return data;
 	};
 
+	const editLib = async (id: string, title: string, body: string) => {
+		const lib = parseTextToLib(body);
+		const { data, error } = await supabase
+			.from('libs')
+			.update({ ...lib, title })
+			.eq('id', id)
+			.select();
+		if (error !== null) throw error;
+		return data;
+	};
+
 	const getPrompt = (item: Lib, pointer: number) => {
 		try {
 			return Object.keys(item.parsed_prompts[pointer])[0];
@@ -1906,13 +1917,48 @@ export default function useLib() {
 		return result;
 	};
 
+	const reconstructLibText = ({
+		parsed_text,
+		parsed_prompts,
+	}: {
+		parsed_text: string[];
+		parsed_prompts: Array<Record<string, number[]>>;
+	}) => {
+		console.log(parsed_prompts)
+		// Copy parsed_text to avoid mutating the original
+		const textCopy = [...parsed_text];
+
+		// Loop through each prompt object
+		for (const promptObj of parsed_prompts) {
+			const prompt = Object.keys(promptObj)[0];
+			const indices = promptObj[prompt];
+
+			for (const index of indices) {
+				// Replace placeholder at the correct index with the prompt in parentheses
+				// If there's already text there, we insert instead
+				if (textCopy[index] === '') {
+					textCopy[index] = `(${prompt})`;
+				} else {
+					textCopy.splice(index, 0, `(${prompt})`);
+				}
+			}
+		}
+
+		// Join all segments to reconstruct the original text
+		return textCopy.join('');
+	};
+
+
+
 	return {
 		parseTextToLib,
 		parseLibToText,
+		reconstructLibText,
 		getPromptDescription,
 		getPromptFill,
 		getPrompt,
 		uploadLib,
 		deleteLib,
+		editLib
 	};
 }
