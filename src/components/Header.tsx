@@ -142,9 +142,9 @@ export default function Header() {
                                     />
                                 </View>
 
-                                <View marginTop={20} gap={16}>
+                                {/* <View marginTop={20} gap={16}>
                                     <JokeCentralLink />
-                                </View>
+                                </View> */}
                             </View>
                         </Drawer>
                     </>
