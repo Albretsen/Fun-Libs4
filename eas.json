@@ -5,14 +5,50 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "resourceClass": "medium",
+        "autoIncrement": "buildNumber"
+      },
+      "android": {
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b",
+        "resourceClass": "medium",
+        "autoIncrement": true
+      }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "resourceClass": "medium",
+        "autoIncrement": "buildNumber"
+      },
+      "android": {
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b",
+        "resourceClass": "medium",
+        "autoIncrement": true
+      }
     },
-    "production": {}
+    "production": {
+      "channel": "production",
+      "ios": {
+        "image": "macos-sequoia-15.5-xcode-16.4",
+        "resourceClass": "medium",
+        "autoIncrement": "buildNumber"
+      },
+      "android": {
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b",
+        "resourceClass": "medium",
+        "autoIncrement": true
+      }
+    }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6462502166"
+      }
+    }
   }
 }
