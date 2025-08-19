@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "4.0.5",
+    "version": "4.0.6",
     "owner": "whimsical-works",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,11 +16,11 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.asgalb.FunLibs",
-      "buildNumber": "50"
+      "buildNumber": "51"
     },
     "android": {
       "package": "com.asgalb.FunLibs",
-      "versionCode": 50,
+      "versionCode": 51,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
