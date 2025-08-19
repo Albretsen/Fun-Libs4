@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface LibState {
 	lib: any | null;
@@ -6,9 +6,9 @@ interface LibState {
 	getLib: () => any | null;
 }
 
-export const useLibStore = create<LibState>()((set, get) => ({
+export const useLibStore = createWithEqualityFn<LibState>()((set, get) => ({
 	lib: null,
-	setLib: lib => {
+	setLib: (lib) => {
 		set(() => ({ lib }));
 	},
 	getLib: () => {

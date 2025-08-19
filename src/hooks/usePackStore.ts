@@ -1,30 +1,28 @@
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface PackState {
 	pack: string | null;
-	setPack: (lib: string | null) => void;
+	setPack: (pack: string | null) => void;
 	getPack: () => string | null;
 	ownedPacks: string[] | null;
 	setOwnedPacks: (ownedPacks: string[]) => void;
 	getOwnedPacks: () => string[] | null;
-	packsData: any;
+	packsData: Record<string, { title: string; description: string }>;
 }
 
-export const usePackStore = create<PackState>()((set, get) => ({
+export const usePackStore = createWithEqualityFn<PackState>()((set, get) => ({
 	pack: null,
-	setPack: pack => {
+	setPack: (pack) => {
 		set(() => ({ pack }));
 	},
-	getPack: () => {
-		return get().pack;
-	},
+	getPack: () => get().pack,
+
 	ownedPacks: null,
-	setOwnedPacks: ownedPacks => {
+	setOwnedPacks: (ownedPacks) => {
 		set(() => ({ ownedPacks }));
 	},
-	getOwnedPacks: () => {
-		return get().ownedPacks;
-	},
+	getOwnedPacks: () => get().ownedPacks,
+
 	packsData: {
 		romance: {
 			title: 'The Romantic Pack ❤️',
@@ -40,8 +38,7 @@ export const usePackStore = create<PackState>()((set, get) => ({
 		},
 		christmas: {
 			title: 'The Christmas Pack 🎄',
-			description:
-				'This pack unlocks high quality stories with a christmas theme.',
+			description: 'This pack unlocks high quality stories with a christmas theme.',
 		},
 	},
 }));
