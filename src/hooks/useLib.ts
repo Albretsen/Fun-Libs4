@@ -56,20 +56,22 @@ export default function useLib() {
 				'A word or phrase that modifies or qualifies an adjective or verb: gently, quite, then, there, etc.',
 			'movement verb': 'A verb that describes a movement: run, walk, jumped, etc.',
 			noun: 'A thing, something you can see or touch.',
-			'Plural Noun': 'Things, something you can see or touch.',
+			'something': 'A thing, something you can see or touch.',
+			'plural noun': 'A word that names more than one person, place, or thing: dogs, houses, cars, etc.',
 			object: 'A person, place, or thing.',
 			'proper noun': 'Name for specific things, people, and places.',
 			superlative: 'Superlative: fastest, best, etc.',
 			occupation: 'Occupation: job title.',
 			profession: 'Profession: job title.',
 			place: 'A location: school, garden, etc.',
+			'plural place': 'More than one location or area: parks, cities, countries, etc.',
+			size: 'How big or small something is.',
 			name: 'A name: John, Sizzle, Bubbles etc.',
 			town: 'The name of a small city: Townsville, Florence, etc.',
 			weather: 'The state of the weather at a particular time: rain, wind, etc.',
 			emotion: 'A feeling: sad, happy, cheerful, etc.',
 			material: 'What something is made of: sand, wood, etc.',
-			sound:
-				'A noise or auditory event that can be heard, such as ring, boom, quack etc.',
+			sound: 'A noise or auditory event that can be heard, such as ring, boom, quack etc.',
 			subject: 'What we learn or teach.',
 			'historical figure': 'Someone from the past who did something important.',
 			'book name': 'What a book is called.',
@@ -80,6 +82,7 @@ export default function useLib() {
 			beverage: 'Something we drink that is not water.',
 			instrument: 'A tool, often for science.',
 			festival: 'A special time of celebration.',
+			'article of clothing': 'A piece of clothing worn on the body, such as a shirt, pants, or hat.',
 			superhero: 'A made-up hero with special powers.',
 			villain: 'A bad character in a story.',
 			animal: 'A living organism: cat, elephant, etc.',
@@ -103,42 +106,45 @@ export default function useLib() {
 			'body part': 'A physical part of a living organism: arm, leg, etc.',
 			'body parts': 'Parts of a living organism: arms, legs, etc.',
 			'body part plural': 'Parts of a living organism: arms, legs, etc.',
-			'cooking Technique -ing ending':
-				'A method of preparing food: grilling, roasting etc.',
+			'plural body part': 'Parts of a living organism: arms, legs, etc.',
+			'something funny': 'Parts of a living organism: arms, legs, etc.',
+			'funny phrase': 'A short, humorous expression or saying: "Oopsie daisy!", "Holy guacamole!", etc.',
+			'cooking technique -ing ending': 'A method of preparing food: grilling, roasting etc.',
 			year: 'A period of 365 days: 2023, 1776, etc.',
-			'superlative Adjective':
-				'Describes the highest degree of a quality: brightest, strongest, etc.',
+			'superlative adjective': 'Describes the highest degree of a quality: brightest, strongest, etc.',
 			relative: 'A family member: mother, uncle, etc.',
-			country:
-				'A nation with its own government and territory: USA, Canada, Norway, etc.',
-			'word beginning with N': 'Any word starting with the letter N.',
-			'word beginning with A': 'Any word starting with the letter A.',
-			'word beginning with S': 'Any word starting with the letter S.',
+			country: 'A nation with its own government and territory: USA, Canada, Norway, etc.',
+			'word beginning with n': 'Any word starting with the letter N.',
+			'word beginning with a': 'Any word starting with the letter A.',
+			'word beginning with s': 'Any word starting with the letter S.',
 			tool: 'An instrument or device used to perform a task: hammer, saw, etc.',
 			'type of car': 'A specific brand of car: Ford, Tesla, etc.',
 			car: 'A specific brand of car: Ford, Tesla, etc.',
-			Ability: 'Skill or power, often magical: invisibility, flight, etc.',
-			'Random Word': 'Any word, sometimes unpredictable or fictional.',
+			ability: 'Skill or power, often magical: invisibility, flight, etc.',
+			'random word': 'Any word, sometimes unpredictable or fictional.',
 		};
 
-		prompt = prompt.replace(/[0-9]/g, '');
-		const baseForm = nlp(prompt).out('root' as any);
+		// normalize prompt
+		prompt = prompt.replace(/[0-9]/g, '').toLowerCase();
+		const baseForm = nlp(prompt).out('root' as any).toLowerCase();
 
 		let closestKey = '';
 		let minDistance = Infinity;
 
 		for (const key in explanations) {
-			if (key.includes(baseForm)) {
-				const distance = levenshteinDistance(baseForm, key);
+			const lowerKey = key.toLowerCase();
+			if (lowerKey.includes(baseForm)) {
+				const distance = levenshteinDistance(baseForm, lowerKey);
 				if (distance < minDistance) {
 					minDistance = distance;
-					closestKey = key;
+					closestKey = key; // keep original casing for lookup
 				}
 			}
 		}
 
-		return explanations[closestKey] || ' ';
+		return explanations[closestKey.toLowerCase()] || ' ';
 	};
+
 
 	type FillType = {
 		[key: string]: string[];
@@ -1837,6 +1843,12 @@ export default function useLib() {
 		);
 	};
 
+	const hasAvailableFill = (prompt: string): boolean => {
+		const fillResult = getPromptFill(prompt);
+		// If getPromptFill returns a non-empty string, the prompt has an available fill
+		return fillResult.trim() !== '';
+	};
+
 	const parseTextToLib = (text: string) => {
 		const parsed_text = [];
 		const parsed_prompts = [];
@@ -1956,6 +1968,7 @@ export default function useLib() {
 		reconstructLibText,
 		getPromptDescription,
 		getPromptFill,
+		hasAvailableFill,
 		getPrompt,
 		uploadLib,
 		deleteLib,

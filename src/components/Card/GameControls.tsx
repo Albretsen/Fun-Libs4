@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { View, YStack, XStack, Input, Button, SizableText, Progress } from "tamagui";
 import { TouchableOpacity } from "react-native";
 import useGameLogic from "../../hooks/useGameLogic";
-import { Wand2 } from "@tamagui/lucide-icons";
+import { Wand2, ArrowBigLeft, ArrowBigRight } from "@tamagui/lucide-icons";
 import useLib from "../../hooks/useLib";
 
 export default function GameControls(props: any) {
@@ -12,7 +12,7 @@ export default function GameControls(props: any) {
 
     const { prompt, description, percentageCompleted, userInputs, pointer, forward, backward } = useGameLogic(item);
 
-    const { getPromptFill } = useLib();
+    const { getPromptFill, hasAvailableFill } = useLib();
 
     useEffect(() => {
         setInput(userInputs[pointer] || "");
@@ -32,7 +32,7 @@ export default function GameControls(props: any) {
 
     return (
         <View >
-            <YStack gap={4}>
+            <YStack gap={10}>
                 <XStack gap={8}>
                     <View flex={1}>
                         <Input
@@ -42,22 +42,33 @@ export default function GameControls(props: any) {
                             // Regex removes trailing numbers from prompt
                             placeholder={prompt.replace(/\d+$/, '')}
                         />
-                        <TouchableOpacity hitSlop={16} onPress={handleFill} style={{
-                            position: "absolute",
-                            right: 8,
-                            top: 11
-                        }}>
-                            <Wand2 scale={0.75} />
-                        </TouchableOpacity>
+                        {hasAvailableFill(prompt) && (
+                            <TouchableOpacity hitSlop={16} onPress={handleFill} style={{
+                                position: "absolute",
+                                right: 8,
+                                top: 11
+                            }}>
+                                <Wand2 scale={0.75} />
+                            </TouchableOpacity>
+                        )}
                     </View>
-                    <Button variant="outlined" onPress={handleBackward}>Undo</Button>
-                    <Button backgroundColor={'$main4'} onPress={handleFoward}>Go</Button>
                 </XStack>
-                <SizableText>{description}</SizableText>
+                <XStack gap={14}>
+                    <Button flex={1} icon={<ArrowBigLeft {...props} size={20} />} variant="outlined" onPress={handleBackward}>Previous</Button>
+                    {/* Necessary to allow the icon to appear after the label */}
+                    <Button flex={1} backgroundColor={'$main4'} onPress={handleFoward}>
+                        <XStack alignItems="center" justifyContent="center" gap={6}>
+                            <SizableText>Next</SizableText>
+                            <ArrowBigRight size={20} />
+                        </XStack>
+                    </Button>
+                </XStack>
+
                 <Progress size={'$2'} value={Math.round(percentageCompleted)}>
                     <Progress.Indicator backgroundColor={'$main8'} />
                 </Progress>
 
+                <SizableText minHeight={50}>{description}</SizableText>
             </YStack>
         </View >
     )
