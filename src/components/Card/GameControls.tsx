@@ -54,9 +54,10 @@ export default function GameControls(props: any) {
                     <Button backgroundColor={'$main4'} onPress={handleFoward}>Go</Button>
                 </XStack>
                 <SizableText>{description}</SizableText>
-                <Progress size={'$2'} value={percentageCompleted} >
+                <Progress size={'$2'} value={Math.round(percentageCompleted)}>
                     <Progress.Indicator backgroundColor={'$main8'} />
                 </Progress>
+
             </YStack>
         </View >
     )
