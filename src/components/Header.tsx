@@ -1,20 +1,17 @@
-import { Image, Input, View, XStack, Text, SizableText, Button } from "tamagui";
+import { Image, View, XStack, SizableText, Button } from "tamagui";
 import { Stack } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import useAuth from "../hooks/useAuth";
-import { Bell, ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut, UserX } from "@tamagui/lucide-icons";
+import { ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut } from "@tamagui/lucide-icons";
 import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
 import { useRef } from "react";
 import { Linking, Platform } from "react-native";
 import { useTheme } from "tamagui";
-import { useEffect, useState } from "react";
 import DrawerLink from "./Drawer/DrawerLink";
 import DiscordLink from "./Drawer/DiscordLink";
 import JokeCentralLink from "./Drawer/JokeCentralLink";
-import { userDeleteAccount } from "../../userDeleteAccount";
-import Modal from "./Misc/Modal";
+import DeleteAccountButton from "./Misc/DeleteAccountButton";
 
 export default function Header() {
 
@@ -23,8 +20,6 @@ export default function Header() {
     const { session, signOut } = useAuth();
 
     const navigationDrawerRef = useRef<DrawerRef>(null);
-
-    const [modalVisible, setModalVisible] = useState<boolean>(false);
 
     return (
         <Stack.Screen
@@ -134,17 +129,11 @@ export default function Header() {
                                             signOut();
                                         }}
                                     />
-                                    {/* TODO: This should maybe just be shown if actually logged in */}
-                                    <DrawerLink
-                                        label="Delete account"
-                                        labelColor={theme.red11.val}
-                                        icon={<UserX scale={0.75} />}
-                                        onPress={() => {
-                                            // navigationDrawerRef.current?.closeDrawer();
-                                            // router.navigate("/delete-account")
-                                            setModalVisible(true);
-                                        }}
-                                    />
+                                    {/* This would hide the delete account button if the user is anonymouse */}
+                                    {/* Keeping it shown at all times just to ensure Apple doesn't reject submission */}
+                                    {/* {!session?.user.is_anonymous && ( */}
+                                    <DeleteAccountButton />
+                                    {/* )} */}
                                 </View>
 
                                 {/* <View marginTop={20} gap={16}>
@@ -152,20 +141,6 @@ export default function Header() {
                                 </View> */}
                             </View>
                         </Drawer>
-
-                        <Modal modalVisible={modalVisible} onRequestClose={() => setModalVisible(false)}>
-                            <View gap={20} alignItems="center" backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} padding={15}>
-                                <SizableText>Are you sure you want to delete your account? This will also delete all your published stories.</SizableText>
-                                <XStack gap={10}>
-                                    <Button backgroundColor={'$main2'} borderColor={'$main6'} onPress={() => setModalVisible(false)}>
-                                        No, take me back
-                                    </Button>
-                                    <Button borderColor={'$red6'} backgroundColor={'$red4'} onPress={userDeleteAccount}>
-                                        Yes, delete
-                                    </Button>
-                                </XStack>
-                            </View>
-                        </Modal>
                     </>
             }}
         />

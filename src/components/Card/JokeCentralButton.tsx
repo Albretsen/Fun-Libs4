@@ -1,4 +1,4 @@
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import Modal from "../Misc/Modal";
 import { useState } from "react";
 import { SizableText, Button, View, XStack } from "tamagui";
@@ -13,6 +13,8 @@ export default function JokeCentralButton() {
         const url = 'https://play.google.com/store/apps/details?id=com.whimsicalworks.jokecentral';
         Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
     };
+
+    if (Platform.OS === 'ios') return
 
     return (
         <>
