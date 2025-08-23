@@ -99,11 +99,11 @@ export default function CreateCard() {
             </View>
             {editing ? (
                 <>
-                    {isKeyboardVisible ? null : <Actions variant="edit" onPressSave={edit} onPressDelete={delete_} />}
+                    <Actions variant="edit" onPressSave={edit} onPressDelete={delete_} />
                 </>
             ) : (
                 <>
-                    {isKeyboardVisible ? null : <Actions variant="create" onPressSave={publish} onPressDelete={delete_} />}
+                    <Actions variant="create" onPressSave={publish} onPressDelete={delete_} />
                 </>
             )}
 

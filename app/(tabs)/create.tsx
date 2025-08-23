@@ -51,7 +51,8 @@ export default function Tab() {
                                     <StyledContainer>
                                         <CreateCard />
                                     </StyledContainer>
-                                    <KeyboardExtender />
+                                    {/* This did not work properly on iOS */}
+                                    {/* <KeyboardExtender /> */}
                                 </View>
                             ) : (
                                 <StyledContainer>
