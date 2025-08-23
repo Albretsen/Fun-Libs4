@@ -5,10 +5,12 @@ import { router } from 'expo-router';
 import { useLibStore } from './useLibStore';
 import { useInterstitialAd } from 'react-native-google-mobile-ads';
 import useAds from './useAds';
+import { useAdContext } from '../Contexts/AdContext';
 
 export default function useGameLogic(item: Lib) {
 	const { InterstitialAdID } = useAds();
-	const { isLoaded, isClosed, load, show } = useInterstitialAd(InterstitialAdID);
+	const { requestOptions } = useAdContext();
+	const { isLoaded, isClosed, load, show } = useInterstitialAd(InterstitialAdID, requestOptions);
 
 	const { getPrompt, getPromptDescription } = useLib();
 	const { getLib, setLib } = useLibStore();
