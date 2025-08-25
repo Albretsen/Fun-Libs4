@@ -10,14 +10,7 @@ export default function DeleteAccountButton() {
     const [isDialogVisible, setDialogVisible] = useState<boolean>(false);
     return (
         <>
-            <DrawerLink
-                label="Delete account"
-                labelColor={theme.red11.val}
-                icon={<UserX scale={0.75} />}
-                onPress={() => {
-                    setDialogVisible(true);
-                }}
-            />
+            <Button borderColor={'$red6'} backgroundColor={'$red4'} onPress={() => setDialogVisible(true)}>Permanently delete account</Button>
 
             <AlertDialog open={isDialogVisible} onOpenChange={setDialogVisible}>
                 <AlertDialog.Portal>

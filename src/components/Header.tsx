@@ -1,7 +1,7 @@
 import { Image, View, XStack, SizableText, Button } from "tamagui";
 import { Stack } from "expo-router";
 import useAuth from "../hooks/useAuth";
-import { ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut } from "@tamagui/lucide-icons";
+import { ArrowLeft, Menu, X, Pen, Play, User, BadgeHelp, LogOut, UserX } from "@tamagui/lucide-icons";
 import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Drawer, { DrawerRef } from "./Drawer/Drawer";
@@ -132,7 +132,15 @@ export default function Header() {
                                     {/* This would hide the delete account button if the user is anonymouse */}
                                     {/* Keeping it shown at all times just to ensure Apple doesn't reject submission */}
                                     {/* {!session?.user.is_anonymous && ( */}
-                                    <DeleteAccountButton />
+                                    <DrawerLink
+                                        label="Delete account"
+                                        labelColor={theme.red11.val}
+                                        icon={<UserX scale={0.75} />}
+                                        onPress={() => {
+                                            navigationDrawerRef.current?.closeDrawer();
+                                            router.navigate("/delete-account")
+                                        }}
+                                    />
                                     {/* )} */}
                                 </View>
 
