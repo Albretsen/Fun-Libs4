@@ -1,0 +1,73 @@
+import { Text, XStack, useTheme } from "tamagui";
+import { Heart, Eye, PenLine, Pen } from "@tamagui/lucide-icons";
+import { supabase } from "../../../supabase";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import useSocial from "../../hooks/useSocial";
+import { formatNumber } from "../../utils/format";
+
+export default function Stats(props: any) {
+    const { item } = props;
+
+    const { getSession } = useAuth();
+    const theme = useTheme();
+    const { addLike, removeLike } = useSocial();
+
+    const [likes, setLikes] = useState<number>(0);
+    const [liked, setLiked] = useState<boolean>(false);
+
+    useEffect(() => {
+        getLikes();
+    }, []);
+
+    const getLikes = async () => {
+        const result = await supabase.from('likes').select('*', { count: 'exact' }).eq('lib_id', item.id);
+        const session = await getSession();
+        if (session && 'user' in session && session.user?.id) {
+            result.data?.forEach(async (item_) => {
+                if (item_.user_id && item_.user_id === session.user.id) {
+                    setLiked(true);
+                }
+            });
+        }
+        if (result?.count) setLikes(result.count);
+        else setLikes(0);
+    };
+
+    const like = async () => {
+        if (!liked) {
+            setLiked(true);
+            setLikes(likes + 1);
+            const result = await addLike(item.id);
+            if (result.error != null) {
+                setLikes(likes);
+                setLiked(false);
+            }
+        } else {
+            setLiked(false);
+            setLikes(likes - 1);
+            const result = await removeLike(item.id);
+            if (result.error != null) {
+                setLikes(likes);
+                setLiked(true);
+            }
+        }
+    }
+
+    return (
+        <XStack gap={16}>
+            <XStack gap={4} alignItems={"center"} onPress={like}>
+                {liked ? <Heart fill={theme.color.val} strokeWidth={0} /> : <Heart />}
+                <Text>{likes} {likes != 1 ? 'likes' : 'like'}</Text>
+            </XStack>
+            <XStack gap={4} alignItems={"center"}>
+                <Eye />
+                <Text>{formatNumber(item.plays)} {item.plays != 1 ? 'plays' : 'play'}</Text>
+            </XStack>
+            {/* <XStack gap={4} alignItems={"center"}>
+                <PenLine />
+                <Text>{"edit"}</Text>
+            </XStack> */}
+        </XStack>
+    )
+}

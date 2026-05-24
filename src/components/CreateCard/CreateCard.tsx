@@ -1,0 +1,112 @@
+import { View, SizableText, TextArea, Input, useTheme } from "tamagui";
+import CoverImage from "../Card/CoverImage";
+import Separator from "../Card/Separator";
+import { useCreateContext } from "../../Contexts/CreateContext";
+import useKeyboardVisibility from "../../hooks/useKeyboardVisibility";
+import Actions from "../Card/Actions/Actions";
+import useLib from "../../hooks/useLib";
+import { router } from "expo-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigation, ParamListBase } from "@react-navigation/native";
+import useError from "../../hooks/useError";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+
+export default function CreateCard() {
+
+    const { title, setTitle, body, setBody, id, setId, editing, setEditing, setCursorPosition, cursorPosition } = useCreateContext();
+
+    const { parseTextToLib } = useLib();
+
+    const { funLibsError } = useError();
+
+    const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+    const queryClient = useQueryClient();
+
+    const { uploadLib, editLib } = useLib();
+
+    const isKeyboardVisible = useKeyboardVisibility();
+
+    const theme = useTheme();
+
+    const publish = async () => {
+        try {
+            validate({ ...parseTextToLib(body), title });
+            await uploadLib(title, body);
+            router.replace('/');
+            navigation.navigate('Community');
+            //await new Promise(resolve => setTimeout(resolve, 3000));
+
+            setTitle('');
+            setBody('');
+            setCursorPosition({
+                end: 0,
+                start: 0,
+            });
+
+            queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+            queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
+        } catch (error: unknown) {
+            router.replace('/create');
+            funLibsError(error);
+        }
+    }
+
+    const edit = async () => {
+        try {
+            validate({ ...parseTextToLib(body), title });
+            await editLib(id, title, body);
+            router.replace('/');
+            navigation.navigate('Community');
+
+            setTitle('');
+            setBody('');
+            setCursorPosition('');
+
+            setEditing(false);
+
+            queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
+            queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
+        } catch (error: unknown) {
+            router.replace('/create');
+            funLibsError(error);
+        }
+    }
+
+    const validate = (lib: any) => {
+        if (!(lib.title && lib.title.length > 0)) throw Error("Add a title.");
+        if (!(lib.parsed_text && lib.parsed_text.length > 0)) throw Error("Add a text.");
+        if (!(lib.parsed_prompts && lib.parsed_prompts.length > 0)) throw Error("Add a prompt.");
+    }
+
+    const delete_ = async () => {
+        try {
+            console.log("deleting");
+        } catch (error) {
+        }
+    }
+
+    return (
+        <View backgroundColor={'$main2'} borderWidth={1} borderRadius={10} borderColor={'$main6'} flex={1} marginBottom={16}>
+            <View margin={16} gap={16} flex={1}>
+                {/* <CoverImage /> */}
+                <View>
+                    <Input value={title} onChangeText={(text) => setTitle(text)} size={'$8'} placeholder="Title..." placeholderTextColor={theme.placeholder.val} color={'$main12'} padding={0} margin={0} height={'auto'} backgroundColor={'transparent'} borderWidth={0} fontWeight={'900'}></Input>
+                    <SizableText size={'$4'} fontWeight={400}>by you</SizableText>
+                </View>
+                <Separator />
+                <TextArea value={body} onChangeText={(text) => setBody(text)} selection={cursorPosition} onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)} flex={1} placeholderTextColor={theme.placeholder.val} multiline={true} verticalAlign={'top'} placeholder="In an (Adjective) forest, a man named (Name)..." backgroundColor={'transparent'} borderWidth={0} paddingTop={0} paddingHorizontal={0} alignItems={"flex-start"} />
+            </View>
+            {editing ? (
+                <>
+                    <Actions variant="edit" onPressSave={edit} onPressDelete={delete_} />
+                </>
+            ) : (
+                <>
+                    <Actions variant="create" onPressSave={publish} onPressDelete={delete_} />
+                </>
+            )}
+
+        </View>
+    )
+}
