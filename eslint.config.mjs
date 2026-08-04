@@ -12,7 +12,8 @@ export default [
 		},
 	},
 	...tseslint.configs.recommended,
-	eslintConfigPrettier,
+  eslintConfigPrettier,
+	prettierConfig,
 	{
 		rules: {
 			'@typescript-eslint/no-explicit-any': 'off',
