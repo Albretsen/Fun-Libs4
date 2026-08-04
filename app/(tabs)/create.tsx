@@ -1,4 +1,3 @@
-import { Stack } from 'expo-router';
 import Header from '../../src/components/Header';
 import { View, SizableText } from "tamagui";
 import CreateCard from '../../src/components/CreateCard/CreateCard';
@@ -19,8 +18,6 @@ export default function Tab() {
     useFocusEffect(
         useCallback(() => {
             // Runs when the screen is focused
-            // console.log('Screen is focused');
-
             return () => {
                 // Runs when the screen loses focus (user navigates away)
                 // Clears the editor and makes sure it is not set to 'editing'
@@ -57,7 +54,7 @@ export default function Tab() {
                             ) : (
                                 <StyledContainer>
                                     <View gap={8}>
-                                        <SizableText size={'$5'}>Create an account to publish stories!</SizableText>
+                                        <SizableText size={'$5'}>You must create an account to publish stories.</SizableText>
                                         <SignUp />
                                     </View>
                                 </StyledContainer>
@@ -81,7 +78,7 @@ export default function Tab() {
                     :
                     <StyledContainer >
                         <View gap={8}>
-                            <SizableText size={'$5'}>Create an account to publish stories!</SizableText>
+                            <SizableText size={'$5'}>You must create an account to publish stories.</SizableText>
                             <SignUp />
                         </View>
                     </StyledContainer>}

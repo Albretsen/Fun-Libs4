@@ -1,4 +1,4 @@
-import { View, Image } from "tamagui"
+import { Image } from "tamagui"
 import { Dimensions } from "react-native"
 
 interface CoverImageProps {
@@ -6,11 +6,11 @@ interface CoverImageProps {
         cover: boolean | any,
         id: string,
     },
-    /** 
+    /**
     * @property Defaults to 10
     */
     borderRadius?: number,
-    /** 
+    /**
     * @property Defaults to 100
     */
     height?: number;
@@ -34,8 +34,5 @@ export default function CoverImage(props: CoverImageProps) {
             </Image >
             :
             null
-        // <View height={100} backgroundColor={'$main4'} borderRadius={10}>
-
-        // </View>
     }</>) : null}</>
 }

@@ -13,7 +13,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 		persistSession: true,
 		detectSessionInUrl: false,
 	},
-	realtime: {
+  realtime: {
+    // Object literal may only specify known properties, and 'broadcast' does not exist in type 'RealtimeClientOptions'.
 		broadcast: { ack: true },
 	}
 });

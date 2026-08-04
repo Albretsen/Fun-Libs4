@@ -1,5 +1,5 @@
 import { StyledContainer } from '../../src/styles/styles';
-import { Button, View, SizableText, ScrollView } from 'tamagui';
+import { View, SizableText, ScrollView } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import Header from '../../src/components/Header';
@@ -12,7 +12,6 @@ import ProfilePicture from '../../src/components/Card/ProfilePicture';
 import CoverImage from '../../src/components/Card/CoverImage';
 import ProfileStats from '../../src/components/Profile/Stats/Stats';
 import { Link } from 'expo-router';
-import { useProfileStore } from '../../src/hooks/useProfileStore';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
