@@ -38,7 +38,7 @@ export default function useIAP() {
 		isAuthListenerSet = true;
 	};
 
-	const setOwnedPacksState = async (customerInfo: any | undefined) => {
+	const setOwnedPacksState = async (customerInfo?: any) => {
 		if (!customerInfo) {
 			const [purchasedProducts, legacyPacks] = await Promise.all([
 				(async () => {
@@ -120,7 +120,7 @@ export default function useIAP() {
 			if (!(error instanceof Error)) return;
 			console.error('Error during purchase:', error.message);
 
-			if (error.userCancelled) {
+			if ('userCancelled' in error && error.userCancelled === true) {
 				console.log('User cancelled the purchase.');
 			} else {
 				console.log('Purchase failed due to an error.');

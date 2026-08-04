@@ -15,6 +15,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+**/build/
+ios/Pods/
+ios/DerivedData/
+ios/.xcode.env.local
 
 # Metro
 .metro-health-check*
