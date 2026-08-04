@@ -68,7 +68,7 @@ export default function Tab() {
         </>
         // <StyledContainer >
         //     <View gap={8}>
-        //         <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+        //         <SizableText size={'$5'}>Create an account to view your profile!</SizableText>
         //         <SignUp />
         //     </View>
         // </StyledContainer>

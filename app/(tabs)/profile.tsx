@@ -66,7 +66,7 @@ export default function Tab() {
                     <View height={70} backgroundColor={'$background'} />
                     <StyledContainer >
                         <View gap={8}>
-                            <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+                            <SizableText size={'$5'}>Create an account to view your profile!</SizableText>
                             <SignUp />
                         </View>
                     </StyledContainer>

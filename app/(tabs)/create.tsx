@@ -57,7 +57,7 @@ export default function Tab() {
                             ) : (
                                 <StyledContainer>
                                     <View gap={8}>
-                                        <SizableText size={'$5'}>⚠️ Create an account to publish stories!</SizableText>
+                                        <SizableText size={'$5'}>Create an account to publish stories!</SizableText>
                                         <SignUp />
                                     </View>
                                 </StyledContainer>
@@ -81,7 +81,7 @@ export default function Tab() {
                     :
                     <StyledContainer >
                         <View gap={8}>
-                            <SizableText size={'$5'}>⚠️ Create an account to publish stories!</SizableText>
+                            <SizableText size={'$5'}>Create an account to publish stories!</SizableText>
                             <SignUp />
                         </View>
                     </StyledContainer>}
