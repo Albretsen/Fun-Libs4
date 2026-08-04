@@ -11,9 +11,8 @@ export default function useLib() {
 		return data;
 	};
 
-	const deleteLib = async (id: string) => {
+	const deleteLib = async (id: number | string) => {
 		const { data, error } = await supabase.from('libs').delete().eq('id', id);
-		console.log(data);
 		console.log(error);
 		if (error !== null) throw error;
 		return data;

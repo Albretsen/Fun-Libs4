@@ -6,16 +6,21 @@ import {
 } from '@tanstack/react-query';
 import ListItemSeparator from "./ListItemSeparator";
 import { RefreshControl } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ComponentType } from "react";
 import { PAGE_SIZE } from "../../../settings";
 import SkeletonCard from "../Card/SkeletonCard";
+import { PostgrestResponse } from "@supabase/supabase-js";
 
-export default function List(props: any) {
+interface ListProps<T> {
+    queryKey: string;
+    queryFn: (page: number) => Promise<PostgrestResponse<T>>;
+    ListItem: ComponentType<{ item: T }>;
+}
+
+export default function List<T extends { id: string | number }>(props: ListProps<T>) {
     const { queryKey, queryFn, ListItem } = props;
-
     const queryClient = useQueryClient();
-
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState<T[]>([]);
 
     const {
         isFetching,
@@ -26,10 +31,10 @@ export default function List(props: any) {
         refetch,
         hasNextPage,
         isFetchingNextPage,
-    } = useInfiniteQuery<any>({
+    } = useInfiniteQuery<PostgrestResponse<T>>({
         queryKey: [queryKey],
         initialPageParam: 0,
-        queryFn: ({ pageParam = 0 }) => queryFn(pageParam),
+        queryFn: ({ pageParam }) => queryFn(pageParam as number),
         getNextPageParam: (lastPage, pages) => {
             if (!lastPage || !lastPage.data || lastPage.data.length < PAGE_SIZE) {
                 return undefined;
@@ -40,15 +45,12 @@ export default function List(props: any) {
 
     useEffect(() => {
         if (!data) return;
-
-        const temp_items: any[] = data.pages.flatMap(page => page.data ?? []);
+        const temp_items: T[] = data.pages.flatMap(page => page.data ?? []);
         setItems(temp_items);
     }, [data]);
 
-
     const refresh = async () => {
-        queryClient.resetQueries({ queryKey, exact: true });
-
+        queryClient.resetQueries({ queryKey: [queryKey], exact: true });
         // It seems explicitly stating the tab is necessary for refresh to work
         queryClient.resetQueries({ queryKey: ['community_libs'], exact: true });
         queryClient.resetQueries({ queryKey: ['profile_libs'], exact: true });
@@ -60,16 +62,6 @@ export default function List(props: any) {
         }
     };
 
-    // if (isFetching && !isFetchingNextPage) {
-    //     return (
-    //         <View flex={1}>
-    //             {[...Array(5)].map((_, index) => (
-    //                 <SkeletonCard key={index} />
-    //             ))}
-    //         </View>
-    //     );
-    // }
-
     if (isError) {
         return (
             <SizableText size={'$5'}>Error loading list {error.message}</SizableText>
@@ -80,9 +72,9 @@ export default function List(props: any) {
         <View flex={1}>
             <FlashList
                 data={isFetching && !isFetchingNextPage ? [] : items}
-                renderItem={({ item }: any) => <ListItem item={item} variant={'listItem'} />}
-                keyExtractor={(item: any, i: number) => {
-                    return item.id + " " + i
+                renderItem={({ item }: { item: T }) => <ListItem item={item} />}
+                keyExtractor={(item: T, i: number) => {
+                    return item.id + " " + i;
                 }}
                 estimatedItemSize={80}
                 ListEmptyComponent={isFetching ?

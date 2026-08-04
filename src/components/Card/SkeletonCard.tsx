@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, SizableText, XStack, useTheme } from 'tamagui';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, ViewStyle } from 'react-native';
 
 const SkeletonCard = () => {
     const theme = useTheme();
@@ -33,13 +33,13 @@ const SkeletonCard = () => {
         outputRange: [theme.main4.val, theme.main6.val],
     });
 
-    const shimmerStyle = {
+    const shimmerStyle: ViewStyle = {
         position: 'absolute',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        backgroundColor,
+        backgroundColor: backgroundColor as unknown as string,
     };
 
     return (

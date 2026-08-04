@@ -1,4 +1,4 @@
-import { View, SizableText, XStack, Button, useThemeName } from "tamagui";
+import { View, SizableText, XStack, Button } from "tamagui";
 import CoverImage from "./CoverImage";
 import Stats from "./Stats";
 import Separator from "./Separator";
@@ -10,10 +10,11 @@ import { Lock } from "@tamagui/lucide-icons";
 import ProfilePicture from "./ProfilePicture";
 import LibPreview from "./LibPreview";
 import { useTheme } from "tamagui";
+import { LibWithProfile } from "../../interfaces/interfaces";
 
 interface CardProps {
-    item: any,
-    variant: 'listItem' | 'play' | 'read',
+    item: LibWithProfile,
+    variant?: 'listItem' | 'play' | 'read',
 }
 
 export default function LockedCard(props: CardProps) {
@@ -21,14 +22,16 @@ export default function LockedCard(props: CardProps) {
 
     const { item, variant } = props;
 
-    const config = variants[variant];
+    const config = variants[variant ?? 'listItem'];
 
     const theme = useTheme();
 
     return (
         <View backgroundColor={'$main2'} borderRadius={10} borderColor={'$main6'} flex={config.text ? 1 : 0} >
             <View margin={16} gap={16} flex={config.text ? 1 : 0}>
-                <CoverImage item={item} />
+                {item.cover &&
+                  <CoverImage id={item.id} />
+                }
                 <XStack gap={16}>
                     <ProfilePicture avatarURL={item.profiles.avatar_url} />
                     <View>

@@ -7,13 +7,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { AlertDialog, Button } from 'tamagui';
 import useError from "../../../hooks/useError";
 import { XStack, View, SizableText } from "tamagui";
-import { Pressable } from "react-native";
-import { Lib } from "../Lib";
 import ActionButton from "./ActionButton";
 import { Trash } from "@tamagui/lucide-icons";
+import { LibWithProfile } from "../../../interfaces/interfaces";
 
 interface DeleteLibActionProps {
-    lib: Lib,
+    lib: LibWithProfile,
     variant: 'cardButton' | 'actionButton'
 }
 

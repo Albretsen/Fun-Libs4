@@ -28,7 +28,7 @@ export default function Tab() {
         <>
             {!session?.user.is_anonymous ?
                 <>
-                    <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
+                    <CoverImage borderRadius={0} height={150} id={3} />
                     <StyledContainer>
                         <Header />
                         <View style={{

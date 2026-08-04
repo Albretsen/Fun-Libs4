@@ -14,7 +14,7 @@ export default function JokeCentralLink() {
         <TouchableOpacity onPress={openLink} style={{
             gap: 5,
         }}>
-            <CoverImage item={{ id: "joke-central", cover: true }} />
+            <CoverImage id="joke-central" />
             <SizableText textAlign="center">Having fun with Fun Libs? Tap here to try our newest app, Joke Central!</SizableText>
         </TouchableOpacity>
     )
