@@ -1,5 +1,5 @@
 import { Text, XStack, useTheme } from "tamagui";
-import { Heart, Eye, PenLine, Pen } from "@tamagui/lucide-icons";
+import { Heart, Eye } from "@tamagui/lucide-icons";
 import { supabase } from "../../../supabase";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -64,10 +64,6 @@ export default function Stats(props: any) {
                 <Eye />
                 <Text>{formatNumber(item.plays)} {item.plays != 1 ? 'plays' : 'play'}</Text>
             </XStack>
-            {/* <XStack gap={4} alignItems={"center"}>
-                <PenLine />
-                <Text>{"edit"}</Text>
-            </XStack> */}
         </XStack>
     )
 }

@@ -1,6 +1,5 @@
 import { View } from "tamagui";
 import { BookText, Heart, Eye } from "@tamagui/lucide-icons";
-import { StyleSheet } from "react-native";
 import StatBox from "./StatBox";
 import { ReactNode, useEffect, useState } from "react";
 import { supabase } from "../../../../supabase";
@@ -11,10 +10,15 @@ interface ProfileStatsProps {
     user: any
 }
 
+type StatBoxData = {
+    iconComponent: ReactNode;
+    text: string;
+};
+
 export default function ProfileStats(props: ProfileStatsProps) {
     const { user } = props;
 
-    const [statBoxData, setStatBoxData] = useState<[{ iconComponent: ReactNode, text: string }] | []>([]);
+    const [statBoxData, setStatBoxData] = useState<StatBoxData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +38,7 @@ export default function ProfileStats(props: ProfileStatsProps) {
         fetchData();
     }, [user]);
 
-    const countLibs = async () => {
+    const countLibs = async (): Promise<StatBoxData> => {
         const result = await supabase.from('libs').select('*', { count: 'exact' }).eq('author', user.id);
 
         if (result?.count) {
@@ -44,7 +48,7 @@ export default function ProfileStats(props: ProfileStatsProps) {
         return { iconComponent: <BookText />, text: "0 libs" };
     };
 
-    const countViews = async () => {
+    const countViews = async (): Promise<StatBoxData> => {
         const result = await supabase.from('libs').select('plays').eq('author', user.id);
 
         let total = 0;
@@ -57,21 +61,26 @@ export default function ProfileStats(props: ProfileStatsProps) {
         return { iconComponent: <Eye />, text: `${formatNumber(total)} play${total !== 1 ? 's' : ''}` };
     };
 
-    const countLikes = async () => {
-        const libsResult = await supabase.from('libs').select('id').eq('author', user.id);
+    const countLikes = async (): Promise<StatBoxData> => {
+      const libsResult = await supabase.from('libs').select('id').eq('author', user.id);
 
-        if (libsResult?.data?.length > 0) {
-            const libIds = libsResult.data.map(lib => lib.id);
+      if (libsResult.data && libsResult.data.length > 0) {
+        const libIds = libsResult.data.map(lib => lib.id);
+        const likesResult = await supabase
+          .from('likes')
+          .select('*', { count: 'exact' })
+          .in('lib_id', libIds);
 
-            const likesResult = await supabase.from('likes').select('*', { count: 'exact' }).in('lib_id', libIds);
-
-            if (likesResult?.count) {
-                const count = likesResult.count;
-                return { iconComponent: <Heart />, text: `${formatNumber(count)} like${count !== 1 ? 's' : ''}` };
-            }
+        if (likesResult.count) {
+          const count = likesResult.count;
+          return {
+            iconComponent: <Heart />,
+            text: `${formatNumber(count)} like${count !== 1 ? 's' : ''}`,
+          };
         }
+      }
 
-        return { iconComponent: <Heart />, text: "0 likes" };
+      return { iconComponent: <Heart />, text: '0 likes' };
     };
 
     return (
@@ -93,9 +102,3 @@ export default function ProfileStats(props: ProfileStatsProps) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    statBox: {
-
-    }
-})

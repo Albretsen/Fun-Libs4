@@ -1,5 +1,5 @@
 import { StyledContainer } from '../../src/styles/styles';
-import { Button, View, SizableText, ScrollView } from 'tamagui';
+import { View, SizableText, ScrollView } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
 import SignUp from '../../src/components/Auth/SignUp';
 import Header from '../../src/components/Header';
@@ -12,7 +12,6 @@ import ProfilePicture from '../../src/components/Card/ProfilePicture';
 import CoverImage from '../../src/components/Card/CoverImage';
 import ProfileStats from '../../src/components/Profile/Stats/Stats';
 import { Link } from 'expo-router';
-import { useProfileStore } from '../../src/hooks/useProfileStore';
 
 export default function Tab() {
     const { signOut, session } = useAuth();
@@ -29,7 +28,7 @@ export default function Tab() {
         <>
             {!session?.user.is_anonymous ?
                 <>
-                    <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
+                    <CoverImage borderRadius={0} height={150} id={3} />
                     <StyledContainer>
                         <Header />
                         <View style={{
@@ -66,7 +65,7 @@ export default function Tab() {
                     <View height={70} backgroundColor={'$background'} />
                     <StyledContainer >
                         <View gap={8}>
-                            <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
+                            <SizableText size={'$5'}>Create an account to view your profile!</SizableText>
                             <SignUp />
                         </View>
                     </StyledContainer>

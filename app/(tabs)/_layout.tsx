@@ -1,18 +1,14 @@
 import { Tabs, useSegments } from 'expo-router';
-import { Play, BookText, Pen, User } from '@tamagui/lucide-icons';
+import { Play, Pen, User } from '@tamagui/lucide-icons';
 import { useTheme, View } from 'tamagui';
 import useKeyboardVisibility from '../../src/hooks/useKeyboardVisibility';
 import { Platform, SafeAreaView } from 'react-native';
 
 export default function TabLayout() {
     const theme = useTheme();
-
     const segment = useSegments();
-
     const page = segment[segment.length - 1];
-
     const pagesToHideTabBar = ['create'];
-
     const isKeyboardVisible = useKeyboardVisibility();
 
     return (

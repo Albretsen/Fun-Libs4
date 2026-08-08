@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, SizableText, XStack } from 'tamagui';
+import { View, SizableText } from 'tamagui';
 import { Animated, Easing } from 'react-native';
 import { Spinner } from 'tamagui';
 

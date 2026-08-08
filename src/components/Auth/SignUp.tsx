@@ -30,7 +30,7 @@ export default function SignUp(props: SignUpProps) {
     }
 
     async function signUpWithEmail() {
-        if (!validateEmail(email_)) {
+        if (!email_ || !validateEmail(email_)) {
             Toast.show({
                 type: 'error',
                 text1: 'Error',

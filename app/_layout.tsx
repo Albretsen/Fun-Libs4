@@ -11,7 +11,6 @@ import LoginScreen from './auth/login';
 import useAuth from '../src/hooks/useAuth';
 import { toastConfig } from '../src/styles/toast';
 import { BannerAd, BannerAdSize, RequestOptions } from 'react-native-google-mobile-ads';
-
 import {
     QueryClient,
     QueryClientProvider,
