@@ -1,13 +1,13 @@
 import { useCreateContext } from "../../../Contexts/CreateContext";
 import useLib from "../../../hooks/useLib";
-import { Lib } from "../Lib";
+import { LibWithProfile } from "../../../interfaces/interfaces";
 import { router } from 'expo-router';
 import { PenLine } from "@tamagui/lucide-icons";
 import ActionButton from "./ActionButton";
 import { Button } from "tamagui";
 
 interface EditLibActionProps {
-    lib: Lib,
+    lib: LibWithProfile,
     variant: 'cardButton' | 'actionButton'
 }
 

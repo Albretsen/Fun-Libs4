@@ -1,8 +1,8 @@
 import { Text, SizableText, ScrollView, View } from "tamagui";
-import { Lib } from "./Lib";
+import { LibWithProfile } from "../../interfaces/interfaces";
 
 interface HighlightedTextProps {
-    item: Lib,
+    item: LibWithProfile,
     // A component that appears within the scrollview, after the text
     endComponent?: React.ReactNode,
 }

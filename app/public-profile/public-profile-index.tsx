@@ -1,7 +1,5 @@
 import { StyledContainer } from '../../src/styles/styles';
-import { Button, View, SizableText, ScrollView } from 'tamagui';
-import useAuth from '../../src/hooks/useAuth';
-import SignUp from '../../src/components/Auth/SignUp';
+import { View, SizableText, ScrollView } from 'tamagui';
 import Header from '../../src/components/Header';
 import { useEffect, useState } from 'react';
 import List from '../../src/components/list/List';
@@ -11,12 +9,9 @@ import { PAGE_SIZE } from '../../settings';
 import ProfilePicture from '../../src/components/Card/ProfilePicture';
 import CoverImage from '../../src/components/Card/CoverImage';
 import ProfileStats from '../../src/components/Profile/Stats/Stats';
-import { Link } from 'expo-router';
 import { useProfileStore } from '../../src/hooks/useProfileStore';
 
 export default function Tab() {
-    const { signOut, session } = useAuth();
-
     const { user_id } = useProfileStore();
 
     const [user, setUser] = useState<any>();
@@ -39,7 +34,7 @@ export default function Tab() {
 
     return (
         <>
-            <CoverImage borderRadius={0} height={150} item={{ id: "3", cover: true }} />
+            <CoverImage borderRadius={0} height={150} id={3} />
             <StyledContainer>
                 <Header />
                 <View style={{
@@ -54,7 +49,6 @@ export default function Tab() {
                     </View>
                     <ProfilePicture size={60} avatarURL={user?.user_metadata?.avatar_url} />
                 </View>
-                {/* <Button onPress={() => signOut()}>Sign out</Button> */}
                 {user ?
                     <ScrollView >
                         <SizableText style={{ marginVertical: 10 }} size={'$6'} fontWeight={900}>Stats</SizableText>
@@ -66,11 +60,5 @@ export default function Tab() {
                     </ScrollView> : null}
             </StyledContainer>
         </>
-        // <StyledContainer >
-        //     <View gap={8}>
-        //         <SizableText size={'$5'}>⚠️ Create an account to view your profile!</SizableText>
-        //         <SignUp />
-        //     </View>
-        // </StyledContainer>
     );
 }

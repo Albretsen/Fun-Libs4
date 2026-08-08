@@ -6,8 +6,6 @@ interface LibPreviewProps {
 
 /**
  * Takes a lib array and returns a text component with a lib preview
- *
- *
  * @prop parsedText, an array of strings representing a lib
  */
 export default function LibPreview({ parsedText }: LibPreviewProps) {

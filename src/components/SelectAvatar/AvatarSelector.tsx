@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import Toast from 'react-native-toast-message';
 import { Pressable } from "react-native";
-import { AVATAR_IDS } from "../../../settings";
-import { useNavigation, ParamListBase } from "@react-navigation/native";
+import { AVATAR_IDS, AVATAR_LINK } from "../../../settings";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AvatarSelector() {
 
     const { getSession } = useAuth();
-    const [selectedAvatar, setSelectedAvatar] = useState()
+    const [selectedAvatar, setSelectedAvatar] = useState<string>(AVATAR_LINK.prefix + AVATAR_IDS[0] + AVATAR_LINK.postfix)
     const { changeAvatar } = useSocial();
     const navigation = useNavigation();
 
@@ -58,10 +58,10 @@ export default function AvatarSelector() {
 
             }}>
                 {AVATAR_IDS.map((id) => (
-                    <Pressable key={id} onPress={() => setSelectedAvatar('https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png')}>
+                    <Pressable key={id} onPress={() => setSelectedAvatar(AVATAR_LINK.prefix + id + AVATAR_LINK.postfix)}>
                         <ProfilePicture
                             size={90}
-                            avatarURL={'https://eslrohuhvzvuxvueuziv.supabase.co/storage/v1/object/public/avatars/' + id + '.png'}
+                            avatarURL={AVATAR_LINK.prefix + id + AVATAR_LINK.postfix}
                         />
                     </Pressable>
                 ))}
