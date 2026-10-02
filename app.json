@@ -2,8 +2,8 @@
   "expo": {
     "name": "Fun Libs",
     "slug": "FunLibs",
-    "version": "4.0.6",
-    "runtimeVersion": "4.0.6",
+    "version": "5.0.0",
+    "runtimeVersion": "5.0.0",
     "owner": "whimsical-works",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.asgalb.FunLibs",
       "buildNumber": "54",
-      "runtimeVersion": "4.0.6",
+      "runtimeVersion": "5.0.0",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -30,7 +30,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "runtimeVersion": "4.0.6"
+      "runtimeVersion": "5.0.0"
     },
     "extra": {
       "eas": {
