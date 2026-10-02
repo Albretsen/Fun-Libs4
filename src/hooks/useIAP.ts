@@ -71,7 +71,7 @@ export default function useIAP() {
 			.select(`*`)
 			.eq('email', localSession?.user.email)
 			.limit(1)
-			.single();
+			.maybeSingle();
 		if (result.data?.purchases) {
 			return result.data.purchases;
 		}

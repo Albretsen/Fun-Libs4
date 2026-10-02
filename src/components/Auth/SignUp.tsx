@@ -58,7 +58,7 @@ export default function SignUp(props: SignUpProps) {
 
     return (
         <>
-            {!email ? <Input inputMode={'email'} onChangeText={(text) => setEmail(text)} value={email_} placeholder={`Email`} borderColor={'$main12'} /> : null}
+            <Input inputMode={'email'} onChangeText={(text) => setEmail(text)} value={email_} placeholder={`Email`} borderColor={'$main12'} />
             <Input inputMode={'text'} onChangeText={(text) => setUsername(text)} value={username} placeholder={`Username`} borderColor={'$main12'} />
             <Input inputMode={'text'} onChangeText={(text) => setPassword(text)} value={password} secureTextEntry={true} placeholder={`Password`} borderColor={'$main12'} />
             <SizableText size={'$5'}>Select an avatar</SizableText>
