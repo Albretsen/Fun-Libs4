@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../supabase';
-import { Alert } from 'react-native';
+import { showAlert } from '../utils/alert';
 import { Session } from '@supabase/supabase-js';
 
 export default function useAuth() {
@@ -44,7 +44,7 @@ export default function useAuth() {
 			password,
 		});
 
-		if (error) Alert.alert(error.message);
+		if (error) showAlert(error.message);
 	};
 
 	const signUp = async (
@@ -70,10 +70,8 @@ export default function useAuth() {
 			},
 		});
 
-		console.log(error);
-
-		if (error) Alert.alert(error.message);
-		if (!session) Alert.alert('Please check your inbox for email verification!');
+		if (error) showAlert(error.message);
+		else if (!session) showAlert('Please check your inbox for email verification!', 'success');
 	};
 
 	const anonToPermanentUser = async (
@@ -107,19 +105,19 @@ export default function useAuth() {
 				.eq('id', session.user.id);
 		}
 
-		if (error) Alert.alert(error.message);
-		if (!session) Alert.alert('Please check your inbox for email verification!');
+		if (error) showAlert(error.message);
+		if (!session) showAlert('Please check your inbox for email verification!', 'success');
 	};
 
 	const signInAnonymously = async () => {
 		const { error } = await supabase.auth.signInAnonymously();
 
-		if (error) Alert.alert(error.message);
+		if (error) showAlert(error.message);
 	};
 
 	const signOut = async () => {
 		const { error } = await supabase.auth.signOut();
-		if (error) Alert.alert(error.message);
+		if (error) showAlert(error.message);
 	};
 
 	return {

@@ -23,7 +23,7 @@ export default function SignUp(props: SignUpProps) {
     const { signUp, session, anonToPermanentUser } = useAuth();
 
     const accountAlreadyExists = async () => {
-        const result = await supabase.from('profiles').select().eq('email', email);
+        const result = await supabase.from('profiles').select().eq('email', email_?.toLowerCase());
 
         if (result.data) return result.data.length > 0;
         return false;

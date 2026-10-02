@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert } from 'react-native'
+import { showAlert } from '../../src/utils/alert';
 import { supabase } from '../../supabase';
 import { Button, SizableText, View, Input, Spinner, ScrollView } from 'tamagui';
 import useAuth from '../../src/hooks/useAuth';
@@ -59,7 +59,7 @@ export default function LoginScreen() {
             password: 'Test123',
         });
 
-        if (error) Alert.alert(error.message);
+        if (error) showAlert(error.message);
         setLoading(false);
     }
 
