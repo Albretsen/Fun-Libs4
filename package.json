@@ -54,7 +54,10 @@
     "react-native-tracking-transparency": "^0.1.2",
     "react-native-url-polyfill": "^2.0.0",
     "tamagui": "^1.100.6",
-    "zustand": "^5.0.7"
+    "zustand": "^5.0.7",
+    "react-dom": "19.0.0",
+    "react-native-web": "^0.20.0",
+    "@expo/metro-runtime": "~5.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
